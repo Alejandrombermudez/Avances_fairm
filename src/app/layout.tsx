@@ -1,30 +1,31 @@
 import type { Metadata, Viewport } from "next";
+import { Domine, Public_Sans } from "next/font/google";
 import "./globals.css";
 
-const APP_NAME = "OpenMaps";
-const APP_TITLE = "OpenMaps — Geovisor Offline";
-const APP_DESCRIPTION =
-  "Geovisor offline para trabajo de campo. Carga GeoJSON y MBTiles, visualiza tu ubicación GPS y descarga mapas base sin internet.";
+const domine = Domine({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-domine",
+  display: "swap",
+});
+
+const publicSans = Public_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-public-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  applicationName: APP_NAME,
-  title: APP_TITLE,
-  description: APP_DESCRIPTION,
-  manifest: "/manifest.webmanifest",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "black-translucent",
-    title: APP_NAME,
-  },
-  formatDetection: { telephone: false },
+  title: "Estado del proyecto — Migración web ARM",
+  description:
+    "Seguimiento del proyecto de migración del ecosistema web de la Alianza por la Minería Responsable: responsiblemines.org, fairmined.org y craftmines.org.",
+  robots: { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#16213e",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
 };
 
 export default function RootLayout({
@@ -33,10 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
-      <head>
-        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-      </head>
+    <html lang="es" className={`${domine.variable} ${publicSans.variable}`}>
       <body>{children}</body>
     </html>
   );
