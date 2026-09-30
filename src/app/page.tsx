@@ -82,16 +82,15 @@ export default function Page() {
 
           <div className="mt-10 grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:items-end">
             <div>
-              <Rotulo tono="arena">Seguimiento del proyecto</Rotulo>
+              <Rotulo tono="arena">Cómo va</Rotulo>
               <h1 className="mt-4 font-display text-[2.6rem] leading-[1.05] font-light text-hueso text-balance sm:text-5xl">
                 Migración del
                 <br />
                 ecosistema web
               </h1>
               <p className="mt-6 max-w-md text-[15px] leading-relaxed font-light text-arena/70">
-                Los tres sitios de la organización pasan a una arquitectura nueva,
-                más rápida y más fácil de administrar, conservando las direcciones
-                de los documentos publicados.
+                Los tres sitios pasan a una plataforma nueva. Más rápida, y que el
+                equipo pueda manejar sin ayuda técnica.
               </p>
               <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-2">
                 {meta.sitios.map((s) => (
@@ -140,10 +139,9 @@ export default function Page() {
       <div className="mx-auto max-w-5xl px-6 sm:px-10 lg:px-16">
         {/* ───────────── Cifras ───────────── */}
         <section className="border-b border-linea py-14">
-          <Rotulo>Lo que se ha medido</Rotulo>
+          <Rotulo>Lo que ya está a salvo</Rotulo>
           <p className="mt-4 max-w-xl text-[15px] leading-relaxed font-light text-tinta-2">
-            Diagnóstico completo de los tres sitios, hecho sobre la información que
-            publican abiertamente.
+            Descargado y verificado, archivo por archivo.
           </p>
           <dl className="mt-9 grid grid-cols-2 gap-x-8 gap-y-9 lg:grid-cols-4">
             {metricas.map((m) => (
@@ -169,7 +167,7 @@ export default function Page() {
 
         {/* ───────────── Hallazgos ───────────── */}
         <section className="border-b border-linea py-14">
-          <Rotulo>Hallazgos del diagnóstico</Rotulo>
+          <Rotulo>Lo que encontramos</Rotulo>
           <div className="mt-9 grid gap-x-10 gap-y-9 sm:grid-cols-2">
             {hallazgos.map((h) => (
               <article key={h.titulo} className="border-t border-linea pt-4">
@@ -186,7 +184,7 @@ export default function Page() {
 
         {/* ───────────── Fases ───────────── */}
         <section className="border-b border-linea py-14">
-          <Rotulo>Las seis fases</Rotulo>
+          <Rotulo>El plan</Rotulo>
           <div className="mt-9">
             {fases.map((f) => (
               <article
@@ -246,10 +244,9 @@ export default function Page() {
         {/* ───────────── Insumos en espera ───────────── */}
         {esperando.length > 0 && (
           <section className="border-b border-linea py-14">
-            <Rotulo>Insumos en gestión</Rotulo>
+            <Rotulo>Lo que estamos esperando</Rotulo>
             <p className="mt-4 max-w-xl text-[15px] leading-relaxed font-light text-tinta-2">
-              Elementos necesarios para continuar, que el equipo de ARM está
-              gestionando.
+              Hace falta para seguir.
             </p>
             <div className="mt-9">
               {esperando.map((e) => (
@@ -274,7 +271,7 @@ export default function Page() {
 
         {/* ───────────── Próximo hito ───────────── */}
         <section className="py-14">
-          <Rotulo>Próximo hito</Rotulo>
+          <Rotulo>Lo que sigue</Rotulo>
           <h2 className="mt-5 max-w-2xl font-display text-2xl leading-snug font-light text-tinta text-balance sm:text-[1.7rem]">
             {proximoHito.titulo}
           </h2>
@@ -294,7 +291,7 @@ export default function Page() {
             </p>
           </div>
           <p className="rotulo max-w-xs text-right text-arena/40 sm:leading-relaxed">
-            Esta página se actualiza a medida que avanza el proyecto
+            Esta página cambia cuando avanza el trabajo
           </p>
         </div>
       </footer>
