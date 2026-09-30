@@ -1,18 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Domine, Public_Sans } from "next/font/google";
+import { Josefin_Sans, Poppins } from "next/font/google";
 import "./globals.css";
 
-const domine = Domine({
+const josefin = Josefin_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-domine",
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-josefin",
   display: "swap",
 });
 
-const publicSans = Public_Sans({
+const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-public-sans",
+  weight: ["300", "400", "500"],
+  variable: "--font-poppins",
   display: "swap",
 });
 
@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#1e1a18",
 };
 
 export default function RootLayout({
@@ -34,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${domine.variable} ${publicSans.variable}`}>
+    <html lang="es" className={`${josefin.variable} ${poppins.variable}`}>
       <body>{children}</body>
     </html>
   );

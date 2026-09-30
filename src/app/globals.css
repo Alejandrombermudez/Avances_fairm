@@ -1,50 +1,52 @@
 @import "tailwindcss";
 
+/**
+ * Sistema visual tomado de la intranet de Amazonía Emprende.
+ * Fondo crema cálido, bloque oscuro de encabezado, ámbar como único acento,
+ * y etiquetas diminutas en versalitas con mucho interletrado.
+ */
 @theme {
-  --color-paper: #f3f5f2;
-  --color-surface: #ffffff;
-  --color-surface-2: #eef2ee;
-  --color-ink: #171c19;
-  --color-ink-2: #4c574f;
-  --color-ink-3: #7d887f;
-  --color-line: #d7ded8;
-  --color-line-2: #e6ebe7;
-  --color-pine: #2f6b57;
-  --color-pine-soft: #e2eee8;
-  --color-amber: #a3561c;
-  --color-amber-soft: #fbeee1;
+  /* Tierra cálida */
+  --color-crema: #f4f1ea;
+  --color-carbon: #1e1a18;
+  --color-hueso: #fffdf9;
+  --color-arena: #e4ded2;
+  --color-taupe: #b8a28e;
+  --color-ambar: #e1a644;
 
-  --font-display: var(--font-domine), Georgia, serif;
-  --font-body: var(--font-public-sans), system-ui, sans-serif;
-}
+  /* Derivados para el fondo claro */
+  --color-tinta: #1e1a18;
+  --color-tinta-2: #6f635a;
+  --color-tinta-3: #9a8d82;
+  --color-linea: #ddd7cb;
+  --color-linea-2: #e8e3d9;
+  --color-superficie: #fbf9f4;
 
-@media (prefers-color-scheme: dark) {
-  @theme {
-    --color-paper: #0e1210;
-    --color-surface: #161b18;
-    --color-surface-2: #1b211d;
-    --color-ink: #e8ede9;
-    --color-ink-2: #99a69e;
-    --color-ink-3: #6d7a72;
-    --color-line: #28312c;
-    --color-line-2: #1f2823;
-    --color-pine: #6ab396;
-    --color-pine-soft: #13302a;
-    --color-amber: #d9944f;
-    --color-amber-soft: #33220f;
-  }
+  --font-display: var(--font-josefin), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
-  background: var(--color-paper);
-  color-scheme: light dark;
+  background: var(--color-crema);
+  color-scheme: light;
 }
 
 body {
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background: var(--color-crema);
+  color: var(--color-tinta);
   font-family: var(--font-body);
+  font-weight: 300;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* La etiqueta diminuta en versalitas es la firma del sistema */
+.rotulo {
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  font-weight: 400;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
 }
 
 @media (prefers-reduced-motion: reduce) {

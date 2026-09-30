@@ -10,25 +10,26 @@ import {
   type Estado,
 } from "@/data/progreso";
 
-const ESTADO_ETIQUETA: Record<Estado, string> = {
+const ETIQUETA: Record<Estado, string> = {
   hecho: "Completado",
   curso: "En curso",
   espera: "En espera",
   pendiente: "Pendiente",
 };
 
-const ESTADO_CLASE: Record<Estado, string> = {
-  hecho: "bg-pine-soft text-pine",
-  curso: "bg-pine text-white",
-  espera: "bg-amber-soft text-amber",
-  pendiente: "bg-surface-2 text-ink-3",
+/* Marcador de estado sobre fondo claro */
+const MARCA: Record<Estado, string> = {
+  hecho: "bg-taupe",
+  curso: "bg-ambar",
+  espera: "border border-taupe bg-transparent",
+  pendiente: "border border-linea bg-transparent",
 };
 
-const PUNTO_CLASE: Record<Estado, string> = {
-  hecho: "bg-pine",
-  curso: "bg-pine ring-4 ring-pine-soft",
-  espera: "bg-amber",
-  pendiente: "bg-line",
+const TEXTO_TAREA: Record<Estado, string> = {
+  hecho: "text-tinta-3 line-through decoration-linea",
+  curso: "text-tinta",
+  espera: "text-tinta",
+  pendiente: "text-tinta-2",
 };
 
 function fechaLarga(iso: string) {
@@ -42,13 +43,23 @@ function fechaLarga(iso: string) {
 
 function diasDesde(iso: string) {
   const [a, m, d] = iso.split("-").map(Number);
-  const desde = Date.UTC(a, m - 1, d);
-  const hoy = Date.UTC(
-    new Date().getUTCFullYear(),
-    new Date().getUTCMonth(),
-    new Date().getUTCDate(),
-  );
-  return Math.max(0, Math.round((hoy - desde) / 86_400_000));
+  const hoy = new Date();
+  const ms =
+    Date.UTC(hoy.getUTCFullYear(), hoy.getUTCMonth(), hoy.getUTCDate()) -
+    Date.UTC(a, m - 1, d);
+  return Math.max(0, Math.round(ms / 86_400_000));
+}
+
+function Rotulo({
+  children,
+  tono = "taupe",
+}: {
+  children: React.ReactNode;
+  tono?: "taupe" | "tinta" | "arena";
+}) {
+  const color =
+    tono === "arena" ? "text-arena/50" : tono === "tinta" ? "text-tinta-3" : "text-taupe";
+  return <p className={`rotulo ${color}`}>{children}</p>;
 }
 
 export default function Page() {
@@ -61,202 +72,231 @@ export default function Page() {
   const faseActual = fases.find((f) => f.estado === "curso") ?? fases[0];
 
   return (
-    <main className="mx-auto max-w-4xl px-4 pt-8 pb-20 sm:px-6">
-      {/* Encabezado */}
-      <header className="border-b border-line pb-8">
-        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-3">
-          {meta.cliente}
-        </p>
-        <h1 className="mt-3 font-display text-3xl leading-tight font-semibold text-balance sm:text-4xl">
-          {meta.proyecto}
-        </h1>
-        <p className="mt-3 text-ink-2">
-          {meta.sitios.join(" · ")}
-        </p>
-
-        <div className="mt-7 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink-3">
-              Avance general
-            </p>
-            <p className="mt-1 font-display text-4xl font-semibold tabular-nums text-pine">
-              {pct}%
-            </p>
-          </div>
-          <p className="text-sm text-ink-3">
-            Actualizado el {fechaLarga(meta.actualizado)}
+    <main>
+      {/* ───────────── Encabezado oscuro ───────────── */}
+      <header className="bg-carbon px-6 pt-14 pb-16 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-5xl">
+          <p className="rotulo font-display font-semibold tracking-[0.26em] text-arena">
+            {meta.cliente}
           </p>
-        </div>
 
-        <div
-          className="mt-4 h-2 w-full overflow-hidden rounded-full bg-surface-2"
-          role="img"
-          aria-label={`Avance del proyecto: ${pct} por ciento, ${hechas} de ${total} tareas completadas`}
-        >
-          <div className="h-full rounded-full bg-pine" style={{ width: `${pct}%` }} />
+          <div className="mt-10 grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:items-end">
+            <div>
+              <Rotulo tono="arena">Seguimiento del proyecto</Rotulo>
+              <h1 className="mt-4 font-display text-[2.6rem] leading-[1.05] font-light text-hueso text-balance sm:text-5xl">
+                Migración del
+                <br />
+                ecosistema web
+              </h1>
+              <p className="mt-6 max-w-md text-[15px] leading-relaxed font-light text-arena/70">
+                Los tres sitios de la organización pasan a una arquitectura nueva,
+                más rápida y más fácil de administrar, conservando las direcciones
+                de los documentos publicados.
+              </p>
+              <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-2">
+                {meta.sitios.map((s) => (
+                  <li key={s} className="text-[13px] font-light text-arena/55">
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Avance */}
+            <div className="border-t border-arena/15 pt-7 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
+              <Rotulo tono="arena">Avance general</Rotulo>
+              <p className="mt-3 font-display text-6xl leading-none font-light tabular-nums text-hueso">
+                {pct}
+                <span className="text-3xl text-arena/45">%</span>
+              </p>
+              <div
+                className="mt-6 h-px w-full bg-arena/15"
+                role="img"
+                aria-label={`${pct} por ciento completado: ${hechas} de ${total} tareas`}
+              >
+                <div className="h-px bg-ambar" style={{ width: `${pct}%` }} />
+              </div>
+              <dl className="mt-6 space-y-2.5">
+                <div className="flex justify-between gap-4 text-[13px] font-light">
+                  <dt className="text-arena/50">Tareas completadas</dt>
+                  <dd className="tabular-nums text-arena">
+                    {hechas} de {total}
+                  </dd>
+                </div>
+                <div className="flex justify-between gap-4 text-[13px] font-light">
+                  <dt className="text-arena/50">Fase actual</dt>
+                  <dd className="text-arena">{faseActual.nombre}</dd>
+                </div>
+                <div className="flex justify-between gap-4 text-[13px] font-light">
+                  <dt className="text-arena/50">Actualizado</dt>
+                  <dd className="text-arena">{fechaLarga(meta.actualizado)}</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
         </div>
-        <p className="mt-2 text-sm text-ink-3 tabular-nums">
-          {hechas} de {total} tareas completadas · Fase {faseActual.n}: {faseActual.nombre}
-        </p>
       </header>
 
-      {/* Cifras */}
-      <section className="mt-12">
-        <h2 className="font-mono text-[11px] uppercase tracking-[0.13em] text-ink-3">
-          Lo que se ha medido
-        </h2>
-        <p className="mt-1 max-w-2xl text-ink-2">
-          Diagnóstico completo de los tres sitios, hecho sobre la información que
-          publican abiertamente.
-        </p>
-        <dl className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line lg:grid-cols-4">
-          {metricas.map((m) => (
-            <div key={m.etiqueta} className="bg-surface p-5">
-              <dt className="sr-only">{m.etiqueta}</dt>
-              <dd>
-                <span className="block font-display text-2xl font-semibold tabular-nums">
-                  {m.valor}
-                </span>
-                <span className="mt-1 block text-sm text-ink-2">{m.etiqueta}</span>
-                {m.nota && (
-                  <span className="mt-0.5 block text-xs text-ink-3">{m.nota}</span>
-                )}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
+      <div className="mx-auto max-w-5xl px-6 sm:px-10 lg:px-16">
+        {/* ───────────── Cifras ───────────── */}
+        <section className="border-b border-linea py-14">
+          <Rotulo>Lo que se ha medido</Rotulo>
+          <p className="mt-4 max-w-xl text-[15px] leading-relaxed font-light text-tinta-2">
+            Diagnóstico completo de los tres sitios, hecho sobre la información que
+            publican abiertamente.
+          </p>
+          <dl className="mt-9 grid grid-cols-2 gap-x-8 gap-y-9 lg:grid-cols-4">
+            {metricas.map((m) => (
+              <div key={m.etiqueta} className="border-t border-linea pt-4">
+                <dt className="sr-only">{m.etiqueta}</dt>
+                <dd>
+                  <span className="block font-display text-[2rem] leading-none font-light tabular-nums text-tinta">
+                    {m.valor}
+                  </span>
+                  <span className="mt-2.5 block text-[13.5px] leading-snug font-light text-tinta-2">
+                    {m.etiqueta}
+                  </span>
+                  {m.nota && (
+                    <span className="mt-1 block text-[12px] font-light text-tinta-3">
+                      {m.nota}
+                    </span>
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
 
-      {/* Hallazgos */}
-      <section className="mt-12">
-        <h2 className="font-mono text-[11px] uppercase tracking-[0.13em] text-ink-3">
-          Hallazgos del diagnóstico
-        </h2>
-        <div className="mt-5 grid gap-4 sm:grid-cols-2">
-          {hallazgos.map((h) => (
-            <article
-              key={h.titulo}
-              className="rounded-xl border border-line bg-surface p-5"
-            >
-              <h3 className="font-display text-lg leading-snug font-semibold">
-                {h.titulo}
-              </h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{h.texto}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* Fases */}
-      <section className="mt-12">
-        <h2 className="font-mono text-[11px] uppercase tracking-[0.13em] text-ink-3">
-          Las seis fases
-        </h2>
-        <div className="mt-5 flex flex-col gap-4">
-          {fases.map((f) => (
-            <article
-              key={f.n}
-              className={`overflow-hidden rounded-xl border bg-surface ${
-                f.estado === "curso" ? "border-pine" : "border-line"
-              }`}
-            >
-              <header className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-line-2 bg-surface-2 px-5 py-4">
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-pine-soft font-display text-sm font-bold text-pine">
-                  {f.n}
-                </span>
-                <h3 className="min-w-[9rem] flex-1 font-display text-lg font-semibold">
-                  {f.nombre}
+        {/* ───────────── Hallazgos ───────────── */}
+        <section className="border-b border-linea py-14">
+          <Rotulo>Hallazgos del diagnóstico</Rotulo>
+          <div className="mt-9 grid gap-x-10 gap-y-9 sm:grid-cols-2">
+            {hallazgos.map((h) => (
+              <article key={h.titulo} className="border-t border-linea pt-4">
+                <h3 className="font-display text-lg leading-snug font-normal text-tinta">
+                  {h.titulo}
                 </h3>
-                <span className="font-mono text-xs text-ink-3">{f.duracion}</span>
-                <span
-                  className={`rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider ${ESTADO_CLASE[f.estado]}`}
-                >
-                  {ESTADO_ETIQUETA[f.estado]}
-                </span>
-              </header>
-              <div className="px-5 py-4">
-                <p className="text-[15px] leading-relaxed text-ink-2">{f.resumen}</p>
-                <ul className="mt-4 flex flex-col gap-2.5">
+                <p className="mt-2.5 text-[14.5px] leading-relaxed font-light text-tinta-2">
+                  {h.texto}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* ───────────── Fases ───────────── */}
+        <section className="border-b border-linea py-14">
+          <Rotulo>Las seis fases</Rotulo>
+          <div className="mt-9">
+            {fases.map((f) => (
+              <article
+                key={f.n}
+                className="grid gap-x-10 gap-y-5 border-t border-linea py-7 lg:grid-cols-[minmax(0,15rem)_1fr]"
+              >
+                <div>
+                  <div className="flex items-baseline gap-3">
+                    <span
+                      className={`font-display text-[13px] tabular-nums ${
+                        f.estado === "curso" ? "text-ambar" : "text-tinta-3"
+                      }`}
+                    >
+                      {String(f.n).padStart(2, "0")}
+                    </span>
+                    <h3 className="font-display text-xl leading-snug font-normal text-tinta">
+                      {f.nombre}
+                    </h3>
+                  </div>
+                  <p className="rotulo mt-3 text-tinta-3">
+                    {f.duracion}
+                    {f.estado === "curso" && (
+                      <span className="ml-2 text-ambar">· {ETIQUETA[f.estado]}</span>
+                    )}
+                  </p>
+                  <p className="mt-4 max-w-xs text-[14px] leading-relaxed font-light text-tinta-2">
+                    {f.resumen}
+                  </p>
+                </div>
+
+                <ul className="space-y-3 lg:pt-1">
                   {f.tareas.map((t) => (
-                    <li key={t.t} className="flex items-start gap-3">
+                    <li key={t.t} className="flex items-start gap-3.5">
                       <span
-                        className={`mt-[7px] size-2 shrink-0 rounded-full ${PUNTO_CLASE[t.estado]}`}
+                        className={`mt-[7px] size-[7px] shrink-0 rounded-full ${MARCA[t.estado]}`}
                         aria-hidden="true"
                       />
                       <span
-                        className={`text-[15px] ${
-                          t.estado === "hecho" ? "text-ink-3 line-through" : "text-ink"
-                        }`}
+                        className={`text-[14.5px] leading-snug font-light ${TEXTO_TAREA[t.estado]}`}
                       >
                         {t.t}
-                        <span className="sr-only"> — {ESTADO_ETIQUETA[t.estado]}</span>
+                        <span className="sr-only"> — {ETIQUETA[t.estado]}</span>
                       </span>
                       {t.estado === "espera" && (
-                        <span className="ml-auto shrink-0 rounded bg-amber-soft px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-amber">
+                        <span className="rotulo mt-[3px] ml-auto shrink-0 text-taupe">
                           En espera
                         </span>
                       )}
                     </li>
                   ))}
                 </ul>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* En espera */}
-      {esperando.length > 0 && (
-        <section className="mt-12">
-          <h2 className="font-mono text-[11px] uppercase tracking-[0.13em] text-ink-3">
-            Insumos en espera
-          </h2>
-          <p className="mt-1 max-w-2xl text-ink-2">
-            Estos elementos son necesarios para continuar. El equipo de ARM los está
-            gestionando.
-          </p>
-          <div className="mt-5 overflow-hidden rounded-xl border border-line bg-surface">
-            {esperando.map((e, i) => (
-              <div
-                key={e.que}
-                className={`px-5 py-4 ${i > 0 ? "border-t border-line-2" : ""}`}
-              >
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <h3 className="font-semibold">{e.que}</h3>
-                  <span className="font-mono text-xs text-ink-3 tabular-nums">
-                    solicitado hace {diasDesde(e.desde)} días
-                  </span>
-                </div>
-                <p className="mt-1 text-[15px] text-ink-2">{e.para}</p>
-              </div>
+              </article>
             ))}
           </div>
         </section>
-      )}
 
-      {/* Próximo hito */}
-      <section className="mt-12">
-        <div className="rounded-xl border border-line border-l-[3px] border-l-pine bg-surface p-6">
-          <p className="font-mono text-[11px] uppercase tracking-[0.13em] text-ink-3">
-            Próximo hito
-          </p>
-          <h2 className="mt-2 font-display text-xl leading-snug font-semibold text-balance">
+        {/* ───────────── Insumos en espera ───────────── */}
+        {esperando.length > 0 && (
+          <section className="border-b border-linea py-14">
+            <Rotulo>Insumos en gestión</Rotulo>
+            <p className="mt-4 max-w-xl text-[15px] leading-relaxed font-light text-tinta-2">
+              Elementos necesarios para continuar, que el equipo de ARM está
+              gestionando.
+            </p>
+            <div className="mt-9">
+              {esperando.map((e) => (
+                <div
+                  key={e.que}
+                  className="grid gap-x-10 gap-y-2 border-t border-linea py-5 sm:grid-cols-[minmax(0,17rem)_1fr]"
+                >
+                  <div className="flex items-baseline justify-between gap-4 sm:block">
+                    <h3 className="text-[15px] font-normal text-tinta">{e.que}</h3>
+                    <p className="rotulo mt-1.5 shrink-0 text-taupe tabular-nums">
+                      hace {diasDesde(e.desde)} días
+                    </p>
+                  </div>
+                  <p className="text-[14px] leading-relaxed font-light text-tinta-2">
+                    {e.para}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ───────────── Próximo hito ───────────── */}
+        <section className="py-14">
+          <Rotulo>Próximo hito</Rotulo>
+          <h2 className="mt-5 max-w-2xl font-display text-2xl leading-snug font-light text-tinta text-balance sm:text-[1.7rem]">
             {proximoHito.titulo}
           </h2>
-          <p className="mt-2 text-[15px] leading-relaxed text-ink-2">
+          <p className="mt-4 max-w-xl text-[15px] leading-relaxed font-light text-tinta-2">
             {proximoHito.detalle}
           </p>
-        </div>
-      </section>
+        </section>
+      </div>
 
-      <footer className="mt-12 border-t border-line pt-6 font-mono text-xs leading-relaxed text-ink-3">
-        <p>
-          {meta.responsable} · {meta.contacto}
-        </p>
-        <p className="mt-1">
-          Esta página se actualiza a medida que avanza el proyecto. Las cifras
-          provienen del diagnóstico realizado sobre los sitios actuales.
-        </p>
+      {/* ───────────── Pie ───────────── */}
+      <footer className="bg-carbon px-6 py-10 sm:px-10 lg:px-16">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-baseline justify-between gap-y-4">
+          <div>
+            <p className="text-[14px] font-light text-arena">{meta.responsable}</p>
+            <p className="mt-1 text-[13px] font-light text-arena/50">
+              {meta.contacto}
+            </p>
+          </div>
+          <p className="rotulo max-w-xs text-right text-arena/40 sm:leading-relaxed">
+            Esta página se actualiza a medida que avanza el proyecto
+          </p>
+        </div>
       </footer>
     </main>
   );
