@@ -43,7 +43,7 @@ export const fases: {
 }[] = [
   {
     n: 0,
-    nombre: "Rescate",
+    nombre: "Inventario y respaldo",
     duracion: "1 a 1,5 semanas",
     inicio: "2026-09-21",
     fin: "2026-10-02",
