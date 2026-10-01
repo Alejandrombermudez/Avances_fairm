@@ -20,7 +20,9 @@ export const meta = {
   sitios: ["responsiblemines.org", "fairmined.org", "craftmines.org"],
   actualizado: "2026-09-30",
   responsable: "Alejandro Bermúdez",
+  titulo: "Desarrollo web y plataformas",
   contacto: "alejucha@gmail.com",
+  celular: "+57 305 890 5505",
 };
 
 export const metricas: { valor: string; etiqueta: string; nota?: string }[] = [

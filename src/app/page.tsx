@@ -229,9 +229,18 @@ export default function Page() {
       <footer className="bg-carbon px-6 py-10 sm:px-10 lg:px-16">
         <div className="mx-auto flex max-w-5xl flex-wrap items-baseline justify-between gap-y-4">
           <div>
-            <p className="text-[14px] font-light text-arena">{meta.responsable}</p>
-            <p className="mt-1 text-[13px] font-light text-arena/50">
-              {meta.contacto}
+            <p className="text-[15px] font-light text-arena">{meta.responsable}</p>
+            <p className="rotulo mt-1.5 text-taupe">{meta.titulo}</p>
+            <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[13px] font-light text-arena/55">
+              <a href={`mailto:${meta.contacto}`} className="hover:text-arena">
+                {meta.contacto}
+              </a>
+              <a
+                href={`tel:${meta.celular.replace(/\s/g, "")}`}
+                className="tabular-nums hover:text-arena"
+              >
+                {meta.celular}
+              </a>
             </p>
           </div>
           <p className="rotulo max-w-xs text-right text-arena/40 sm:leading-relaxed">
