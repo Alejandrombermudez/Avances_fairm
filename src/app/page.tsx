@@ -1,5 +1,6 @@
 export const revalidate = 3600;
 
+import Cronograma from "@/components/Cronograma";
 import {
   meta,
   metricas,
@@ -182,64 +183,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* ───────────── Fases ───────────── */}
-        <section className="border-b border-linea py-14">
-          <Rotulo>El plan</Rotulo>
-          <div className="mt-9">
-            {fases.map((f) => (
-              <article
-                key={f.n}
-                className="grid gap-x-10 gap-y-5 border-t border-linea py-7 lg:grid-cols-[minmax(0,15rem)_1fr]"
-              >
-                <div>
-                  <div className="flex items-baseline gap-3">
-                    <span
-                      className={`font-display text-[13px] tabular-nums ${
-                        f.estado === "curso" ? "text-ambar" : "text-tinta-3"
-                      }`}
-                    >
-                      {String(f.n).padStart(2, "0")}
-                    </span>
-                    <h3 className="font-display text-xl leading-snug font-normal text-tinta">
-                      {f.nombre}
-                    </h3>
-                  </div>
-                  <p className="rotulo mt-3 text-tinta-3">
-                    {f.duracion}
-                    {f.estado === "curso" && (
-                      <span className="ml-2 text-ambar">· {ETIQUETA[f.estado]}</span>
-                    )}
-                  </p>
-                  <p className="mt-4 max-w-xs text-[14px] leading-relaxed font-light text-tinta-2">
-                    {f.resumen}
-                  </p>
-                </div>
-
-                <ul className="space-y-3 lg:pt-1">
-                  {f.tareas.map((t) => (
-                    <li key={t.t} className="flex items-start gap-3.5">
-                      <span
-                        className={`mt-[7px] size-[7px] shrink-0 rounded-full ${MARCA[t.estado]}`}
-                        aria-hidden="true"
-                      />
-                      <span
-                        className={`text-[14.5px] leading-snug font-light ${TEXTO_TAREA[t.estado]}`}
-                      >
-                        {t.t}
-                        <span className="sr-only"> — {ETIQUETA[t.estado]}</span>
-                      </span>
-                      {t.estado === "espera" && (
-                        <span className="rotulo mt-[3px] ml-auto shrink-0 text-taupe">
-                          En espera
-                        </span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </section>
+        <Cronograma />
 
         {/* ───────────── Insumos en espera ───────────── */}
         {esperando.length > 0 && (

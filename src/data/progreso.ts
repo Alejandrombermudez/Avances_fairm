@@ -34,6 +34,9 @@ export const fases: {
   n: number;
   nombre: string;
   duracion: string;
+  inicio: string;
+  fin: string;
+  color: string;
   estado: Estado;
   resumen: string;
   tareas: { t: string; estado: Estado }[];
@@ -42,6 +45,9 @@ export const fases: {
     n: 0,
     nombre: "Rescate",
     duracion: "1 a 1,5 semanas",
+    inicio: "2026-09-21",
+    fin: "2026-10-02",
+    color: "#8f7a5c",
     estado: "curso",
     resumen: "Sacar todo lo que está publicado y guardarlo aparte antes de tocar nada.",
     tareas: [
@@ -60,6 +66,9 @@ export const fases: {
     n: 1,
     nombre: "Cimientos",
     duracion: "1,5 a 2 semanas",
+    inicio: "2026-09-29",
+    fin: "2026-10-14",
+    color: "#b08647",
     estado: "curso",
     resumen: "Cómo queda organizada la información y cómo se ven los tres sitios.",
     tareas: [
@@ -75,6 +84,9 @@ export const fases: {
     n: 2,
     nombre: "Motor de migración",
     duracion: "1,5 semanas",
+    inicio: "2026-10-14",
+    fin: "2026-10-24",
+    color: "#cf9a3f",
     estado: "pendiente",
     resumen: "La herramienta que pasa el contenido. Repetible y verificable.",
     tareas: [
@@ -88,6 +100,9 @@ export const fases: {
     n: 3,
     nombre: "CRAFT en línea",
     duracion: "1 semana",
+    inicio: "2026-10-26",
+    fin: "2026-10-31",
+    color: "#e1a644",
     estado: "pendiente",
     resumen: "El sitio más pequeño va primero. Si algo falla, falla donde menos duele.",
     tareas: [
@@ -102,6 +117,9 @@ export const fases: {
     n: 4,
     nombre: "ARM en línea",
     duracion: "2,5 semanas",
+    inicio: "2026-11-02",
+    fin: "2026-11-19",
+    color: "#c98a55",
     estado: "pendiente",
     resumen: "El sitio institucional. Tres idiomas y los informes conservando su dirección.",
     tareas: [
@@ -115,6 +133,9 @@ export const fases: {
     n: 5,
     nombre: "Fairmined en línea",
     duracion: "2,5 semanas",
+    inicio: "2026-11-19",
+    fin: "2026-12-07",
+    color: "#ad7257",
     estado: "pendiente",
     resumen: "Cuatro idiomas y el catálogo de proveedores, que se rehace entero.",
     tareas: [
@@ -128,6 +149,9 @@ export const fases: {
     n: 6,
     nombre: "Entrega",
     duracion: "1 semana, más 90 días",
+    inicio: "2026-12-07",
+    fin: "2026-12-14",
+    color: "#8d6055",
     estado: "pendiente",
     resumen: "Que el equipo pueda manejarlo solo, y tres meses de acompañamiento.",
     tareas: [
