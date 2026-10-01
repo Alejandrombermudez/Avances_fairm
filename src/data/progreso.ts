@@ -32,6 +32,11 @@ export const metricas: { valor: string; etiqueta: string; nota?: string }[] = [
   { valor: "153", etiqueta: "enlaces ya rotos", nota: "encontrados de paso" },
 ];
 
+/**
+ * `entregable` es lo que la fase deja al terminar. Una frase, no una lista.
+ * `doc` en una tarea apunta a una clave de `documentos.ts`: es lo que enciende
+ * la flecha. Solo se pone cuando el documento ya existe y ya se puede leer.
+ */
 export const fases: {
   n: number;
   nombre: string;
@@ -41,7 +46,8 @@ export const fases: {
   color: string;
   estado: Estado;
   resumen: string;
-  tareas: { t: string; estado: Estado }[];
+  entregable: string;
+  tareas: { t: string; estado: Estado; doc?: string }[];
 }[] = [
   {
     n: 0,
@@ -52,13 +58,14 @@ export const fases: {
     color: "#8f7a5c",
     estado: "curso",
     resumen: "Sacar todo lo que está publicado y guardarlo aparte antes de tocar nada.",
+    entregable: "Copia de resguardo de los tres sitios y el inventario de las 10.369 direcciones",
     tareas: [
-      { t: "Inventario de los tres sitios", estado: "hecho" },
+      { t: "Inventario de los tres sitios", estado: "hecho", doc: "inventario" },
       { t: "Análisis de cómo está organizado hoy", estado: "hecho" },
-      { t: "Censo de plantillas", estado: "hecho" },
+      { t: "Censo de plantillas", estado: "hecho", doc: "constructores" },
       { t: "Contenido publicado, 19.228 registros", estado: "hecho" },
       { t: "Biblioteca de archivos, 10,4 GB", estado: "hecho" },
-      { t: "Verificación de que no faltó nada", estado: "hecho" },
+      { t: "Verificación de que no faltó nada", estado: "hecho", doc: "respaldo" },
       { t: "Copia de resguardo para ARM", estado: "curso" },
       { t: "Cruce con los datos de Google", estado: "espera" },
       { t: "Qué se conserva y qué no, para aprobación", estado: "pendiente" },
@@ -73,8 +80,9 @@ export const fases: {
     color: "#b08647",
     estado: "curso",
     resumen: "Cómo queda organizada la información y cómo se ven los tres sitios.",
+    entregable: "Modelo de contenido aprobado, sistema de diseño y prototipos de los tres sitios",
     tareas: [
-      { t: "Modelo de contenido", estado: "curso" },
+      { t: "Modelo de contenido", estado: "curso", doc: "modelo-de-contenido" },
       { t: "Cuentas a nombre de ARM", estado: "espera" },
       { t: "Gestor de contenidos, uno por sitio", estado: "pendiente" },
       { t: "Sistema de diseño", estado: "espera" },
@@ -91,6 +99,8 @@ export const fases: {
     color: "#cf9a3f",
     estado: "pendiente",
     resumen: "La herramienta que pasa el contenido. Repetible y verificable.",
+    entregable:
+      "La herramienta de traslado y su reporte de verificación, registro por registro",
     tareas: [
       { t: "Traslado al gestor nuevo", estado: "pendiente" },
       { t: "Traducciones entre idiomas", estado: "pendiente" },
@@ -107,6 +117,8 @@ export const fases: {
     color: "#e1a644",
     estado: "pendiente",
     resumen: "El sitio más pequeño va primero. Si algo falla, falla donde menos duele.",
+    entregable:
+      "craftmines.org en línea, con sus direcciones conservadas",
     tareas: [
       { t: "Desarrollo del sitio", estado: "pendiente" },
       { t: "Paso del contenido", estado: "pendiente" },
@@ -124,6 +136,8 @@ export const fases: {
     color: "#c98a55",
     estado: "pendiente",
     resumen: "El sitio institucional. Tres idiomas y los informes conservando su dirección.",
+    entregable:
+      "responsiblemines.org en línea, en tres idiomas",
     tareas: [
       { t: "Desarrollo en tres idiomas", estado: "pendiente" },
       { t: "Noticias, páginas y proyectos", estado: "pendiente" },
@@ -140,6 +154,8 @@ export const fases: {
     color: "#ad7257",
     estado: "pendiente",
     resumen: "Cuatro idiomas y el catálogo de proveedores, que se rehace entero.",
+    entregable:
+      "fairmined.org en línea, con el catálogo y el mapa de proveedores",
     tareas: [
       { t: "Desarrollo en cuatro idiomas", estado: "pendiente" },
       { t: "Catálogo y mapa de proveedores", estado: "pendiente" },
@@ -156,6 +172,8 @@ export const fases: {
     color: "#8d6055",
     estado: "pendiente",
     resumen: "Que el equipo pueda manejarlo solo, y tres meses de acompañamiento.",
+    entregable:
+      "Manuales, taller con el equipo y 90 días de acompañamiento",
     tareas: [
       { t: "Manuales", estado: "pendiente" },
       { t: "Taller con el equipo", estado: "pendiente" },

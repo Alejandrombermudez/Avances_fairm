@@ -1,7 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { fases, type Estado } from "@/data/progreso";
+import { documentos } from "@/data/documentos";
+import Documento from "./Documento";
 
 const ETIQUETA: Record<Estado, string> = {
   hecho: "Completado",
@@ -48,9 +50,40 @@ const giro = (i: number) => `rotate(${-90 + i * PASO + HUECO / 2} 140 140)`;
 
 const ANCHO_ETIQUETA = 236;
 
+/** La flecha de cada entregable. Gira al abrirse, para que se vea que es ella
+ *  la que desplegó el documento. */
+function Flecha({ abierta }: { abierta: boolean }) {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 15 15"
+      fill="none"
+      aria-hidden="true"
+      className="shrink-0 transition-transform duration-300"
+      style={{ transform: abierta ? "rotate(90deg)" : "none" }}
+    >
+      <path
+        d="M2 7.5h11M8.5 3l4.5 4.5L8.5 12"
+        stroke="currentColor"
+        strokeWidth="1.1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function Cronograma() {
   const enCurso = fases.findIndex((f) => f.estado === "curso");
   const [sel, setSel] = useState(enCurso >= 0 ? enCurso : 0);
+  const [abierto, setAbierto] = useState<{ doc: string; tarea: string } | null>(null);
+
+  /** Cambiar de fase cierra el documento: pertenecía a la otra. */
+  const elegir = (i: number) => {
+    setSel(i);
+    setAbierto(null);
+  };
 
   const avances = useMemo(
     () =>
@@ -75,7 +108,13 @@ export default function Cronograma() {
   const t1 = Math.max(...fases.map((x) => dia(x.fin)));
   const span = t1 - t0;
   const pos = (iso: string) => ((dia(iso) - t0) / span) * 100;
-  const hoyPct = Math.min(100, Math.max(0, ((Date.now() - t0) / span) * 100));
+  /* La marca de hoy solo se calcula en el navegador: la pagina se genera una
+     vez y se sirve en cache, asi que la fecha del servidor no es la de quien
+     la lee. */
+  const [ahora, setAhora] = useState<number | null>(null);
+  useEffect(() => setAhora(Date.now()), []);
+  const hoyPct =
+    ahora === null ? null : Math.min(100, Math.max(0, ((ahora - t0) / span) * 100));
   const semanasTotales = Math.round(span / (7 * DIA_MS));
 
   const meses = useMemo(() => {
@@ -124,11 +163,20 @@ export default function Cronograma() {
     <section className="border-b border-linea py-14">
       <p className="rotulo text-taupe">Cronograma</p>
       <p className="mt-4 max-w-xl text-[15px] leading-relaxed font-light text-tinta-2">
-        Toca una fase para ver en qué consiste.
+        Toca una fase para ver en qué consiste. La flecha abre el documento que
+        salió de ese paso.
       </p>
 
       {/* ── Anillo + ficha ── */}
-      <div className="mt-10 grid items-start gap-10 lg:grid-cols-[280px_1fr]">
+      <div
+        className="cuerpo-crono mt-10"
+        data-plegado={abierto ? "si" : "no"}
+      >
+        <div
+          className="plegable"
+          data-plegado={abierto ? "si" : "no"}
+          inert={abierto !== null}
+        >
         <div className="mx-auto lg:mx-0">
           <svg
             viewBox="0 0 280 280"
@@ -168,9 +216,9 @@ export default function Cronograma() {
                   strokeWidth={GROSOR + 16}
                   transform={giro(i)}
                   style={{ strokeDasharray: trazo(1), cursor: "pointer" }}
-                  onClick={() => setSel(i)}
+                  onClick={() => elegir(i)}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") setSel(i);
+                    if (e.key === "Enter" || e.key === " ") elegir(i);
                   }}
                   tabIndex={0}
                   role="button"
@@ -194,6 +242,7 @@ export default function Cronograma() {
               {pct}% del total
             </text>
           </svg>
+        </div>
         </div>
 
         {/* ficha */}
@@ -226,8 +275,18 @@ export default function Cronograma() {
             </span>
           </div>
 
+          {/* lo que deja la fase al terminar */}
+          <div className="mt-7 border-l-2 pl-4" style={{ borderColor: f.color }}>
+            <p className="rotulo text-taupe">Entregable</p>
+            <p className="mt-2 max-w-lg text-[15px] leading-relaxed font-light text-tinta">
+              {f.entregable}
+            </p>
+          </div>
+
           <ul className="mt-7 space-y-3">
-            {f.tareas.map((t, i) => (
+            {f.tareas.map((t, i) => {
+              const activa = abierto?.doc === t.doc;
+              return (
               <li key={t.t} className="animar-fila flex items-start gap-3.5"
                 style={{ animationDelay: `${Math.min(i * 45, 400)}ms` }}>
                 <span
@@ -243,7 +302,7 @@ export default function Cronograma() {
                   }
                   aria-hidden="true"
                 />
-                <span className={`text-[14.5px] leading-snug font-light ${
+                <span className={`flex-1 text-[14.5px] leading-snug font-light ${
                   t.estado === "hecho"
                     ? "text-tinta-3 line-through decoration-linea"
                     : t.estado === "pendiente" ? "text-tinta-2" : "text-tinta"
@@ -251,14 +310,45 @@ export default function Cronograma() {
                   {t.t}
                   <span className="sr-only"> — {ETIQUETA[t.estado]}</span>
                 </span>
+
+                {t.doc && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setAbierto(activa ? null : { doc: t.doc!, tarea: t.t })
+                    }
+                    aria-expanded={activa}
+                    className="group -my-1 flex shrink-0 items-center gap-2 py-1 pl-3"
+                    style={{ color: activa ? f.color : "var(--color-tinta-3)" }}
+                  >
+                    <span className="rotulo transition-colors group-hover:text-tinta">
+                      {activa ? "Cerrar" : "Ver"}
+                    </span>
+                    <Flecha abierta={activa} />
+                  </button>
+                )}
               </li>
-            ))}
+              );
+            })}
           </ul>
         </div>
       </div>
 
+      {/* ── Documento del entregable ── */}
+      {abierto && documentos[abierto.doc] && (
+        <Documento
+          doc={documentos[abierto.doc]}
+          fase={`Fase ${f.n} · ${f.nombre}`}
+          tarea={abierto.tarea}
+          color={f.color}
+          onCerrar={() => setAbierto(null)}
+        />
+      )}
+
       {/* ── Calendario ── */}
-      <div className="mt-14">
+      <div className="plegable" data-plegado={abierto ? "si" : "no"} inert={abierto !== null}>
+      <div>
+      <div className="pt-14">
         <div className="flex flex-wrap items-baseline justify-between gap-3">
           <p className="rotulo text-taupe">Calendario</p>
           <p className="rotulo text-tinta-3 tabular-nums">
@@ -311,10 +401,12 @@ export default function Cronograma() {
                           : "var(--color-linea-2)",
                       }} />
                   ))}
-                  <span className="absolute inset-y-0 z-10 w-px bg-ambar"
-                    style={{ left: `${hoyPct}%` }}>
-                    <span className="absolute -top-[3px] -left-[3px] size-[7px] rounded-full bg-ambar" />
-                  </span>
+                  {hoyPct !== null && (
+                    <span className="absolute inset-y-0 z-10 w-px bg-ambar"
+                      style={{ left: `${hoyPct}%` }}>
+                      <span className="absolute -top-[3px] -left-[3px] size-[7px] rounded-full bg-ambar" />
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -323,7 +415,7 @@ export default function Cronograma() {
                 const ancho = Math.max(0.8, pos(fase.fin) - izq);
                 const activa = i === sel;
                 return (
-                  <button key={fase.n} type="button" onClick={() => setSel(i)}
+                  <button key={fase.n} type="button" onClick={() => elegir(i)}
                     className="relative flex w-full items-center border-b border-linea-2 text-left last:border-b-0"
                     aria-label={`Fase ${fase.n}: ${fase.nombre}, del ${corto(fase.inicio)} al ${corto(fase.fin)}`}
                     aria-pressed={activa}>
@@ -374,6 +466,8 @@ export default function Cronograma() {
           La línea ámbar marca hoy. Las fases 0 y 1 se solapan: el modelo de contenido
           arrancó antes de cerrar el inventario.
         </p>
+      </div>
+      </div>
       </div>
     </section>
   );

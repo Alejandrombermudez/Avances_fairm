@@ -81,3 +81,52 @@ body {
   .animar-fila,
   .animar-barra { animation: none; }
 }
+
+/* ── Colapso del anillo y el calendario ───────────────────────── */
+/* grid-template-rows de 1fr a 0fr: es lo que permite animar un alto
+   que no se conoce de antemano. Sin esto habria que medirlo en JS. */
+.plegable {
+  display: grid;
+  grid-template-rows: 1fr;
+  overflow: hidden;
+  transition:
+    grid-template-rows 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.35s ease;
+}
+.plegable > * {
+  min-height: 0;
+}
+.plegable[data-plegado="si"] {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+
+/* En escritorio el anillo ocupa una columna, asi que la columna se cierra
+   tambien. La separacion se va a cero para que el texto no quede desplazado. */
+.cuerpo-crono {
+  display: grid;
+  gap: 2.5rem;
+  transition: gap 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.cuerpo-crono[data-plegado="si"] {
+  gap: 0;
+}
+@media (min-width: 1024px) {
+  .cuerpo-crono {
+    grid-template-columns: 280px minmax(0, 1fr);
+    align-items: start;
+    transition:
+      grid-template-columns 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+      gap 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .cuerpo-crono[data-plegado="si"] {
+    grid-template-columns: 0 minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plegable,
+  .cuerpo-crono {
+    transition: none;
+  }
+}
