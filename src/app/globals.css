@@ -84,14 +84,16 @@ body {
 
 /* ── Colapso del anillo y el calendario ───────────────────────── */
 /* grid-template-rows de 1fr a 0fr: es lo que permite animar un alto
-   que no se conoce de antemano. Sin esto habria que medirlo en JS. */
+   que no se conoce de antemano. Sin esto habria que medirlo en JS.
+   Los 0.4s van con PLEGADO_MS en Cronograma.tsx: el desplazamiento espera
+   a que esto termine, porque hasta entonces las posiciones se mueven. */
 .plegable {
   display: grid;
   grid-template-rows: 1fr;
   overflow: hidden;
   transition:
-    grid-template-rows 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.35s ease;
+    grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease;
 }
 .plegable > * {
   min-height: 0;
@@ -106,7 +108,7 @@ body {
 .cuerpo-crono {
   display: grid;
   gap: 2.5rem;
-  transition: gap 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: gap 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .cuerpo-crono[data-plegado="si"] {
   gap: 0;
@@ -116,8 +118,8 @@ body {
     grid-template-columns: 280px minmax(0, 1fr);
     align-items: start;
     transition:
-      grid-template-columns 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-      gap 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      grid-template-columns 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      gap 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .cuerpo-crono[data-plegado="si"] {
     grid-template-columns: 0 minmax(0, 1fr);

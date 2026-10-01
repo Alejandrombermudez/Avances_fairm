@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { fases, type Estado } from "@/data/progreso";
 import { documentos } from "@/data/documentos";
 import Documento from "./Documento";
@@ -50,6 +50,14 @@ const giro = (i: number) => `rotate(${-90 + i * PASO + HUECO / 2} 140 140)`;
 
 const ANCHO_ETIQUETA = 236;
 
+/** Lo que tarda el plegado. Debe coincidir con `.plegable` en globals.css:
+ *  antes de que termine, cualquier posición que midamos ya no vale. */
+const PLEGADO_MS = 400;
+
+const sinMovimiento = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 /** La flecha de cada entregable. Gira al abrirse, para que se vea que es ella
  *  la que desplegó el documento. */
 function Flecha({ abierta }: { abierta: boolean }) {
@@ -79,11 +87,49 @@ export default function Cronograma() {
   const [sel, setSel] = useState(enCurso >= 0 ? enCurso : 0);
   const [abierto, setAbierto] = useState<{ doc: string; tarea: string } | null>(null);
 
+  const refDoc = useRef<HTMLDivElement>(null);
+  /** La fila que se pulsó y en qué punto de la pantalla estaba. Es el ancla
+   *  para devolver la vista al mismo sitio al cerrar. */
+  const vuelta = useRef<{ fila: HTMLElement; top: number } | null>(null);
+
   /** Cambiar de fase cierra el documento: pertenecía a la otra. */
   const elegir = (i: number) => {
     setSel(i);
     setAbierto(null);
   };
+
+  const alternar = (doc: string, tarea: string, fila: HTMLElement | null) => {
+    if (abierto?.doc === doc) {
+      setAbierto(null);
+      return;
+    }
+    if (fila) vuelta.current = { fila, top: fila.getBoundingClientRect().top };
+    setAbierto({ doc, tarea });
+  };
+
+  /* Al abrir, la vista baja al documento. Al cerrar, vuelve a la fila que se
+     pulsó, al mismo punto de la pantalla donde estaba, para no perder el hilo
+     de la lista. Se espera a que termine el plegado porque hasta entonces todo
+     se está moviendo. */
+  useEffect(() => {
+    const quieto = sinMovimiento();
+    const modo: ScrollBehavior = quieto ? "auto" : "smooth";
+    const t = setTimeout(
+      () => {
+        if (abierto) {
+          refDoc.current?.scrollIntoView({ behavior: modo, block: "start" });
+          return;
+        }
+        const v = vuelta.current;
+        vuelta.current = null;
+        if (!v || !v.fila.isConnected) return;
+        const salto = v.fila.getBoundingClientRect().top - v.top;
+        if (Math.abs(salto) > 2) window.scrollBy({ top: salto, behavior: modo });
+      },
+      quieto ? 0 : PLEGADO_MS + 40,
+    );
+    return () => clearTimeout(t);
+  }, [abierto]);
 
   const avances = useMemo(
     () =>
@@ -314,8 +360,8 @@ export default function Cronograma() {
                 {t.doc && (
                   <button
                     type="button"
-                    onClick={() =>
-                      setAbierto(activa ? null : { doc: t.doc!, tarea: t.t })
+                    onClick={(e) =>
+                      alternar(t.doc!, t.t, e.currentTarget.closest<HTMLElement>("li"))
                     }
                     aria-expanded={activa}
                     className="group -my-1 flex shrink-0 items-center gap-2 py-1 pl-3"
@@ -335,15 +381,17 @@ export default function Cronograma() {
       </div>
 
       {/* ── Documento del entregable ── */}
-      {abierto && documentos[abierto.doc] && (
-        <Documento
-          doc={documentos[abierto.doc]}
-          fase={`Fase ${f.n} · ${f.nombre}`}
-          tarea={abierto.tarea}
-          color={f.color}
-          onCerrar={() => setAbierto(null)}
-        />
-      )}
+      <div ref={refDoc} className="scroll-mt-6">
+        {abierto && documentos[abierto.doc] && (
+          <Documento
+            doc={documentos[abierto.doc]}
+            fase={`Fase ${f.n} · ${f.nombre}`}
+            tarea={abierto.tarea}
+            color={f.color}
+            onCerrar={() => setAbierto(null)}
+          />
+        )}
+      </div>
 
       {/* ── Calendario ── */}
       <div className="plegable" data-plegado={abierto ? "si" : "no"} inert={abierto !== null}>
