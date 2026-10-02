@@ -18,7 +18,7 @@ export const meta = {
   cliente: "Alianza por la Minería Responsable",
   proyecto: "Migración del ecosistema web",
   sitios: ["responsiblemines.org", "fairmined.org", "craftmines.org"],
-  actualizado: "2026-09-30",
+  actualizado: "2026-10-02",
   responsable: "Alejandro Bermúdez",
   titulo: "Desarrollo web y plataformas",
   contacto: "alejucha@gmail.com",
@@ -66,7 +66,7 @@ export const fases: {
       { t: "Contenido publicado, 19.228 registros", estado: "hecho" },
       { t: "Biblioteca de archivos, 10,4 GB", estado: "hecho" },
       { t: "Verificación de que no faltó nada", estado: "hecho", doc: "respaldo" },
-      { t: "Copia de resguardo para ARM", estado: "curso", doc: "entrega-respaldo" },
+      { t: "Copia de resguardo para ARM", estado: "hecho", doc: "entrega-respaldo" },
       { t: "Cruce con los datos de Google", estado: "espera" },
       { t: "Qué se conserva y qué no, para aprobación", estado: "pendiente" },
     ],
@@ -186,7 +186,7 @@ export const fases: {
 export const esperando: { que: string; para: string; desde: string }[] = [
   {
     que: "Acceso al servidor",
-    para: "Traer los archivos que no se ven desde fuera y cerrar la copia de resguardo.",
+    para: "Traer lo que no se ve desde fuera: archivos subidos por fuera de la biblioteca y contenido sin publicar.",
     desde: "2026-09-22",
   },
   {
@@ -230,6 +230,7 @@ export const hallazgos: { titulo: string; texto: string }[] = [
 ];
 
 export const proximoHito = {
-  titulo: "Cerrar la copia de resguardo y acordar qué contenido pasa al sitio nuevo",
-  detalle: "Con eso arranca la construcción del primer sitio.",
+  titulo: "Acordar qué contenido pasa al sitio nuevo y cerrar la lista de temas",
+  detalle:
+    "El respaldo ya está entregado. Con esas dos decisiones arranca la construcción de craftmines.org.",
 };
