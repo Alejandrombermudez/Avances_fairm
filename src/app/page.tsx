@@ -1,5 +1,7 @@
 export const revalidate = 3600;
 
+import Link from "next/link";
+
 import Cronograma from "@/components/Cronograma";
 import {
   meta,
@@ -77,9 +79,42 @@ export default function Page() {
       {/* ───────────── Encabezado oscuro ───────────── */}
       <header className="bg-carbon px-6 pt-14 pb-16 sm:px-10 lg:px-16">
         <div className="mx-auto max-w-5xl">
-          <p className="rotulo font-display font-semibold tracking-[0.26em] text-arena">
-            {meta.cliente}
-          </p>
+          <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
+            <p className="rotulo font-display font-semibold tracking-[0.26em] text-arena">
+              {meta.cliente}
+            </p>
+
+            {/* El acceso a la vista previa va arriba del todo: es lo único de
+                esta página que se puede abrir y recorrer, no solo leer. */}
+            <Link
+              href="/craft"
+              className="group flex items-center gap-2.5 rounded-full border border-ambar/45 px-4 py-2 transition-colors duration-200 hover:border-ambar hover:bg-ambar"
+            >
+              <span
+                className="size-[6px] shrink-0 rounded-full bg-ambar transition-colors duration-200 group-hover:bg-carbon"
+                aria-hidden="true"
+              />
+              <span className="rotulo text-arena transition-colors duration-200 group-hover:text-carbon">
+                Ver CRAFT reorganizado
+              </span>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                aria-hidden="true"
+                className="shrink-0 text-arena/70 transition-[transform,color] duration-200 group-hover:translate-x-0.5 group-hover:text-carbon"
+              >
+                <path
+                  d="M2 7h10M8 3l4 4-4 4"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Link>
+          </div>
 
           <div className="mt-10 grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:items-end">
             <div>
