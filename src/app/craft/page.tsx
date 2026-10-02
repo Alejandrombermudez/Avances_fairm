@@ -119,6 +119,29 @@ export default function CraftPreview() {
           </dl>
 
           <Link
+            href="/craft/sitio"
+            className="group mt-10 mr-3 inline-flex items-center gap-3 rounded-full bg-ambar px-5 py-2.5 transition-[background-color,transform] duration-200 hover:bg-[#d49a3b] active:scale-[.98]"
+          >
+            <span className="rotulo text-carbon">Ver el sitio funcionando</span>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              aria-hidden="true"
+              className="shrink-0 text-carbon transition-transform duration-200 group-hover:translate-x-0.5"
+            >
+              <path
+                d="M2 7h10M8 3l4 4-4 4"
+                stroke="currentColor"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Link>
+
+          <Link
             href="/craft/propuesta"
             className="group mt-10 inline-flex items-center gap-3 rounded-full border border-ambar/45 px-5 py-2.5 transition-colors duration-200 hover:border-ambar hover:bg-ambar"
           >
