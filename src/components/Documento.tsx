@@ -217,6 +217,39 @@ function Pieza({ b }: { b: Bloque }) {
         </div>
       );
 
+    case "descarga":
+      return (
+        <div>
+          <a
+            href={b.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 rounded-full bg-ambar px-7 py-4 font-display text-[17px] font-normal text-carbon transition-[background-color,transform] duration-200 hover:bg-[#d49a3b] active:scale-[.98]"
+          >
+            {b.etiqueta}
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 17 17"
+              fill="none"
+              aria-hidden="true"
+              className="transition-transform duration-200 group-hover:translate-y-0.5"
+            >
+              <path
+                d="M8.5 2v9m0 0L5 7.5M8.5 11 12 7.5M2.5 14h12"
+                stroke="currentColor"
+                strokeWidth="1.3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
+          <p className="mt-3.5 max-w-[46ch] text-[13.5px] leading-relaxed font-light text-tinta-3">
+            {b.nota}
+          </p>
+        </div>
+      );
+
     case "nota":
       return (
         <div className="rounded-xl border border-linea border-l-[3px] border-l-ambar bg-superficie px-6 py-5">

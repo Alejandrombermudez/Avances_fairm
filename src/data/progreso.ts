@@ -66,7 +66,7 @@ export const fases: {
       { t: "Contenido publicado, 19.228 registros", estado: "hecho" },
       { t: "Biblioteca de archivos, 10,4 GB", estado: "hecho" },
       { t: "Verificación de que no faltó nada", estado: "hecho", doc: "respaldo" },
-      { t: "Copia de resguardo para ARM", estado: "curso" },
+      { t: "Copia de resguardo para ARM", estado: "curso", doc: "entrega-respaldo" },
       { t: "Cruce con los datos de Google", estado: "espera" },
       { t: "Qué se conserva y qué no, para aprobación", estado: "pendiente" },
     ],

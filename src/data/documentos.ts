@@ -24,6 +24,7 @@ export type Bloque =
   | { k: "cifras"; items: { n: string; t: string }[] }
   | { k: "tabla"; cabeceras: [string, string]; filas: [string, string][] }
   | { k: "barras"; items: { etiqueta: string; pct: number; n: string }[] }
+  | { k: "descarga"; etiqueta: string; url: string; nota: string }
   | { k: "nota"; titulo: string; texto: string }
   | { k: "puntos"; items: { titulo: string; texto: string }[] };
 
@@ -407,6 +408,73 @@ export const documentos: Record<string, Documento> = {
                 titulo: "Las 44 páginas difíciles están identificadas",
                 texto:
                   "Páginas con maquetación especial que no se resuelven automáticamente. Se rehacen a mano, y ya sabemos cuáles son: no van a aparecer como sorpresa a mitad del proyecto.",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ───────────────────────────────────────────────────────────── */
+  "entrega-respaldo": {
+    titulo: "El respaldo, para descargar",
+    resumen:
+      "Todo lo que los tres sitios publican hoy, descargado y verificado archivo por archivo. Son cuatro paquetes y un listado de huellas.",
+    fecha: "2026-10-01",
+    hojas: [
+      {
+        titulo: "Descargar",
+        bloques: [
+          {
+            k: "descarga",
+            etiqueta: "Descargar respaldo",
+            url: "https://drive.google.com/drive/folders/1xPDsG0SjXuR2jztuYqNIQkLgY1a4lm-S?usp=sharing",
+            nota: "Se abre en Google Drive. Son 10,4 GB repartidos en cuatro paquetes, así que se pueden bajar de a uno.",
+          },
+          {
+            k: "tabla",
+            cabeceras: ["Paquete", "Qué lleva"],
+            filas: [
+              ["ARM-respaldo-arm", "responsiblemines.org · 6,68 GB"],
+              ["ARM-respaldo-fairmined", "fairmined.org · 2,66 GB"],
+              ["ARM-respaldo-craft", "craftmines.org · 1,10 GB"],
+              ["ARM-respaldo-reportes", "La verificación y el índice de archivos · 191 KB"],
+              ["huellas.txt", "Sirve para comprobar que los cuatro llegaron íntegros"],
+            ],
+          },
+          {
+            k: "texto",
+            texto:
+              "Dentro de cada paquete *las rutas son las de siempre*. El archivo que hoy está en /wp-content/uploads/2017/05/informe.pdf está ahí con esa misma ruta.",
+          },
+        ],
+      },
+      {
+        titulo: "Qué es y qué no es",
+        bloques: [
+          {
+            k: "puntos",
+            items: [
+              {
+                titulo: "Es el archivo frío, antes de tocar nada",
+                texto:
+                  "Se hizo primero, a propósito. Pase lo que pase durante la migración, lo que los sitios publican hoy ya está guardado aparte y completo.",
+              },
+              {
+                titulo: "Guárdenlo en dos sitios",
+                texto:
+                  "Un respaldo que existe en un solo lugar no es un respaldo. Y conviene no abrirlo ni reorganizarlo: su valor está en que las rutas queden como están.",
+              },
+              {
+                titulo: "No reemplaza el respaldo del servidor",
+                texto:
+                  "Esto es lo que se ve desde fuera. Lo que no se sirve hacia fuera —archivos subidos por fuera de la biblioteca, borradores, páginas despublicadas— no se puede descargar por esta vía. Para eso sigue haciendo falta el respaldo del hosting.",
+              },
+              {
+                titulo: "153 enlaces ya estaban rotos",
+                texto:
+                  "Figuran en la biblioteca pero el servidor ya no los entrega. Es de antes, no de la migración. Están listados uno por uno en el paquete de reportes.",
               },
             ],
           },

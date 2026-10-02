@@ -48,7 +48,12 @@ flecha que abre un documento a medias es peor que no tener flecha.
 Un documento se parte en `hojas`, y la hoja es la unidad: si no cabe en una
 pantalla sin desplazarse mucho, se parte en dos. Cada hoja es una lista de
 bloques (`texto`, `par`, `ficha`, `junta`, `cifras`, `tabla`, `barras`, `nota`,
-`puntos`). El asterisco marca negrita: `"se arman *solas*"`.
+`puntos`, `descarga`). El asterisco marca negrita: `"se arman *solas*"`.
+
+El bloque `descarga` pinta el botón ámbar y abre su `url` en otra pestaña.
+**Lo que apunte ahí queda al alcance de cualquiera que tenga la dirección de
+esta página**, así que el destino se comparte a conciencia y se revisa antes de
+publicar el enlace.
 
 Los documentos se escriben para quien no conoce los nombres técnicos: dicen
 *esto pasa a ser esto*, con números medidos, no con adjetivos.
