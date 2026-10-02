@@ -1,0 +1,1488 @@
+{
+ "sitio": "craftmines.org",
+ "generado": "data/sanity/craft.ndjson",
+ "resumen": {
+  "siteSettings": 1,
+  "standard": 1,
+  "standardVersion": 3,
+  "publication": 74,
+  "faq": 60,
+  "timelineEvent": 22,
+  "story": 12,
+  "article": 11,
+  "page": 42
+ },
+ "norma": {
+  "titulo": "Código CRAFT",
+  "vigente": "2.1",
+  "versiones": [
+   {
+    "version": "2.1",
+    "fecha": "2024-12-01",
+    "estado": "vigente",
+    "volumenes": [
+     {
+      "titulo": "CRAFT 2.1 — Todos los volúmenes",
+      "etiqueta": "Completo",
+      "idiomas": [
+       "en",
+       "pt"
+      ],
+      "archivos": 2
+     },
+     {
+      "titulo": "Código CRAFT 2.1",
+      "etiqueta": "Completo",
+      "idiomas": [
+       "pt"
+      ],
+      "archivos": 1
+     },
+     {
+      "titulo": "CRAFT 2.1 — Introducción y características generales",
+      "etiqueta": "Vol. 1",
+      "idiomas": [
+       "en",
+       "pt"
+      ],
+      "archivos": 2
+     },
+     {
+      "titulo": "CRAFT 2.1 — Requisitos independientes del producto mineral",
+      "etiqueta": "Vol. 2A",
+      "idiomas": [
+       "en",
+       "pt"
+      ],
+      "archivos": 2
+     },
+     {
+      "titulo": "CRAFT 2.1 — Requisitos específicos por producto",
+      "etiqueta": "Vol. 2B",
+      "idiomas": [
+       "en",
+       "pt"
+      ],
+      "archivos": 2
+     },
+     {
+      "titulo": "CRAFT 2.1 — Principios de los esquemas",
+      "etiqueta": "Vol. 3",
+      "idiomas": [
+       "en"
+      ],
+      "archivos": 1
+     }
+    ]
+   },
+   {
+    "version": "2.0",
+    "fecha": "2020-02-11",
+    "estado": "reemplazada",
+    "volumenes": [
+     {
+      "titulo": "Código CRAFT 2.0",
+      "etiqueta": "Completo",
+      "idiomas": [
+       "es"
+      ],
+      "archivos": 1
+     },
+     {
+      "titulo": "CRAFT 2.0 — Todos los volúmenes",
+      "etiqueta": "Completo",
+      "idiomas": [
+       "en",
+       "es",
+       "fr"
+      ],
+      "archivos": 5
+     },
+     {
+      "titulo": "CRAFT 2.0 — Introducción y características generales",
+      "etiqueta": "Vol. 1",
+      "idiomas": [
+       "en",
+       "es",
+       "fr"
+      ],
+      "archivos": 4
+     },
+     {
+      "titulo": "CRAFT 2.0 — Requisitos independientes del producto mineral",
+      "etiqueta": "Vol. 2A",
+      "idiomas": [
+       "en",
+       "es",
+       "fr"
+      ],
+      "archivos": 4
+     },
+     {
+      "titulo": "CRAFT 2.0 — Requisitos específicos por producto",
+      "etiqueta": "Vol. 2B",
+      "idiomas": [
+       "en",
+       "es",
+       "fr"
+      ],
+      "archivos": 4
+     },
+     {
+      "titulo": "CRAFT 2.0 — Principios de los esquemas",
+      "etiqueta": "Vol. 3",
+      "idiomas": [
+       "en",
+       "es",
+       "fr"
+      ],
+      "archivos": 4
+     },
+     {
+      "titulo": "CRAFT 2.0 — Libro de orientación",
+      "etiqueta": "Vol. 4",
+      "idiomas": [
+       "en",
+       "es"
+      ],
+      "archivos": 2
+     }
+    ]
+   },
+   {
+    "version": "1.0",
+    "fecha": "2018-07-31",
+    "estado": "reemplazada",
+    "volumenes": [
+     {
+      "titulo": "Código CRAFT 1.0",
+      "etiqueta": "Completo",
+      "idiomas": [
+       "en",
+       "es",
+       "fr"
+      ],
+      "archivos": 3
+     }
+    ]
+   }
+  ]
+ },
+ "documentos": [
+  {
+   "titulo": "Acta del Comité CRAFT",
+   "tipo": "acta",
+   "anio": 2024,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Acta del Comité CRAFT",
+   "tipo": "acta",
+   "anio": 2023,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Acta del Comité CRAFT",
+   "tipo": "acta",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Acta del Comité CRAFT",
+   "tipo": "acta",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Acta del Comité CRAFT",
+   "tipo": "acta",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Acta del Comité CRAFT",
+   "tipo": "acta",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Comunicado",
+   "tipo": "comunicado",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Comunicado",
+   "tipo": "comunicado",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Comunicado",
+   "tipo": "comunicado",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Folleto CRAFT",
+   "tipo": "folleto",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Folleto CRAFT",
+   "tipo": "folleto",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Folleto CRAFT",
+   "tipo": "folleto",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Folleto CRAFT",
+   "tipo": "folleto",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es"
+   ]
+  },
+  {
+   "titulo": "Folleto CRAFT",
+   "tipo": "folleto",
+   "anio": null,
+   "idiomas": [
+    "fr"
+   ]
+  },
+  {
+   "titulo": "Folleto CRAFT",
+   "tipo": "folleto",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Folleto CRAFT",
+   "tipo": "folleto",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Folleto CRAFT",
+   "tipo": "folleto",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Folleto CRAFT",
+   "tipo": "folleto",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Folleto CRAFT",
+   "tipo": "folleto",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Folleto CRAFT",
+   "tipo": "folleto",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Folleto CRAFT",
+   "tipo": "folleto",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Folleto CRAFT",
+   "tipo": "folleto",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Guía",
+   "tipo": "guia",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Herramienta CRAFT",
+   "tipo": "herramienta",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Herramienta CRAFT",
+   "tipo": "herramienta",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es"
+   ]
+  },
+  {
+   "titulo": "Informe",
+   "tipo": "informe",
+   "anio": 2017,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Informe",
+   "tipo": "informe",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Informe",
+   "tipo": "informe",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Plantilla de informe CRAFT",
+   "tipo": "plantilla",
+   "anio": 2010,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Plantilla de informe CRAFT",
+   "tipo": "plantilla",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Plantilla de informe CRAFT",
+   "tipo": "plantilla",
+   "anio": null,
+   "idiomas": [
+    "fr"
+   ]
+  },
+  {
+   "titulo": "Plantilla de informe CRAFT",
+   "tipo": "plantilla",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Plantilla de informe CRAFT",
+   "tipo": "plantilla",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Plantilla de informe CRAFT",
+   "tipo": "plantilla",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Plantilla de informe CRAFT",
+   "tipo": "plantilla",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Síntesis de consulta",
+   "tipo": "sintesis",
+   "anio": 2020,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Síntesis de consulta",
+   "tipo": "sintesis",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Síntesis de consulta",
+   "tipo": "sintesis",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Síntesis de consulta",
+   "tipo": "sintesis",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Términos de referencia",
+   "tipo": "tdr",
+   "anio": 2023,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Términos de referencia",
+   "tipo": "tdr",
+   "anio": 2023,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Términos de referencia",
+   "tipo": "tdr",
+   "anio": 2023,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Términos de referencia",
+   "tipo": "tdr",
+   "anio": 2023,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "Términos de referencia",
+   "tipo": "tdr",
+   "anio": 2019,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "Código CRAFT 1.0",
+   "tipo": "volumen",
+   "anio": 2018,
+   "idiomas": [
+    "en",
+    "es",
+    "fr"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.0 — Introducción y características generales",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.0 — Requisitos independientes del producto mineral",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.0 — Requisitos específicos por producto",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.0 — Principios de los esquemas",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.0 — Libro de orientación",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.0 — Libro de orientación",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es"
+   ]
+  },
+  {
+   "titulo": "Código CRAFT 2.0",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "es"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.0 — Introducción y características generales",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es",
+    "fr"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.0 — Requisitos independientes del producto mineral",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es",
+    "fr"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.0 — Requisitos específicos por producto",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es",
+    "fr"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.0 — Principios de los esquemas",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es",
+    "fr"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.0 — Todos los volúmenes",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es",
+    "fr"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Introducción y características generales",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Requisitos independientes del producto mineral",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Requisitos específicos por producto",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "es"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Introducción y características generales",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Requisitos independientes del producto mineral",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Requisitos específicos por producto",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Principios de los esquemas",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Introducción y características generales",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "pt"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Introducción y características generales",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Requisitos independientes del producto mineral",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "pt"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Requisitos independientes del producto mineral",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Requisitos específicos por producto",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "pt"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Requisitos específicos por producto",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Principios de los esquemas",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Principios de los esquemas",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en"
+   ]
+  },
+  {
+   "titulo": "CRAFT 2.1 — Todos los volúmenes",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "en",
+    "pt"
+   ]
+  },
+  {
+   "titulo": "Código CRAFT 2.1",
+   "tipo": "volumen",
+   "anio": null,
+   "idiomas": [
+    "pt"
+   ]
+  }
+ ],
+ "preguntas": [
+  {
+   "pregunta": "¿Qué significa la palabra CRAFT?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Qué quiere decir que CRAFT permita evitar las peores prácticas del sector?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Cuáles son los principales requisitos para cumplir con CRAFT?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Cuántos requisitos tiene el CRAFT?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Quién es el responsable en la implementación del CRAFT?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Qué significa ser un esquema CRAFT?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿A qué minerales se puede aplicar el CRAFT?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Es CRAFT un esquema de certificación?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Qué diferencia existe entre CRAFT y Fairmined?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿El código CRAFT es un Estándar?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Qué es lo primero que debo cumplir para empezar a aplicar CRAFT?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Cuáles son los requisitos mínimos que debo cumplir? ¿Debo estar formalizado?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Qué incentivos tengo como minero si aplico CRAFT?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Por qué es importante cumplir con los requisitos del CRAFT?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Quién puede usar CRAFT?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Los requisitos son diferentes para los mineros y los agregadores o acopiadores de minerales a nivel local y nacional (compraventas, acopiadores)?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Cómo demuestro que estoy avanzando en el cumplimiento del CRAFT?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Cumplir con el CRAFT me garantiza que estoy vendiendo un mineral siguiendo la Guía de la OCDE?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Qué es el reporte CRAFT?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Cómo el CRAFT me ayuda a realizar la debida diligencia de la minería artesanal y de pequeña escala?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Si uso el CRAFT en mi política de abastecimiento, en qué me diferencio de las demás compañías?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Es CRAFT solo una herramienta para evaluar los riesgos del Anexo II de la Guía de Debida Diligencia de la OCDE?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿CRAFT es solo una herramienta cuando estoy abasteciendo o trabajando con la MAPE ubicada en Áreas de Alto Riesgo y Conflicto (CAHRA)?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Qué tiene el CRAFT que me puede facilitar el cumplimiento del estándar de London Bullion Market Association (LBMA)?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Qué diferencia existe entre el CRAFT y los criterios de la Asociación de Oro Responsable Suiza (SBGA)?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Cómo demuestro el cumplimiento con CRAFT, quién lo valida?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Qué implicaciones tiene el hecho de que el Código CRAFT esté bajo una licencia de fuente abierta?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Está el CRAFT alineado al marco de los cinco pasos de la OCDE?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Quién es el responsable de las auditorías cuando utiliza CRAFT?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿Cómo CRAFT logra adaptarse a las realidades de los diferentes países, a través de lineamientos internacionales?",
+   "idioma": "es"
+  },
+  {
+   "pregunta": "¿What does the word “CRAFT” mean?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "What do we mean when we say CRAFT aids in avoiding bad practices in the sector?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "What are the main requirements to comply with CRAFT?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "How many requirements does CRAFT have?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "Who is responsible for the implementation of CRAFT?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "What does it mean to be a CRAFT scheme?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "What minerals can CRAFT be applied to?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "Is CRAFT a certification scheme?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "What is the difference between CRAFT and Fairmined?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "Is the CRAFT code a Standard?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "What is the first thing I must comply with to start applying CRAFT?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "What are the minimum requirements that I must meet? Should I be formalized?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "What incentives do I have as a miner if I apply CRAFT?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "Why is it important to meet the CRAFT requirements?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "Who can use CRAFT?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "Are the requirements different for local and national miners and mineral aggregators or stockpilers (merchanting, stockpiling)?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "How do I show that I am making progress in complying with CRAFT?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "Does complying with CRAFT guarantee that I am selling a mineral following the OECD Guide?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "What is the CRAFT report?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "How does CRAFT help me perform due diligence on artisanal and small-scale mining?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "If I use CRAFT in my sourcing policy, how is it different from other companies?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "Is CRAFT just a tool to assess the risks in Annex II of the OECD Due Diligence Guide?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "Is CRAFT just a tool for when I am sourcing or working with ASM located in High Risk and Conflict Areas (CAHRA)?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "What does CRAFT have that can help me comply with the London Bullion Market Association (LBMA) standard?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "What is the difference between CRAFT and the criteria of the Swiss Responsible Gold Association (SBGA)?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "How do I demonstrate compliance with CRAFT, who validates it?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "What are the implications of the CRAFT Code being under an open source license?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "Is the CRAFT aligned with the OECD five-step framework?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "Who is responsible for audits when using CRAFT?",
+   "idioma": "en"
+  },
+  {
+   "pregunta": "How does CRAFT manage to adapt to the realities of the different countries, through international guidelines?",
+   "idioma": "en"
+  }
+ ],
+ "hitos": [
+  {
+   "fecha": "2017-07-01",
+   "titulo": "Crono CRAFT 2017-07",
+   "idioma": "en"
+  },
+  {
+   "fecha": "2017-07-01",
+   "titulo": "Crono CRAFT 2017-07",
+   "idioma": "es"
+  },
+  {
+   "fecha": "2017-09-01",
+   "titulo": "CRAFT Committee and Advisory Group creation",
+   "idioma": "en"
+  },
+  {
+   "fecha": "2017-09-01",
+   "titulo": "Crono CRAFT 2017-09",
+   "idioma": "es"
+  },
+  {
+   "fecha": "2017-10-01",
+   "titulo": "Crono CRAFT 2017-10 a 2018-03",
+   "idioma": "en"
+  },
+  {
+   "fecha": "2017-10-01",
+   "titulo": "Crono CRAFT 2017-10 a 2018-03",
+   "idioma": "es"
+  },
+  {
+   "fecha": "2018-02-01",
+   "titulo": "Crono CRAFT 2018-02 a 2018-04",
+   "idioma": "en"
+  },
+  {
+   "fecha": "2018-02-01",
+   "titulo": "Crono CRAFT 2018-02 a 2018-04",
+   "idioma": "es"
+  },
+  {
+   "fecha": "2018-04-01",
+   "titulo": "Crono CRAFT 2018-04",
+   "idioma": "en"
+  },
+  {
+   "fecha": "2018-04-01",
+   "titulo": "Crono CRAFT 2018-04",
+   "idioma": "es"
+  },
+  {
+   "fecha": "2018-07-01",
+   "titulo": "Crono CRAFT 2018-07b",
+   "idioma": "en"
+  },
+  {
+   "fecha": "2018-07-01",
+   "titulo": "Crono CRAFT 2018-07",
+   "idioma": "es"
+  },
+  {
+   "fecha": "2018-08-01",
+   "titulo": "Crono CRAFT 2018-08b",
+   "idioma": "es"
+  },
+  {
+   "fecha": "2018-08-01",
+   "titulo": "Crono CRAFT 2018-08 to current",
+   "idioma": "en"
+  },
+  {
+   "fecha": "2019-06-01",
+   "titulo": "Crono CRAFT 2019-06",
+   "idioma": "en"
+  },
+  {
+   "fecha": "2019-06-01",
+   "titulo": "Crono CRAFT 2019-06",
+   "idioma": "es"
+  },
+  {
+   "fecha": "2020-03-01",
+   "titulo": "Crono CRAFT 2020-03",
+   "idioma": "en"
+  },
+  {
+   "fecha": "2020-03-01",
+   "titulo": "Crono CRAFT 2020-03",
+   "idioma": "es"
+  },
+  {
+   "fecha": "2020-04-01",
+   "titulo": "Crono CRAFT 2020-04",
+   "idioma": "en"
+  },
+  {
+   "fecha": "2020-04-01",
+   "titulo": "Crono CRAFT 2020-04",
+   "idioma": "es"
+  },
+  {
+   "fecha": "2020-06-01",
+   "titulo": "Crono CRAFT 2020-06b",
+   "idioma": "en"
+  },
+  {
+   "fecha": "2020-06-01",
+   "titulo": "Crono CRAFT 2020-06b",
+   "idioma": "es"
+  }
+ ],
+ "historias": [
+  {
+   "titulo": "Burkina Faso – Comienza un proyecto para conectar miner@s y mercados formales (con foco mercurio y fortalecimiento organizativo de los grupos mineros) (EN)",
+   "lugar": "Burkina Faso",
+   "idioma": "en",
+   "extracto": "África"
+  },
+  {
+   "titulo": "Santa Bárbara – Mineros de 7 comunidades se unen para hacer minería formal (EN)",
+   "lugar": "Santa Bárbara",
+   "idioma": "en",
+   "extracto": "Latinoamérica"
+  },
+  {
+   "titulo": "Chocó – proyecto en desarrollo con mineras y mineros artesanales (EN)",
+   "lugar": "Chocó",
+   "idioma": "en",
+   "extracto": "Latinoamérica"
+  },
+  {
+   "titulo": "Boyacá – Cooperativa Agrominera Multiactiva de Paipa Ltda. (EN)",
+   "lugar": "Boyacá",
+   "idioma": "en",
+   "extracto": "Latinoamérica"
+  },
+  {
+   "titulo": "Nariño – Organización minera pequeña reduce riesgos y exporta con CRAFT (EN)",
+   "lugar": "Nariño",
+   "idioma": "en",
+   "extracto": "Latinoamérica"
+  },
+  {
+   "titulo": "cauca-mujeres-seleccionadoras-de-mineral-venden-al-mercado-formal (EN)",
+   "lugar": null,
+   "idioma": "en",
+   "extracto": "Latinoamérica"
+  },
+  {
+   "titulo": "Burkina Faso – Comienza un proyecto para conectar miner@s y mercados formales (con foco mercurio y fortalecimiento organizativo de los grupos mineros)",
+   "lugar": "Burkina Faso",
+   "idioma": "es",
+   "extracto": "África"
+  },
+  {
+   "titulo": "Santa Bárbara – Mineros de 7 comunidades se unen para hacer minería formal",
+   "lugar": "Santa Bárbara",
+   "idioma": "es",
+   "extracto": "Latinoamérica"
+  },
+  {
+   "titulo": "Chocó – proyecto en desarrollo con mineras y mineros artesanales",
+   "lugar": "Chocó",
+   "idioma": "es",
+   "extracto": "Latinoamérica"
+  },
+  {
+   "titulo": "Boyacá – Cooperativa Agrominera Multiactiva de Paipa Ltda.",
+   "lugar": "Boyacá",
+   "idioma": "es",
+   "extracto": "Latinoamérica"
+  },
+  {
+   "titulo": "Nariño – Organización minera pequeña reduce riesgos y exporta con CRAFT",
+   "lugar": "Nariño",
+   "idioma": "es",
+   "extracto": "Latinoamérica"
+  },
+  {
+   "titulo": "Cauca – Mujeres seleccionadoras de mineral venden al mercado formal",
+   "lugar": "Cauca",
+   "idioma": "es",
+   "extracto": "Latinoamérica"
+  }
+ ],
+ "articulos": [
+  {
+   "titulo": "Consulte la última versión del Código CRAFT 2.1 aprobada por los Órganos de Gobierno",
+   "fecha": "2024-05-24",
+   "idioma": "es"
+  },
+  {
+   "titulo": "Refer to the latest version of the CRAFT Code 2.1 approved by the Governance Bodies",
+   "fecha": "2024-05-24",
+   "idioma": "en"
+  },
+  {
+   "titulo": "CRAFT 2.1 versiones borrador para consulta: enmiendas sugeridas para cerrar las brechas identificadas en la Evaluación de Alineación de la OCDE",
+   "fecha": "2023-11-22",
+   "idioma": "es"
+  },
+  {
+   "titulo": "CRAFT 2.1. Draft Versions for Consultation: Suggested Amendments to Close the Identified Gaps on the OECD’s Alignment Assessment",
+   "fecha": "2023-11-22",
+   "idioma": "en"
+  },
+  {
+   "titulo": "Borrador de la Versión Candidata del Código CRAFT 2.1 Volumen 1 y Volumen 2",
+   "fecha": "2023-06-14",
+   "idioma": "es"
+  },
+  {
+   "titulo": "CRAFT 2.1 Volume 1 and Volume 2 Release Candidate Draft",
+   "fecha": "2023-06-13",
+   "idioma": "en"
+  },
+  {
+   "titulo": "CRAFT v 2.0 is out now!",
+   "fecha": "2020-10-14",
+   "idioma": "en"
+  },
+  {
+   "titulo": "CRAFT v 2.0 público",
+   "fecha": "2020-10-14",
+   "idioma": "es"
+  },
+  {
+   "titulo": "CRAFT: segunda consulta participativa",
+   "fecha": "2020-08-31",
+   "idioma": "es"
+  },
+  {
+   "titulo": "CRAFT: New website for the Passport to formal markets",
+   "fecha": "2020-03-21",
+   "idioma": "en"
+  },
+  {
+   "titulo": "CRAFT: nuevo sitio web para el Pasaporte a mercados formales",
+   "fecha": "2019-08-27",
+   "idioma": "es"
+  }
+ ],
+ "paginas": [
+  {
+   "titulo": "CRAFT Upstream Assurance Scheme",
+   "idioma": "en",
+   "ruta": "/en/craft-ua"
+  },
+  {
+   "titulo": "Resources",
+   "idioma": "en",
+   "ruta": "/en/resources"
+  },
+  {
+   "titulo": "Public Consultations",
+   "idioma": "en",
+   "ruta": "/en/public-consultations"
+  },
+  {
+   "titulo": "Recursos",
+   "idioma": "es",
+   "ruta": "/recursos"
+  },
+  {
+   "titulo": "Contact",
+   "idioma": "en",
+   "ruta": "/en/contact"
+  },
+  {
+   "titulo": "Impact",
+   "idioma": "en",
+   "ruta": "/en/impact"
+  },
+  {
+   "titulo": "What is CRAFT?",
+   "idioma": "en",
+   "ruta": "/en/what-is-craft"
+  },
+  {
+   "titulo": "Home",
+   "idioma": "en",
+   "ruta": "/en/home"
+  },
+  {
+   "titulo": "Consultas Públicas",
+   "idioma": "es",
+   "ruta": "/consultas-publicas"
+  },
+  {
+   "titulo": "Impacto",
+   "idioma": "es",
+   "ruta": "/impacto"
+  },
+  {
+   "titulo": "Contacto",
+   "idioma": "es",
+   "ruta": "/contacto"
+  },
+  {
+   "titulo": "Qué es CRAFT",
+   "idioma": "es",
+   "ruta": "/que-es-craft"
+  },
+  {
+   "titulo": "Inicio",
+   "idioma": "es",
+   "ruta": "/inicio"
+  },
+  {
+   "titulo": "Open Source standard",
+   "idioma": "en",
+   "ruta": "/en/open-source-standard"
+  },
+  {
+   "titulo": "CRAFT Stories",
+   "idioma": "en",
+   "ruta": "/en/craft-stories"
+  },
+  {
+   "titulo": "CRAFT code revision",
+   "idioma": "en",
+   "ruta": "/en/creation-process/craft-code-revision"
+  },
+  {
+   "titulo": "Resources",
+   "idioma": "en",
+   "ruta": "/en/resources-3"
+  },
+  {
+   "titulo": "Press",
+   "idioma": "en",
+   "ruta": "/en/press"
+  },
+  {
+   "titulo": "International recognition",
+   "idioma": "en",
+   "ruta": "/en/craft-stories/international-recognition"
+  },
+  {
+   "titulo": "Prensa",
+   "idioma": "es",
+   "ruta": "/prensa"
+  },
+  {
+   "titulo": "Creation process",
+   "idioma": "en",
+   "ruta": "/en/creation-process"
+  },
+  {
+   "titulo": "Contact",
+   "idioma": "en",
+   "ruta": "/en/contact-3"
+  },
+  {
+   "titulo": "CRAFT v.1 consultation",
+   "idioma": "en",
+   "ruta": "/en/creation-process/craft-v-1-consultation"
+  },
+  {
+   "titulo": "Participative",
+   "idioma": "en",
+   "ruta": "/en/creation-process/participatory-process"
+  },
+  {
+   "titulo": "What is Due Diligence?",
+   "idioma": "en",
+   "ruta": "/en/what-is-craft-3/due-diligence"
+  },
+  {
+   "titulo": "Craft Origins",
+   "idioma": "en",
+   "ruta": "/en/what-is-craft-3/craft-origins"
+  },
+  {
+   "titulo": "Why CRAFT?",
+   "idioma": "en",
+   "ruta": "/en/what-is-craft-3/why-craft"
+  },
+  {
+   "titulo": "What is CRAFT?",
+   "idioma": "en",
+   "ruta": "/en/what-is-craft-3"
+  },
+  {
+   "titulo": "Home",
+   "idioma": "en",
+   "ruta": "/en"
+  },
+  {
+   "titulo": "De fuente abierta",
+   "idioma": "es",
+   "ruta": "/craft-fuente-abierta"
+  },
+  {
+   "titulo": "Reconocimiento internacional",
+   "idioma": "es",
+   "ruta": "/historias-craft/reconocimiento-internacional"
+  },
+  {
+   "titulo": "Contacto",
+   "idioma": "es",
+   "ruta": "/contacto-3"
+  },
+  {
+   "titulo": "Revisión Código CRAFT",
+   "idioma": "es",
+   "ruta": "/creation-process/revision-codigo-craft"
+  },
+  {
+   "titulo": "Consulta CRAFT v.1",
+   "idioma": "es",
+   "ruta": "/creation-process/consulta-craft-v-1"
+  },
+  {
+   "titulo": "Participativo",
+   "idioma": "es",
+   "ruta": "/creation-process/participativo"
+  },
+  {
+   "titulo": "¿Qué es la Debida Diligencia?",
+   "idioma": "es",
+   "ruta": "/que-es-craft-2-2/que-es-debida-diligencia"
+  },
+  {
+   "titulo": "¿Por qué CRAFT?",
+   "idioma": "es",
+   "ruta": "/que-es-craft-2-2/porque-craft"
+  },
+  {
+   "titulo": "Recursos",
+   "idioma": "es",
+   "ruta": "/recursos-3"
+  },
+  {
+   "titulo": "Historias CRAFT",
+   "idioma": "es",
+   "ruta": "/historias-craft"
+  },
+  {
+   "titulo": "Proceso de construcción",
+   "idioma": "es",
+   "ruta": "/creation-process"
+  },
+  {
+   "titulo": "¿Qué es CRAFT?",
+   "idioma": "es",
+   "ruta": "/que-es-craft-2-2"
+  },
+  {
+   "titulo": "Inicio",
+   "idioma": "es",
+   "ruta": "/"
+  }
+ ]
+}

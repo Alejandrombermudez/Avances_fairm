@@ -83,6 +83,7 @@ export const fases: {
     entregable: "Modelo de contenido aprobado, sistema de diseño y prototipos de los tres sitios",
     tareas: [
       { t: "Modelo de contenido", estado: "curso", doc: "modelo-de-contenido" },
+      { t: "Modelo aplicado a CRAFT", estado: "hecho", doc: "craft-organizado" },
       { t: "Cuentas a nombre de ARM", estado: "espera" },
       { t: "Gestor de contenidos, uno por sitio", estado: "pendiente" },
       { t: "Sistema de diseño", estado: "espera" },

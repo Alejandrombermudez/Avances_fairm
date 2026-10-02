@@ -25,6 +25,13 @@ export type Bloque =
   | { k: "tabla"; cabeceras: [string, string]; filas: [string, string][] }
   | { k: "barras"; items: { etiqueta: string; pct: number; n: string }[] }
   | { k: "descarga"; etiqueta: string; url: string; nota: string }
+  | {
+      k: "vista";
+      etiqueta: string;
+      ruta: string;
+      nota: string;
+      cifras: { n: string; t: string }[];
+    }
   | { k: "nota"; titulo: string; texto: string }
   | { k: "puntos"; items: { titulo: string; texto: string }[] };
 
@@ -408,6 +415,93 @@ export const documentos: Record<string, Documento> = {
                 titulo: "Las 44 páginas difíciles están identificadas",
                 texto:
                   "Páginas con maquetación especial que no se resuelven automáticamente. Se rehacen a mano, y ya sabemos cuáles son: no van a aparecer como sorpresa a mitad del proyecto.",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ───────────────────────────────────────────────────────────── */
+  "craft-organizado": {
+    titulo: "CRAFT, con el modelo aplicado",
+    resumen:
+      "El contenido de craftmines.org puesto en la estructura nueva. Nada se escribió de cero: es lo que había, ordenado.",
+    fecha: "2026-10-02",
+    hojas: [
+      {
+        titulo: "Verlo",
+        bloques: [
+          {
+            k: "vista",
+            etiqueta: "Ver CRAFT reorganizado",
+            ruta: "/craft",
+            nota: "Se abre en esta misma página. Es la organización del contenido, no el diseño del sitio: el manual de marca sigue pendiente.",
+            cifras: [
+              { n: "161 → 74", t: "archivos sueltos pasan a fichas de documento" },
+              { n: "61 → 22", t: "registros de cronología pasan a hitos reales" },
+              { n: "60", t: "preguntas salen de dentro de una página" },
+              { n: "3", t: "versiones de la norma, que no existían como tal" },
+            ],
+          },
+        ],
+      },
+      {
+        titulo: "Qué cambió",
+        bloques: [
+          {
+            k: "puntos",
+            items: [
+              {
+                titulo: "La norma pasa a existir",
+                texto:
+                  "CRAFT 1.0, 2.0 y 2.1, cada una con sus volúmenes y sus idiomas. Hasta ahora saber cuál era la vigente obligaba a leer nombres de archivo y adivinar qué significaba *_LOW*, *-clean* o *VersionFinal*.",
+              },
+              {
+                titulo: "Las copias se reconocen solas",
+                texto:
+                  "El código CRAFT 1.0 en inglés estaba subido cuatro veces, en 2020, 2020, 2020 y 2021. Ahora es un archivo con una ficha, y las cuatro direcciones siguen funcionando.",
+              },
+              {
+                titulo: "Apareció un hueco que nadie veía",
+                texto:
+                  "La versión vigente, CRAFT 2.1, está publicada en inglés y portugués. En español solo está la candidata de 2023. Para una norma cuyo público principal son mineros de habla hispana, importa.",
+              },
+              {
+                titulo: "Lo que todavía decide ARM",
+                texto:
+                  "Nueve páginas de la generación anterior siguen publicadas, incluida la portada. Cuál se queda necesita los datos de visitas, que siguen pendientes.",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        titulo: "Cómo se lleva a Sanity",
+        bloques: [
+          {
+            k: "texto",
+            texto:
+              "Todo esto ya está escrito en el formato que el gestor de contenidos espera. *No hay que rehacer nada*: el día que se abra la cuenta a nombre de ARM se importa con un comando y queda igual que en la vista previa.",
+          },
+          {
+            k: "puntos",
+            items: [
+              {
+                titulo: "Los esquemas están listos",
+                texto:
+                  "Las colecciones, los campos y las validaciones. Incluido el campo que conserva las direcciones antiguas, que es lo que cumple el requisito de que los documentos no cambien de enlace.",
+              },
+              {
+                titulo: "La carga es un comando",
+                texto:
+                  "227 fichas en un solo archivo. Se importa, se revisa, y si algo no convence se corrige el programa y se vuelve a cargar. Es repetible, no artesanal.",
+              },
+              {
+                titulo: "Y es el mismo molde para los otros dos",
+                texto:
+                  "CRAFT va primero porque es el más pequeño: 97 direcciones contra 5.759 y 4.513. Lo que se aprenda aquí se aplica a ARM y a Fairmined sin volver a empezar.",
               },
             ],
           },

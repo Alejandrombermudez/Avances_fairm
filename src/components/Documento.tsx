@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { Bloque, Documento as Doc } from "@/data/documentos";
 
@@ -214,6 +215,51 @@ function Pieza({ b }: { b: Bloque }) {
               </div>
             </div>
           ))}
+        </div>
+      );
+
+    case "vista":
+      return (
+        <div className="overflow-hidden rounded-xl border border-linea bg-superficie">
+          <div className="grid gap-x-8 gap-y-6 px-6 py-7 sm:px-8 sm:grid-cols-2">
+            {b.cifras.map((c) => (
+              <div key={c.t} className="flex flex-wrap items-baseline gap-x-3">
+                <span className="font-display text-[26px] leading-none font-light tabular-nums text-tinta">
+                  {c.n}
+                </span>
+                <span className="max-w-[26ch] flex-1 text-[13.5px] leading-snug font-light text-tinta-2">
+                  {c.t}
+                </span>
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-linea bg-crema px-6 py-5 sm:px-8">
+            <Link
+              href={b.ruta}
+              className="group inline-flex items-center gap-3 rounded-full bg-carbon px-6 py-3.5 font-display text-[16px] font-normal text-hueso transition-[background-color,transform] duration-200 hover:bg-[#2b2522] active:scale-[.98]"
+            >
+              {b.etiqueta}
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+                className="transition-transform duration-200 group-hover:translate-x-0.5"
+              >
+                <path
+                  d="M2 8h11M9 3.5 13.5 8 9 12.5"
+                  stroke="currentColor"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Link>
+            <p className="max-w-[40ch] flex-1 text-[13px] leading-relaxed font-light text-tinta-3">
+              {b.nota}
+            </p>
+          </div>
         </div>
       );
 
