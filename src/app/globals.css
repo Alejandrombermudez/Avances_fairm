@@ -132,3 +132,24 @@ body {
     transition: none;
   }
 }
+
+/* ── Marca de CRAFT ───────────────────────────────────────────── */
+/* Los valores salen del arte del manual, no de los RGB impresos: el manual
+   dice RGB 81 33 170 para el café principal, que es un morado. El relleno
+   real de la muestra es #4B1A0C. */
+.craft {
+  --cafe: #4b1a0c;
+  --arena: #fed086;
+  --terracota: #774340;
+  --taupe-craft: #947961;
+  --verde: #35632f;
+  --papel: #fbf7f1;
+  --linea-craft: #e7dbcb;
+
+  background: var(--papel);
+  color: var(--cafe);
+  font-family: var(--font-mulish), ui-sans-serif, system-ui, sans-serif;
+}
+.craft .rotulo {
+  font-family: var(--font-mulish), sans-serif;
+}

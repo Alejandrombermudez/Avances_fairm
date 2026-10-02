@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Josefin_Sans, Poppins } from "next/font/google";
+import { Josefin_Sans, Mulish, Poppins } from "next/font/google";
 import "./globals.css";
 
 const josefin = Josefin_Sans({
@@ -13,6 +13,15 @@ const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500"],
   variable: "--font-poppins",
+  display: "swap",
+});
+
+/* Sustituta de Bw Modelica, la tipografía del manual de CRAFT, que es comercial
+   y no está en la web. Solo se usa en la propuesta de CRAFT. */
+const mulish = Mulish({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-mulish",
   display: "swap",
 });
 
@@ -35,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${josefin.variable} ${poppins.variable}`}>
+    <html lang="es" className={`${josefin.variable} ${poppins.variable} ${mulish.variable}`}>
       <body>{children}</body>
     </html>
   );
