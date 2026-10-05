@@ -87,7 +87,7 @@ export default function Page() {
             {/* El acceso a la vista previa va arriba del todo: es lo único de
                 esta página que se puede abrir y recorrer, no solo leer. */}
             <Link
-              href="/craft"
+              href="/sitio"
               className="group flex items-center gap-2.5 rounded-full border border-ambar/45 px-4 py-2 transition-colors duration-200 hover:border-ambar hover:bg-ambar"
             >
               <span
@@ -95,7 +95,7 @@ export default function Page() {
                 aria-hidden="true"
               />
               <span className="rotulo text-arena transition-colors duration-200 group-hover:text-carbon">
-                Ver CRAFT reorganizado
+                Ver el sitio de CRAFT
               </span>
               <svg
                 width="14"

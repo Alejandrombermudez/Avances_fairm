@@ -1,0 +1,123 @@
+/**
+ * El armazón de la propuesta.
+ *
+ * Es el suyo: barra café de altura fija, logo a la izquierda, menú a la
+ * derecha. Probé con una barra flotante tomada de otro sitio y quedaba bien,
+ * pero no quedaba suyo.
+ *
+ * Las ocho secciones del menú son las de hoy, con los mismos nombres y en el
+ * mismo orden.
+ */
+
+import Image from "next/image";
+import Link from "next/link";
+import Conmutador from "@/components/sitio/Conmutador";
+import { ajustes } from "@/lib/sanity";
+
+export const metadata = {
+  title: { default: "CRAFT · propuesta", template: "%s · propuesta | CRAFT" },
+  robots: { index: false, follow: false },
+};
+
+const MENU = [
+  { t: "Inicio", h: "/propuesta" },
+  { t: "Qué es CRAFT", h: "/que-es-craft" },
+  { t: "Gobernanza y Consultas Públicas", h: "/consultas-publicas" },
+  { t: "Impacto", h: "/impacto" },
+  { t: "Recursos", h: "/propuesta/recursos" },
+  { t: "Preguntas Frecuentes", h: "/propuesta/preguntas" },
+  { t: "Contacto", h: "/contacto" },
+];
+
+export default async function PropuestaLayout({ children }: { children: React.ReactNode }) {
+  const a = await ajustes();
+
+  return (
+    <div className="propuesta min-h-screen">
+      <Conmutador activa="propuesta" />
+
+      <header className="sticky top-0 z-50 bg-cafe">
+        <div className="mx-auto flex max-w-[1180px] items-center gap-x-8 px-6 py-4">
+          <Link href="/sitio/propuesta" className="shrink-0">
+            <Image src="/logo-craft.png" alt="CRAFT" width={133} height={208}
+              className="h-14 w-auto" priority />
+          </Link>
+          <nav className="flex flex-1 flex-wrap items-center justify-end gap-x-6 gap-y-2">
+            {MENU.map((m) => (
+              <Link
+                key={m.t}
+                href={m.h}
+                className="text-[14px] font-semibold text-white transition-opacity hover:opacity-75"
+              >
+                {m.t}
+              </Link>
+            ))}
+            <span className="text-[13px] font-semibold text-white/60">ES | EN</span>
+          </nav>
+        </div>
+      </header>
+
+      {children}
+
+      <footer className="bg-cafe px-6 py-14">
+        <div className="mx-auto grid max-w-[1180px] gap-10 sm:grid-cols-3">
+          <div>
+            <p className="rotulo text-white">Contacto</p>
+            <ul className="mt-4 space-y-1.5">
+              {(a?.footerContacto ?? []).map((c) => (
+                <li key={c}>
+                  <a href={`mailto:${c}`} className="text-[14px] text-white/85 hover:text-white">
+                    {c}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <a href="/sitio/contacto" className="boton boton-claro mt-5 text-[15px]">
+              Escríbenos
+            </a>
+          </div>
+          <div>
+            <p className="rotulo text-white">Síguenos</p>
+            <p className="mt-4 max-w-xs text-[14px] leading-relaxed text-white/85">
+              {a?.footerNota}
+            </p>
+            <ul className="mt-3 space-y-1">
+              {(a?.footerEnlaces ?? []).map((e) => (
+                <li key={e._key}>
+                  <a
+                    href={e.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[14px] text-white/85 underline-offset-2 hover:underline"
+                  >
+                    {e.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="rotulo text-white">Suscríbete</p>
+            <form className="mt-4 space-y-2.5" aria-label="Suscripción al boletín">
+              <input
+                type="text"
+                placeholder="Nombre"
+                disabled
+                className="w-full rounded border border-white/25 bg-white/10 px-3 py-2 text-[14px] text-white placeholder:text-white/50"
+              />
+              <input
+                type="email"
+                placeholder="Correo"
+                disabled
+                className="w-full rounded border border-white/25 bg-white/10 px-3 py-2 text-[14px] text-white placeholder:text-white/50"
+              />
+              <button type="button" disabled className="boton boton-claro w-full text-[15px]">
+                Suscribirse
+              </button>
+            </form>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}

@@ -22,6 +22,16 @@
   --color-linea-2: #e8e3d9;
   --color-superficie: #fbf9f4;
 
+  /* Del sitio de CRAFT. Los que comparten nombre con los de arriba
+     —tinta, linea, arena, taupe— se redefinen dentro de .sitio-craft, no
+     aqui, porque el informe los necesita con sus propios valores. */
+  --color-cafe: #512111;
+  --color-gris: #efefef;
+  --color-suave: #666666;
+  --color-verde: #35632f;
+  --color-terracota: #774340;
+  --color-blanco: #ffffff;
+
   --font-display: var(--font-josefin), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
 }
@@ -153,3 +163,116 @@ body {
 .craft .rotulo {
   font-family: var(--font-mulish), sans-serif;
 }
+
+
+/* ── El sitio de CRAFT ────────────────────────────────────────── */
+/*
+ * Vive dentro de la pagina de avances mientras esto sea una propuesta. Para
+ * que no se mezcle con el informe, todo lo suyo cuelga de .sitio-craft.
+ *
+ * Las utilidades de Tailwind compilan a var(--color-x), asi que redefinir la
+ * variable dentro de este ambito basta: text-tinta sigue existiendo, pero
+ * aqui vale #333 y fuera el carbon del informe.
+ */
+.sitio-craft {
+  --color-tinta: #333333;
+  --color-linea: #e0e0e0;
+  --color-arena: #fed086;
+  --color-taupe: #947961;
+
+  background: #fff;
+  color: var(--color-tinta);
+  font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  .sitio-craft :where(h1, h2, h3, h4) { font-weight: 600; color: inherit; }
+}
+
+/* El boton del sitio actual: cafe, esquinas de 5px */
+.sitio-craft .boton {
+  display: inline-block;
+  background: var(--color-cafe);
+  color: #fff;
+  border-radius: 5px;
+  padding: 11px 34px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  transition: opacity .2s;
+}
+.sitio-craft .boton:hover { opacity: .88; }
+.sitio-craft .boton-claro { background: #fff; color: var(--color-cafe); }
+
+/* ── La propuesta ─────────────────────────────────────────────── */
+/*
+ * Misma letra, mismos colores y misma manera de repartirlos que el sitio de
+ * hoy. Lo que cambia es la organizacion, no el aspecto: a quien ya conoce
+ * craftmines.org esto le tiene que resultar familiar.
+ *
+ * El cafe aparece poco y donde ya aparece hoy: cabecera, pie y botones. El
+ * resto es blanco y gris claro alternando. Inundar de cafe es lo que delataba
+ * que esto lo habia decidido una maquina.
+ *
+ * El manual de imagen da #4B1A0C; el sitio usa #512111. Se respeta el del
+ * sitio, que es el que la gente reconoce. Cual de los dos queda es una
+ * conversacion aparte.
+ */
+.propuesta {
+  --color-cafe: #512111;
+  --color-gris: #efefef;
+  --color-tinta: #333333;
+  --color-suave: #666666;
+  --color-linea: #e0e0e0;
+  --color-arena: #fed086;
+  --color-verde: #35632f;
+
+  --radio-tarjeta: 6px;
+  --sombra-suave: 0 2px 6px rgba(0, 0, 0, .06);
+
+  background: #fff;
+  color: var(--color-tinta);
+  font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Los titulares son los suyos: Poppins 600, sin versalitas ni condensadas. */
+.propuesta .titular {
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+@layer base {
+  .propuesta :where(h1, h2, h3, h4) { font-weight: 600; }
+}
+
+.propuesta .boton {
+  display: inline-block;
+  background: var(--color-cafe);
+  color: #fff;
+  border-radius: 5px;
+  padding: 11px 34px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  transition: opacity .2s;
+}
+.propuesta .boton:hover { opacity: .88; }
+.propuesta .boton-claro { background: #fff; color: var(--color-cafe); }
+
+.propuesta .tarjeta {
+  background: #fff;
+  border: 1px solid var(--color-linea);
+  border-radius: var(--radio-tarjeta);
+}
+
+.propuesta .rotulo {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+/* Los rotulos de procedencia solo se ven cuando se piden. */
+.propuesta .fuente { display: none; }
+.ver-fuentes .propuesta .fuente { display: block; }

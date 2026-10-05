@@ -119,10 +119,10 @@ export default function CraftPreview() {
           </dl>
 
           <Link
-            href="/craft/sitio"
+            href="/sitio"
             className="group mt-10 mr-3 inline-flex items-center gap-3 rounded-full bg-ambar px-5 py-2.5 transition-[background-color,transform] duration-200 hover:bg-[#d49a3b] active:scale-[.98]"
           >
-            <span className="rotulo text-carbon">Ver el sitio funcionando</span>
+            <span className="rotulo text-carbon">Ver el sitio de CRAFT</span>
             <svg
               width="14"
               height="14"
