@@ -2,7 +2,7 @@
  "sitio": "craftmines.org",
  "generado": "data/sanity/craft.ndjson",
  "resumen": {
-  "siteSettings": 1,
+  "topic": 15,
   "standard": 1,
   "standardVersion": 3,
   "publication": 74,
@@ -10,7 +10,8 @@
   "timelineEvent": 22,
   "story": 12,
   "article": 11,
-  "page": 42
+  "page": 48,
+  "translation.metadata": 28
  },
  "norma": {
   "titulo": "Código CRAFT",
@@ -170,7 +171,7 @@
  },
  "documentos": [
   {
-   "titulo": "Acta del Comité CRAFT",
+   "titulo": "Minutes CRAFT Committee 2 Jan 22 2024 1",
    "tipo": "acta",
    "anio": 2024,
    "idiomas": [
@@ -178,7 +179,7 @@
    ]
   },
   {
-   "titulo": "Acta del Comité CRAFT",
+   "titulo": "Minutes CRAFT Committee 1 Nov 20 2023",
    "tipo": "acta",
    "anio": 2023,
    "idiomas": [
@@ -186,7 +187,7 @@
    ]
   },
   {
-   "titulo": "Acta del Comité CRAFT",
+   "titulo": "CRAFT Committee 7 Meeting For 22 July SC Call",
    "tipo": "acta",
    "anio": null,
    "idiomas": [
@@ -194,7 +195,7 @@
    ]
   },
   {
-   "titulo": "Acta del Comité CRAFT",
+   "titulo": "CRAFT Committee 8th Meeting Minutes 04 12 19",
    "tipo": "acta",
    "anio": null,
    "idiomas": [
@@ -202,7 +203,7 @@
    ]
   },
   {
-   "titulo": "Acta del Comité CRAFT",
+   "titulo": "CRAFT Committee 9th Meeting Minutes 26 02 20",
    "tipo": "acta",
    "anio": null,
    "idiomas": [
@@ -210,7 +211,7 @@
    ]
   },
   {
-   "titulo": "Acta del Comité CRAFT",
+   "titulo": "CRAFT Committee 10th Meeting Minutes 05 08 20",
    "tipo": "acta",
    "anio": null,
    "idiomas": [
@@ -218,7 +219,7 @@
    ]
   },
   {
-   "titulo": "Comunicado",
+   "titulo": "Comunicado De Prensa",
    "tipo": "comunicado",
    "anio": null,
    "idiomas": [
@@ -226,7 +227,7 @@
    ]
   },
   {
-   "titulo": "Comunicado",
+   "titulo": "PRESS Release ARM",
    "tipo": "comunicado",
    "anio": null,
    "idiomas": [
@@ -234,7 +235,7 @@
    ]
   },
   {
-   "titulo": "Comunicado",
+   "titulo": "Linked Doc PR CRAFT 2 1 Official Launch Es",
    "tipo": "comunicado",
    "anio": null,
    "idiomas": [
@@ -242,7 +243,7 @@
    ]
   },
   {
-   "titulo": "Folleto CRAFT",
+   "titulo": "CRAFT For Buyers ESP",
    "tipo": "folleto",
    "anio": null,
    "idiomas": [
@@ -250,7 +251,7 @@
    ]
   },
   {
-   "titulo": "Folleto CRAFT",
+   "titulo": "CRAFT For Gov ESP 1",
    "tipo": "folleto",
    "anio": null,
    "idiomas": [
@@ -258,7 +259,7 @@
    ]
   },
   {
-   "titulo": "Folleto CRAFT",
+   "titulo": "CRAFT Para Mineros ESP",
    "tipo": "folleto",
    "anio": null,
    "idiomas": [
@@ -266,7 +267,7 @@
    ]
   },
   {
-   "titulo": "Folleto CRAFT",
+   "titulo": "GUIA Folleto CRAFT M13 C8 Español",
    "tipo": "folleto",
    "anio": null,
    "idiomas": [
@@ -275,7 +276,7 @@
    ]
   },
   {
-   "titulo": "Folleto CRAFT",
+   "titulo": "Folleto CRAFT Frances",
    "tipo": "folleto",
    "anio": null,
    "idiomas": [
@@ -283,7 +284,7 @@
    ]
   },
   {
-   "titulo": "Folleto CRAFT",
+   "titulo": "CRAFT For Buyers ENGL",
    "tipo": "folleto",
    "anio": null,
    "idiomas": [
@@ -291,7 +292,7 @@
    ]
   },
   {
-   "titulo": "Folleto CRAFT",
+   "titulo": "CRAFT For Gov ENGL New",
    "tipo": "folleto",
    "anio": null,
    "idiomas": [
@@ -299,7 +300,7 @@
    ]
   },
   {
-   "titulo": "Folleto CRAFT",
+   "titulo": "CRAFT Para Mineros ENGL 1",
    "tipo": "folleto",
    "anio": null,
    "idiomas": [
@@ -307,7 +308,7 @@
    ]
   },
   {
-   "titulo": "Folleto CRAFT",
+   "titulo": "Brochure CRAFT",
    "tipo": "folleto",
    "anio": null,
    "idiomas": [
@@ -315,7 +316,7 @@
    ]
   },
   {
-   "titulo": "Folleto CRAFT",
+   "titulo": "Info 1 CRAFT UA Scheme 1 1",
    "tipo": "folleto",
    "anio": null,
    "idiomas": [
@@ -323,7 +324,7 @@
    ]
   },
   {
-   "titulo": "Folleto CRAFT",
+   "titulo": "Info 1 CRAFT UA Scheme 1",
    "tipo": "folleto",
    "anio": null,
    "idiomas": [
@@ -331,7 +332,7 @@
    ]
   },
   {
-   "titulo": "Folleto CRAFT",
+   "titulo": "Info 2 CRAFT Code 1",
    "tipo": "folleto",
    "anio": null,
    "idiomas": [
@@ -339,7 +340,7 @@
    ]
   },
   {
-   "titulo": "Folleto CRAFT",
+   "titulo": "Infographic CRAFT Code",
    "tipo": "folleto",
    "anio": null,
    "idiomas": [
@@ -347,7 +348,7 @@
    ]
   },
   {
-   "titulo": "Guía",
+   "titulo": "Temario Del Curso Craft2 0",
    "tipo": "guia",
    "anio": null,
    "idiomas": [
@@ -355,7 +356,7 @@
    ]
   },
   {
-   "titulo": "Herramienta CRAFT",
+   "titulo": "STD CRAFT Risk Assesment Tool Auditors EN",
    "tipo": "herramienta",
    "anio": null,
    "idiomas": [
@@ -363,7 +364,7 @@
    ]
   },
   {
-   "titulo": "Herramienta CRAFT",
+   "titulo": "Herramienta CRAFT Español 1",
    "tipo": "herramienta",
    "anio": null,
    "idiomas": [
@@ -372,7 +373,7 @@
    ]
   },
   {
-   "titulo": "Informe",
+   "titulo": "Scrum Guide Spanish SouthAmerican",
    "tipo": "informe",
    "anio": 2017,
    "idiomas": [
@@ -380,7 +381,7 @@
    ]
   },
   {
-   "titulo": "Informe",
+   "titulo": "CRAFT Final Report 140",
    "tipo": "informe",
    "anio": null,
    "idiomas": [
@@ -388,7 +389,7 @@
    ]
   },
   {
-   "titulo": "Informe",
+   "titulo": "Independent Third Party OECD For CRAFT Code 2 1 1",
    "tipo": "informe",
    "anio": null,
    "idiomas": [
@@ -396,7 +397,7 @@
    ]
   },
   {
-   "titulo": "Plantilla de informe CRAFT",
+   "titulo": "Plantilla Informe CRAFT EN",
    "tipo": "plantilla",
    "anio": 2010,
    "idiomas": [
@@ -404,7 +405,7 @@
    ]
   },
   {
-   "titulo": "Plantilla de informe CRAFT",
+   "titulo": "Plantilla Informe CRAFT Es",
    "tipo": "plantilla",
    "anio": null,
    "idiomas": [
@@ -412,7 +413,7 @@
    ]
   },
   {
-   "titulo": "Plantilla de informe CRAFT",
+   "titulo": "Modele Rapport CRAFT",
    "tipo": "plantilla",
    "anio": null,
    "idiomas": [
@@ -420,7 +421,7 @@
    ]
   },
   {
-   "titulo": "Plantilla de informe CRAFT",
+   "titulo": "CRAFT Report Example",
    "tipo": "plantilla",
    "anio": null,
    "idiomas": [
@@ -428,7 +429,7 @@
    ]
   },
   {
-   "titulo": "Plantilla de informe CRAFT",
+   "titulo": "Plantilla Informe CRAFT Es Ejemplo",
    "tipo": "plantilla",
    "anio": null,
    "idiomas": [
@@ -436,7 +437,7 @@
    ]
   },
   {
-   "titulo": "Plantilla de informe CRAFT",
+   "titulo": "CRAFT Report Template",
    "tipo": "plantilla",
    "anio": null,
    "idiomas": [
@@ -444,7 +445,7 @@
    ]
   },
   {
-   "titulo": "Plantilla de informe CRAFT",
+   "titulo": "Plantilla Informe CRAFT Es Ejemplo",
    "tipo": "plantilla",
    "anio": null,
    "idiomas": [
@@ -452,7 +453,7 @@
    ]
   },
   {
-   "titulo": "Síntesis de consulta",
+   "titulo": "CRAFT 2 0 Stakeholders Comments Processed July2020 Full Xlsx Xlsx 2",
    "tipo": "sintesis",
    "anio": 2020,
    "idiomas": [
@@ -460,7 +461,7 @@
    ]
   },
   {
-   "titulo": "Síntesis de consulta",
+   "titulo": "Annex I CRAFT Stakeholders Comments Public Version",
    "tipo": "sintesis",
    "anio": null,
    "idiomas": [
@@ -468,7 +469,7 @@
    ]
   },
   {
-   "titulo": "Síntesis de consulta",
+   "titulo": "CRAFT 1st Consultation Synopsis",
    "tipo": "sintesis",
    "anio": null,
    "idiomas": [
@@ -476,7 +477,7 @@
    ]
   },
   {
-   "titulo": "Síntesis de consulta",
+   "titulo": "CRAFT 2nd Consultation Synopsis",
    "tipo": "sintesis",
    "anio": null,
    "idiomas": [
@@ -484,7 +485,7 @@
    ]
   },
   {
-   "titulo": "Términos de referencia",
+   "titulo": "Specific ToR CRAFT Committee 2 1 2023 Final",
    "tipo": "tdr",
    "anio": 2023,
    "idiomas": [
@@ -492,7 +493,7 @@
    ]
   },
   {
-   "titulo": "Términos de referencia",
+   "titulo": "Terms Of Reference CRAFT Code 2 1 Revision April 2023 Final",
    "tipo": "tdr",
    "anio": 2023,
    "idiomas": [
@@ -500,7 +501,7 @@
    ]
   },
   {
-   "titulo": "Términos de referencia",
+   "titulo": "TdR Especificos Para El Comite Del CRAFT 2 1 2023 Final",
    "tipo": "tdr",
    "anio": 2023,
    "idiomas": [
@@ -508,7 +509,7 @@
    ]
   },
   {
-   "titulo": "Términos de referencia",
+   "titulo": "Terminos De Referencia Revision CRAFT Code 2 1 Abril 2023 ES",
    "tipo": "tdr",
    "anio": 2023,
    "idiomas": [
@@ -516,7 +517,7 @@
    ]
   },
   {
-   "titulo": "Términos de referencia",
+   "titulo": "Terms Of Reference CRAFT Code Revision June 18 2019",
    "tipo": "tdr",
    "anio": 2019,
    "idiomas": [
@@ -1147,73 +1148,73 @@
    "titulo": "Burkina Faso – Comienza un proyecto para conectar miner@s y mercados formales (con foco mercurio y fortalecimiento organizativo de los grupos mineros) (EN)",
    "lugar": "Burkina Faso",
    "idioma": "en",
-   "extracto": "África"
+   "extracto": ""
   },
   {
    "titulo": "Santa Bárbara – Mineros de 7 comunidades se unen para hacer minería formal (EN)",
    "lugar": "Santa Bárbara",
    "idioma": "en",
-   "extracto": "Latinoamérica"
+   "extracto": ""
   },
   {
    "titulo": "Chocó – proyecto en desarrollo con mineras y mineros artesanales (EN)",
    "lugar": "Chocó",
    "idioma": "en",
-   "extracto": "Latinoamérica"
+   "extracto": ""
   },
   {
    "titulo": "Boyacá – Cooperativa Agrominera Multiactiva de Paipa Ltda. (EN)",
    "lugar": "Boyacá",
    "idioma": "en",
-   "extracto": "Latinoamérica"
+   "extracto": ""
   },
   {
    "titulo": "Nariño – Organización minera pequeña reduce riesgos y exporta con CRAFT (EN)",
    "lugar": "Nariño",
    "idioma": "en",
-   "extracto": "Latinoamérica"
+   "extracto": ""
   },
   {
    "titulo": "cauca-mujeres-seleccionadoras-de-mineral-venden-al-mercado-formal (EN)",
    "lugar": null,
    "idioma": "en",
-   "extracto": "Latinoamérica"
+   "extracto": ""
   },
   {
    "titulo": "Burkina Faso – Comienza un proyecto para conectar miner@s y mercados formales (con foco mercurio y fortalecimiento organizativo de los grupos mineros)",
    "lugar": "Burkina Faso",
    "idioma": "es",
-   "extracto": "África"
+   "extracto": ""
   },
   {
    "titulo": "Santa Bárbara – Mineros de 7 comunidades se unen para hacer minería formal",
    "lugar": "Santa Bárbara",
    "idioma": "es",
-   "extracto": "Latinoamérica"
+   "extracto": ""
   },
   {
    "titulo": "Chocó – proyecto en desarrollo con mineras y mineros artesanales",
    "lugar": "Chocó",
    "idioma": "es",
-   "extracto": "Latinoamérica"
+   "extracto": ""
   },
   {
    "titulo": "Boyacá – Cooperativa Agrominera Multiactiva de Paipa Ltda.",
    "lugar": "Boyacá",
    "idioma": "es",
-   "extracto": "Latinoamérica"
+   "extracto": ""
   },
   {
    "titulo": "Nariño – Organización minera pequeña reduce riesgos y exporta con CRAFT",
    "lugar": "Nariño",
    "idioma": "es",
-   "extracto": "Latinoamérica"
+   "extracto": ""
   },
   {
    "titulo": "Cauca – Mujeres seleccionadoras de mineral venden al mercado formal",
    "lugar": "Cauca",
    "idioma": "es",
-   "extracto": "Latinoamérica"
+   "extracto": ""
   }
  ],
  "articulos": [
@@ -1300,6 +1301,11 @@
    "ruta": "/en/contact"
   },
   {
+   "titulo": "FAQ",
+   "idioma": "en",
+   "ruta": "/en/faq"
+  },
+  {
    "titulo": "Impact",
    "idioma": "en",
    "ruta": "/en/impact"
@@ -1325,6 +1331,11 @@
    "ruta": "/impacto"
   },
   {
+   "titulo": "Preguntas Frecuentes",
+   "idioma": "es",
+   "ruta": "/preguntas-frecuentes"
+  },
+  {
    "titulo": "Contacto",
    "idioma": "es",
    "ruta": "/contacto"
@@ -1338,6 +1349,16 @@
    "titulo": "Inicio",
    "idioma": "es",
    "ruta": "/inicio"
+  },
+  {
+   "titulo": "Frequently asked questions",
+   "idioma": "en",
+   "ruta": "/en/craft-stories/frequently-asked-questions"
+  },
+  {
+   "titulo": "Chronology",
+   "idioma": "en",
+   "ruta": "/en/creation-process/chronology"
   },
   {
    "titulo": "Open Source standard",
@@ -1363,6 +1384,11 @@
    "titulo": "Press",
    "idioma": "en",
    "ruta": "/en/press"
+  },
+  {
+   "titulo": "Preguntas frecuentes",
+   "idioma": "es",
+   "ruta": "/historias-craft/preguntas-frecuentes-3"
   },
   {
    "titulo": "International recognition",
@@ -1423,6 +1449,11 @@
    "titulo": "De fuente abierta",
    "idioma": "es",
    "ruta": "/craft-fuente-abierta"
+  },
+  {
+   "titulo": "Cronología",
+   "idioma": "es",
+   "ruta": "/creation-process/cronologia"
   },
   {
    "titulo": "Reconocimiento internacional",
