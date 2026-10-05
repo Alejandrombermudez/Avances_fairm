@@ -13,6 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ajustes, articulos, historias, hitos, norma, urlImagen, type Banda } from "@/lib/sanity";
 import Idiomas from "@/components/sitio/Idiomas";
+import { ruta } from "@/lib/rutas";
 
 export const revalidate = 3600;
 
@@ -27,7 +28,7 @@ function Botones({ b }: { b: Banda }) {
   return (
     <div className="mt-8 flex flex-wrap justify-center gap-4">
       {b.botones.map((x) => (
-        <Link key={x._key} href={x.url} className="boton">
+        <Link key={x._key} href={ruta(x.url)} className="boton">
           {x.etiqueta}
         </Link>
       ))}

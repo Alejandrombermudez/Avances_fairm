@@ -160,9 +160,17 @@ export const documentosSueltos = () =>
   );
 
 export const historias = (idioma: Idioma = "es") =>
-  cliente.fetch<{ _id: string; title: string; place: string | null; slug: string | null }[]>(
+  cliente.fetch<
+    {
+      _id: string;
+      title: string;
+      place: string | null;
+      slug: string | null;
+      excerpt: string | null;
+    }[]
+  >(
     `*[_type == "story" && "craft" in sites && language == $idioma]{
-      _id, title, place, "slug": slug.current}`,
+      _id, title, place, excerpt, "slug": slug.current}`,
     { idioma },
   );
 
@@ -173,11 +181,101 @@ export const hitos = (idioma: Idioma = "es") =>
     { idioma },
   );
 
-export const articulos = (idioma: Idioma = "es") =>
-  cliente.fetch<{ _id: string; title: string; publishedAt: string; slug: string | null }[]>(
-    `*[_type == "article" && "craft" in sites && language == $idioma] | order(publishedAt desc){
-      _id, title, publishedAt, "slug": slug.current}`,
+export const articulos = (idioma: Idioma = "es", cuantos?: number) =>
+  cliente.fetch<
+    {
+      _id: string;
+      title: string;
+      publishedAt: string;
+      slug: string | null;
+      excerpt: string | null;
+      temas: string[] | null;
+    }[]
+  >(
+    `*[_type == "article" && "craft" in sites && language == $idioma]
+      | order(publishedAt desc)${typeof cuantos === "number" ? `[0...${cuantos}]` : ""}{
+      _id, title, publishedAt, excerpt, "slug": slug.current, "temas": topics[]->title}`,
     { idioma },
+  );
+
+/* ── Las fichas de lo que se escribe ────────────────────────────── */
+/**
+ * El articulo y la historia completos.
+ *
+ * Hasta ahora los dos se quedaban en la tarjeta de la portada: el cuerpo
+ * estaba en Sanity —entre 7 y 48 bloques por articulo— y no habia pagina
+ * donde leerlo. Eran los dos unicos tipos con texto largo sin salida.
+ */
+export type Articulo = {
+  _id: string;
+  title: string;
+  slug: string | null;
+  excerpt: string | null;
+  publishedAt: string;
+  body: unknown[] | null;
+  portada: unknown | null;
+  temas: string[] | null;
+  autores: string[] | null;
+  paises: string[] | null;
+  idioma: Idioma | null;
+  rutas: string[] | null;
+};
+
+const CAMPOS_ARTICULO = `
+  _id, title, excerpt, publishedAt, body,
+  "slug": slug.current,
+  "portada": heroImage,
+  "temas": topics[]->title,
+  "autores": authors[]->name,
+  "paises": countries[]->title,
+  "idioma": language,
+  "rutas": legacyPaths
+`;
+
+export const articulo = (slug: string) =>
+  cliente.fetch<Articulo | null>(
+    `*[_type == "article" && "craft" in sites && slug.current == $slug][0]{${CAMPOS_ARTICULO}}`,
+    { slug },
+  );
+
+export const slugsDeArticulo = () =>
+  cliente.fetch<string[]>(
+    `*[_type == "article" && "craft" in sites && defined(slug.current)].slug.current`,
+  );
+
+export type Historia = {
+  _id: string;
+  title: string;
+  slug: string | null;
+  place: string | null;
+  excerpt: string | null;
+  body: unknown[] | null;
+  portada: unknown | null;
+  pais: string | null;
+  temas: string[] | null;
+  idioma: Idioma | null;
+  rutas: string[] | null;
+};
+
+const CAMPOS_HISTORIA = `
+  _id, title, place, excerpt, body,
+  "slug": slug.current,
+  "portada": heroImage,
+  "pais": country->title,
+  "temas": topics[]->title,
+  "idioma": language,
+  "rutas": legacyPaths
+`;
+
+export const historia = (slug: string) =>
+  cliente.fetch<Historia | null>(
+    `*[_type == "story" && "craft" in sites && slug.current == $slug][0]{${CAMPOS_HISTORIA}}`,
+    { slug },
+  );
+
+export const slugsDeHistoria = () =>
+  cliente.fetch<string[]>(
+    `*[_type == "story" && "craft" in sites && defined(slug.current)].slug.current`,
   );
 
 export const preguntas = (idioma: Idioma = "es") =>

@@ -13,6 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Conmutador from "@/components/sitio/Conmutador";
 import { ajustes } from "@/lib/sanity";
+import { ruta } from "@/lib/rutas";
 
 export const metadata = {
   title: { default: "CRAFT · propuesta", template: "%s · propuesta | CRAFT" },
@@ -46,7 +47,7 @@ export default async function PropuestaLayout({ children }: { children: React.Re
             {MENU.map((m) => (
               <Link
                 key={m.t}
-                href={m.h}
+                href={ruta(m.h)}
                 className="text-[14px] font-semibold text-white transition-opacity hover:opacity-75"
               >
                 {m.t}
@@ -72,7 +73,7 @@ export default async function PropuestaLayout({ children }: { children: React.Re
                 </li>
               ))}
             </ul>
-            <a href="/sitio/contacto" className="boton boton-claro mt-5 text-[15px]">
+            <a href={ruta("/contacto")} className="boton boton-claro mt-5 text-[15px]">
               Escríbenos
             </a>
           </div>

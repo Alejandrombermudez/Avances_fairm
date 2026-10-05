@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Conmutador from "@/components/sitio/Conmutador";
 import { ajustes } from "@/lib/sanity";
+import { ruta } from "@/lib/rutas";
 
 export const metadata = { title: { default: "Craft Mines", template: "%s | Craft Mines" } };
 
@@ -37,7 +38,7 @@ export default async function ActualLayout({ children }: { children: React.React
             </Link>
             <nav className="flex flex-1 flex-wrap items-center justify-end gap-x-6 gap-y-2">
               {MENU.map((m) => (
-                <Link key={m.t} href={m.h}
+                <Link key={m.t} href={ruta(m.h)}
                   className="text-[14px] font-semibold text-white transition-opacity hover:opacity-75">
                   {m.t}
                 </Link>

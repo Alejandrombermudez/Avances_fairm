@@ -28,6 +28,8 @@ import {
   urlImagen,
   type Banda,
 } from "@/lib/sanity";
+import { ruta } from "@/lib/rutas";
+import { fechaLarga } from "@/lib/fecha";
 import Icono from "@/components/sitio/Icono";
 import InterruptorFuentes from "@/components/sitio/InterruptorFuentes";
 
@@ -44,7 +46,7 @@ export default async function PortadaPropuesta() {
     norma(),
     historias(),
     hitos(),
-    articulos(),
+    articulos("es", 6),
   ]);
 
   const bandas = a?.bandas ?? [];
@@ -105,7 +107,7 @@ export default async function PortadaPropuesta() {
             ))}
           </div>
           {porque?.botones?.[0] && (
-            <Link href={porque.botones[0].url} className="boton mt-10">
+            <Link href={ruta(porque.botones[0].url)} className="boton mt-10">
               {porque.botones[0].etiqueta}
             </Link>
           )}
@@ -175,7 +177,7 @@ export default async function PortadaPropuesta() {
                     Descarga CRAFT {vigente.version}
                   </Link>
                 )}
-                <Link href="/sitio/propuesta/recursos" className="boton bg-transparent text-cafe"
+                <Link href={ruta("/propuesta/recursos")} className="boton bg-transparent text-cafe"
                   style={{ border: "1px solid var(--color-cafe)" }}>
                   Versiones anteriores
                 </Link>
@@ -197,12 +199,21 @@ export default async function PortadaPropuesta() {
           </div>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {hist.map((h) => (
-              <article key={h._id} className="tarjeta p-6">
+              <Link
+                key={h._id}
+                href={ruta(`/propuesta/historias/${h.slug}`)}
+                className="tarjeta block p-6 transition-colors hover:border-cafe"
+              >
                 {h.place && <p className="rotulo text-cafe">{h.place}</p>}
                 <h3 className="mt-2.5 text-[17px] leading-snug font-normal">
                   {h.title.replace(/^[^–]+–\s*/, "")}
                 </h3>
-              </article>
+                {h.excerpt && (
+                  <p className="mt-3 text-[14px] leading-relaxed font-light text-suave">
+                    {h.excerpt.length > 150 ? `${h.excerpt.slice(0, 150).trimEnd()}…` : h.excerpt}
+                  </p>
+                )}
+              </Link>
             ))}
           </div>
         </div>
@@ -237,7 +248,7 @@ export default async function PortadaPropuesta() {
 
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             {(como?.botones ?? []).map((b) => (
-              <Link key={b._key} href={b.url} className="boton boton-claro">
+              <Link key={b._key} href={ruta(b.url)} className="boton boton-claro">
                 {b.etiqueta}
               </Link>
             ))}
@@ -254,11 +265,20 @@ export default async function PortadaPropuesta() {
           </div>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {art.map((x) => (
-              <article key={x._id} className="tarjeta p-6">
-                <p className="text-[13px] font-light text-suave">{x.publishedAt?.slice(0, 10)}</p>
+              <Link
+                key={x._id}
+                href={ruta(`/propuesta/noticias/${x.slug}`)}
+                className="tarjeta block p-6 transition-colors hover:border-cafe"
+              >
+                <p className="text-[13px] font-light text-suave">{fechaLarga(x.publishedAt)}</p>
                 <h3 className="mt-2 text-[17px] leading-snug font-normal">{x.title}</h3>
-              </article>
+              </Link>
             ))}
+          </div>
+          <div className="mt-12 text-center">
+            <Link href={ruta("/propuesta/noticias")} className="boton">
+              Ver todas las noticias
+            </Link>
           </div>
         </div>
       </section>
