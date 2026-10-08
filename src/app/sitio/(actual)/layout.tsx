@@ -9,18 +9,9 @@ import Link from "next/link";
 import Conmutador from "@/components/sitio/Conmutador";
 import Navegacion from "@/components/sitio/Navegacion";
 import { ajustes } from "@/lib/sanity";
+import { menuDe } from "@/lib/menu";
 
 export const metadata = { title: { default: "Craft Mines", template: "%s | Craft Mines" } };
-
-const MENU = [
-  { t: "Inicio", h: "/" },
-  { t: "Qué es CRAFT", h: "/que-es-craft" },
-  { t: "Gobernanza y Consultas Públicas", h: "/consultas-publicas" },
-  { t: "Impacto", h: "/impacto" },
-  { t: "Recursos", h: "/recursos" },
-  { t: "Preguntas Frecuentes", h: "/preguntas-frecuentes" },
-  { t: "Contacto", h: "/contacto" },
-];
 
 /** El armazon de la pagina tal como esta hoy. */
 export default async function ActualLayout({ children }: { children: React.ReactNode }) {
@@ -29,7 +20,7 @@ export default async function ActualLayout({ children }: { children: React.React
   return (
     <>
       <Conmutador activa="actual" />
-        <Navegacion menu={MENU} inicio="/" />
+        <Navegacion menu={menuDe(a)} inicio="/" />
 
         {children}
 

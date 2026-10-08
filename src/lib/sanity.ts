@@ -164,6 +164,7 @@ export type Ajustes = {
   title: string;
   tagline: string;
   languages: Idioma[];
+  menu: { _key: string; t: string | null; slug: string | null; url: string | null }[] | null;
   bandas: Banda[] | null;
   footerContacto: string[] | null;
   footerNota: string | null;
@@ -174,6 +175,7 @@ export const ajustes = () =>
   cliente.fetch<Ajustes | null>(
     `*[_type == "siteSettings" && site == "craft"][0]{
       title, tagline, languages,
+      "menu": mainNav[]{_key, "t": label, "slug": page->slug.current, url},
       "bandas": homeSections[]{
         _key, tipo, titulo, texto, fondo, imagen, tarjetas, botones, listado, cuantos
       },

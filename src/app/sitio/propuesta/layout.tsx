@@ -13,22 +13,13 @@ import Link from "next/link";
 import Conmutador from "@/components/sitio/Conmutador";
 import Navegacion from "@/components/sitio/Navegacion";
 import { ajustes } from "@/lib/sanity";
+import { menuDe } from "@/lib/menu";
 import { rutaPropuesta } from "@/lib/rutas";
 
 export const metadata = {
   title: { default: "CRAFT · propuesta", template: "%s · propuesta | CRAFT" },
   robots: { index: false, follow: false },
 };
-
-const MENU = [
-  { t: "Inicio", h: "/" },
-  { t: "Qué es CRAFT", h: "/que-es-craft" },
-  { t: "Gobernanza y Consultas Públicas", h: "/consultas-publicas" },
-  { t: "Impacto", h: "/impacto" },
-  { t: "Recursos", h: "/recursos" },
-  { t: "Preguntas Frecuentes", h: "/propuesta/preguntas" },
-  { t: "Contacto", h: "/contacto" },
-];
 
 export default async function PropuestaLayout({ children }: { children: React.ReactNode }) {
   const a = await ajustes();
@@ -37,7 +28,7 @@ export default async function PropuestaLayout({ children }: { children: React.Re
     <div className="propuesta min-h-screen">
       <Conmutador activa="propuesta" />
 
-      <Navegacion menu={MENU} inicio="/propuesta" enPropuesta />
+      <Navegacion menu={menuDe(a)} inicio="/" enPropuesta />
 
       {children}
 

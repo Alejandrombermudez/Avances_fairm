@@ -24,8 +24,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { ruta, rutaPropuesta } from "@/lib/rutas";
+import type { Entrada } from "@/lib/menu";
 
-export type Entrada = { t: string; h: string };
 
 /**
  * Cual de las dos versiones del sitio es esta.
