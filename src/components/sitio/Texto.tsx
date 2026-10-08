@@ -28,14 +28,33 @@ import { NOMBRE_TIPO, nombre } from "@/components/sitio/FichaDocumento";
  */
 type Tono = "pagina" | "prosa";
 
-type Boton = {
+/** Un archivo de un documento de la biblioteca. */
+type ArchivoDe = {
   _key: string;
-  etiqueta?: string;
-  descripcion?: string;
-  enlace?: string;
+  lang?: string;
   url?: string | null;
   formato?: string | null;
   peso?: number | null;
+};
+
+/** Lo que una pieza enlaza cuando es algo de este mismo sitio. */
+type Destino = { _type: string; slug?: string | null; archivos?: ArchivoDe[] | null } | null;
+
+/** Lo que tiene cualquier pieza que lleva a algún sitio. */
+type ConDestino = {
+  destino?: Destino;
+  claveArchivo?: string;
+  url?: string | null;
+  enlace?: string;
+  href?: string;
+  formato?: string | null;
+  peso?: number | null;
+};
+
+type Boton = ConDestino & {
+  _key: string;
+  etiqueta?: string;
+  descripcion?: string;
 };
 
 type Tarjeta = {
@@ -66,6 +85,45 @@ function resolvedor(enPropuesta: boolean) {
     if (d === RAIZ || d.startsWith(`${RAIZ}/`)) return { href: d, fuera: false };
     return { href: enPropuesta ? rutaPropuesta(d) : ruta(d), fuera: false };
   };
+}
+
+/**
+ * A dónde lleva una pieza.
+ *
+ * Si enlaza algo de este sitio, la dirección se saca de ese algo: el archivo,
+ * del documento de la biblioteca; la página, de su dirección de hoy. La
+ * página que enlaza no guarda copia, así que cambiar el archivo en el
+ * documento lo cambia en todas partes.
+ *
+ * De un documento con varios archivos se toma el que la pieza señale —un
+ * botón «Descarga Word» apunta al Word—; si no señala ninguno, el español; y
+ * si tampoco, el primero. Las historias y las noticias solo tienen página en
+ * la propuesta: en la réplica vale la dirección original, si la hay.
+ */
+function destinoDe(
+  p: ConDestino,
+  enPropuesta: boolean,
+): { a: string | null; formato?: string | null; peso?: number | null } {
+  const d = p.destino;
+  if (d?._type === "publication") {
+    const archivos = (d.archivos ?? []).filter((x) => x.url);
+    const elegido =
+      archivos.find((x) => x._key === p.claveArchivo) ??
+      archivos.find((x) => x.lang === "es") ??
+      archivos[0];
+    if (elegido) {
+      return {
+        a: elegido.url as string,
+        formato: elegido.formato ?? extension(elegido.url),
+        peso: elegido.peso,
+      };
+    }
+    if (enPropuesta && d.slug) return { a: `/propuesta/documentos/${d.slug}` };
+  }
+  if (d?._type === "page" && d.slug) return { a: `/${d.slug}` };
+  if (enPropuesta && d?._type === "story" && d.slug) return { a: `/propuesta/historias/${d.slug}` };
+  if (enPropuesta && d?._type === "article" && d.slug) return { a: `/propuesta/noticias/${d.slug}` };
+  return { a: p.url ?? p.enlace ?? p.href ?? null, formato: p.formato, peso: p.peso };
 }
 
 const atributos = (fuera: boolean) =>
@@ -194,7 +252,7 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
 
       /* El enlace que baja un archivo lo dice, con su formato al lado. */
       link: ({ children, value }) => {
-        const { href, fuera } = resolver((value as { href?: string })?.href);
+        const { href, fuera } = resolver(destinoDe(value as ConDestino, enPropuesta).a);
         const formato = extension(href);
         return (
           <a
@@ -208,25 +266,6 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
                 {formato.toUpperCase()}
               </span>
             )}
-          </a>
-        );
-      },
-
-      /* El enlace a una ficha de la biblioteca. En la propuesta lleva a la
-         ficha; en la réplica, que no tiene fichas, al archivo. */
-      refDocumento: ({ children, value }) => {
-        const v = value as { slug?: string | null; archivo?: string | null };
-        const destino =
-          enPropuesta && v.slug ? `/propuesta/documentos/${v.slug}` : (v.archivo ?? null);
-        if (!destino) return <>{children}</>;
-        const { href, fuera } = resolver(destino);
-        return (
-          <a
-            href={href}
-            className="text-cafe underline decoration-1 underline-offset-2 transition-opacity hover:opacity-70"
-            {...atributos(fuera)}
-          >
-            {children}
           </a>
         );
       },
@@ -268,16 +307,16 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
 
       /** Imagen a la izquierda, título y texto a la derecha. En móvil se apila. */
       cajaImagen: ({ value }) => {
-        const v = value as {
+        const v = value as ConDestino & {
           imagen?: unknown;
           alt?: string;
           titulo?: string;
           texto?: string;
-          enlace?: string;
         };
-        const { href, fuera } = resolver(v.enlace);
+        const lleva = destinoDe(v, enPropuesta);
+        const { href, fuera } = resolver(lleva.a);
         const enlazar = (hijo: React.ReactNode) =>
-          v.enlace ? (
+          lleva.a ? (
             <a href={href} className="transition-opacity hover:opacity-70" {...atributos(fuera)}>
               {hijo}
             </a>
@@ -287,7 +326,7 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
         /* Sin título, el texto hace de título: es el nombre del documento. */
         const titulo = v.titulo ?? v.texto;
         const texto = v.titulo ? v.texto : undefined;
-        const formato = extension(v.enlace);
+        const formato = lleva.formato ?? extension(href);
         return (
           <div className="my-6 flex flex-col gap-5 sm:flex-row sm:items-start">
             {!!v.imagen && (
@@ -329,7 +368,7 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
        */
       botones: ({ value }) => {
         const items = ((value as { items?: Boton[] }).items ?? []).filter(
-          (i) => i.url ?? i.enlace,
+          (i) => destinoDe(i, enPropuesta).a,
         );
         if (!items.length) return null;
         return (
@@ -337,8 +376,9 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
             className={`my-6 grid gap-3 ${items.length > 1 ? "sm:grid-cols-2" : "sm:max-w-[440px]"}`}
           >
             {items.map((i) => {
-              const { href, fuera } = resolver(i.url ?? i.enlace);
-              const formato = i.formato ?? extension(href);
+              const lleva = destinoDe(i, enPropuesta);
+              const { href, fuera } = resolver(lleva.a);
+              const formato = lleva.formato ?? extension(href);
               return (
                 <li key={i._key}>
                   <a
@@ -358,9 +398,9 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
                       )}
                       {/* El formato ya lo dice la hoja; la línea solo aparece
                           cuando además se sabe el peso, que es en los subidos. */}
-                      {i.peso ? (
+                      {lleva.peso ? (
                         <span className="mt-1.5 block text-[11.5px] font-light text-suave">
-                          {fichaDeArchivo(formato, i.peso)}
+                          {fichaDeArchivo(formato, lleva.peso)}
                         </span>
                       ) : null}
                     </span>
@@ -394,7 +434,10 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
         const conMarco = items.some(
           (i) =>
             (i.ancho ?? 0) > 100 ||
-            (i.botones ?? []).some((b) => b.formato ?? extension(b.url ?? b.enlace)),
+            (i.botones ?? []).some((b) => {
+              const lleva = destinoDe(b, enPropuesta);
+              return lleva.formato ?? extension(lleva.a);
+            }),
         );
         const tope = conMarco ? 92 : 76;
         return (
@@ -402,7 +445,7 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
             {items.map((i) => {
               const ancho = Math.min(i.ancho ?? tope, tope);
               const alto = i.ancho && i.alto ? Math.round((ancho * i.alto) / i.ancho) : ancho;
-              const botones = (i.botones ?? []).filter((b) => b.url ?? b.enlace);
+              const botones = (i.botones ?? []).filter((b) => destinoDe(b, enPropuesta).a);
               return (
                 <li
                   key={i._key}
@@ -431,8 +474,9 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
                   {botones.length > 0 && (
                     <div className="mt-auto flex flex-col items-center gap-2 pt-4">
                       {botones.map((b) => {
-                        const { href, fuera } = resolver(b.url ?? b.enlace);
-                        const formato = b.formato ?? extension(href);
+                        const lleva = destinoDe(b, enPropuesta);
+                        const { href, fuera } = resolver(lleva.a);
+                        const formato = lleva.formato ?? extension(href);
                         return formato ? (
                           <a
                             key={b._key}

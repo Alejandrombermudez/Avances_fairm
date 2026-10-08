@@ -64,7 +64,7 @@ const ESTUDIO =
  */
 const SIN_MARCA = new Set([
   "tipo", "fondo", "listado", "icono", "columnas",
-  "accent", "lang", "volumeLabel", "extension",
+  "accent", "lang", "volumeLabel", "extension", "claveArchivo",
   "enlace", "footerContacto", "languages", "audiences", "sites",
 ]);
 
@@ -185,8 +185,27 @@ const CAMPOS_DOC = `
  * estiraba al ancho de la columna, y en «Qué es CRAFT» un icono de descarga
  * de 49x54 salía a 688 píxeles.
  */
+/**
+ * A dónde apunta una pieza que enlaza algo de este mismo sitio. Del documento
+ * se traen sus archivos, para que la dirección salga de la biblioteca en el
+ * momento de dibujar y no de una copia guardada en la página.
+ */
+const DESTINO = `
+  "destino": destino->{
+    _type,
+    "slug": slug.current,
+    "archivos": files[]{
+      _key, lang,
+      "url": coalesce(externalUrl, file.asset->url),
+      "formato": file.asset->extension,
+      "peso": file.asset->size
+    }
+  }
+`;
+
 const BOTON = `
   ...,
+  ${DESTINO},
   "url": coalesce(enlace, archivo.asset->url),
   "formato": archivo.asset->extension,
   "peso": archivo.asset->size
@@ -200,13 +219,8 @@ const MEDIDAS = `
 const CUERPO = `
   body[]{
     ...,
-    markDefs[]{
-      ...,
-      _type == "refDocumento" => {
-        "slug": doc->slug.current,
-        "archivo": coalesce(doc->files[0].externalUrl, doc->files[0].file.asset->url)
-      }
-    },
+    markDefs[]{ ..., ${DESTINO} },
+    _type == "cajaImagen" => { ..., ${DESTINO} },
     _type == "imagen" => { ..., ${MEDIDAS} },
     _type == "botones" => { ..., items[]{ ${BOTON} } },
     _type == "tarjetas" => {
