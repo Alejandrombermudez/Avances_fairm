@@ -33,3 +33,22 @@ export function ruta(destino: string | null | undefined): string {
 /** Si al hacer clic se sale del sitio: para target y rel. */
 export const esExterna = (destino: string | null | undefined) =>
   EXTERNA.test((destino ?? "").trim());
+
+/**
+ * Lo mismo, pero dentro de la propuesta.
+ *
+ * Las dos versiones del sitio sirven el mismo contenido del mismo gestor, y
+ * cada una tiene su propia direccion para cada pagina: /sitio/que-es-craft es
+ * la replica y /sitio/propuesta/que-es-craft es la propuesta. Los menus y los
+ * botones se escriben una sola vez —/que-es-craft— y cada lado los resuelve
+ * con su funcion, asi no hay dos listas que mantener sincronizadas.
+ */
+export function rutaPropuesta(destino: string | null | undefined): string {
+  const d = (destino ?? "").trim();
+  if (EXTERNA.test(d)) return d;
+
+  const limpio = d.replace(/\/+$/, "");
+  if (!limpio || limpio === "/") return ruta("/propuesta");
+  if (limpio.startsWith("/propuesta")) return ruta(limpio);
+  return ruta("/propuesta" + (limpio.startsWith("/") ? limpio : "/" + limpio));
+}

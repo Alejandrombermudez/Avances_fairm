@@ -23,25 +23,37 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { ruta } from "@/lib/rutas";
+import { ruta, rutaPropuesta } from "@/lib/rutas";
 
 export type Entrada = { t: string; h: string };
+
+/**
+ * Cual de las dos versiones del sitio es esta.
+ *
+ * El menu se escribe una sola vez —/que-es-craft— y cada lado lo resuelve a
+ * lo suyo: la replica a /sitio/que-es-craft, la propuesta a
+ * /sitio/propuesta/que-es-craft. Va como bandera y no como funcion porque
+ * esto corre en el navegador y una funcion no cruza desde el servidor.
+ */
 
 export default function Navegacion({
   menu,
   inicio,
   idiomas = "ES | EN",
+  enPropuesta = false,
 }: {
   menu: Entrada[];
   inicio: string;
   idiomas?: string;
+  enPropuesta?: boolean;
 }) {
   const [abierto, setAbierto] = useState(false);
+  const resolver = enPropuesta ? rutaPropuesta : ruta;
 
   return (
     <header className="sticky top-0 z-50 bg-cafe">
       <div className="mx-auto flex h-20 max-w-[1180px] items-center gap-x-8 px-6 min-[980px]:h-[130px]">
-        <Link href={ruta(inicio)} className="shrink-0 self-start" onClick={() => setAbierto(false)}>
+        <Link href={resolver(inicio)} className="shrink-0 self-start" onClick={() => setAbierto(false)}>
           <Image
             src="/logo-craft.png"
             alt="CRAFT"
@@ -57,7 +69,7 @@ export default function Navegacion({
           {menu.map((m) => (
             <Link
               key={m.t}
-              href={ruta(m.h)}
+              href={resolver(m.h)}
               className="text-[14px] font-semibold text-white transition-opacity hover:opacity-75"
             >
               {m.t}
@@ -94,7 +106,7 @@ export default function Navegacion({
             {menu.map((m) => (
               <li key={m.t} className="border-b border-white/10 last:border-0">
                 <Link
-                  href={ruta(m.h)}
+                  href={resolver(m.h)}
                   onClick={() => setAbierto(false)}
                   className="block py-3 text-[15px] font-semibold text-white transition-opacity hover:opacity-75"
                 >

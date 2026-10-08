@@ -28,7 +28,7 @@ import {
   urlImagen,
   type Banda,
 } from "@/lib/sanity";
-import { ruta } from "@/lib/rutas";
+import { rutaPropuesta } from "@/lib/rutas";
 import { fechaLarga } from "@/lib/fecha";
 import Icono from "@/components/sitio/Icono";
 import InterruptorFuentes from "@/components/sitio/InterruptorFuentes";
@@ -128,7 +128,7 @@ export default async function PortadaPropuesta() {
             ))}
           </div>
           {porque?.botones?.[0] && (
-            <Link href={ruta(porque.botones[0].url)} className="boton mt-10">
+            <Link href={rutaPropuesta(porque.botones[0].url)} className="boton mt-10">
               {porque.botones[0].etiqueta}
             </Link>
           )}
@@ -198,7 +198,7 @@ export default async function PortadaPropuesta() {
                     Descarga CRAFT {vigente.version}
                   </Link>
                 )}
-                <Link href={ruta("/propuesta/recursos")} className="boton bg-transparent text-cafe"
+                <Link href={rutaPropuesta("/propuesta/recursos")} className="boton bg-transparent text-cafe"
                   style={{ border: "1px solid var(--color-cafe)" }}>
                   Versiones anteriores
                 </Link>
@@ -222,7 +222,7 @@ export default async function PortadaPropuesta() {
             {hist.map((h) => (
               <Link
                 key={h._id}
-                href={ruta(`/propuesta/historias/${h.slug}`)}
+                href={rutaPropuesta(`/propuesta/historias/${h.slug}`)}
                 className="tarjeta block p-6 transition-colors hover:border-cafe"
               >
                 {h.place && <p className="rotulo text-cafe">{h.place}</p>}
@@ -269,7 +269,7 @@ export default async function PortadaPropuesta() {
 
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             {(como?.botones ?? []).map((b) => (
-              <Link key={b._key} href={ruta(b.url)} className="boton boton-claro">
+              <Link key={b._key} href={rutaPropuesta(b.url)} className="boton boton-claro">
                 {b.etiqueta}
               </Link>
             ))}
@@ -288,7 +288,7 @@ export default async function PortadaPropuesta() {
             {art.map((x) => (
               <Link
                 key={x._id}
-                href={ruta(`/propuesta/noticias/${x.slug}`)}
+                href={rutaPropuesta(`/propuesta/noticias/${x.slug}`)}
                 className="tarjeta block p-6 transition-colors hover:border-cafe"
               >
                 <p className="text-[13px] font-light text-suave">{fechaLarga(x.publishedAt)}</p>
@@ -297,7 +297,7 @@ export default async function PortadaPropuesta() {
             ))}
           </div>
           <div className="mt-12 text-center">
-            <Link href={ruta("/propuesta/noticias")} className="boton">
+            <Link href={rutaPropuesta("/propuesta/noticias")} className="boton">
               Ver todas las noticias
             </Link>
           </div>
