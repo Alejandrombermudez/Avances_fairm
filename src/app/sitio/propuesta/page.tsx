@@ -30,6 +30,7 @@ import {
 } from "@/lib/sanity";
 import { rutaPropuesta } from "@/lib/rutas";
 import { fechaLarga, mesYAno } from "@/lib/fecha";
+import { recortar } from "@/lib/texto";
 import Icono from "@/components/sitio/Icono";
 import InterruptorFuentes from "@/components/sitio/InterruptorFuentes";
 
@@ -44,8 +45,6 @@ type Articulos = Awaited<ReturnType<typeof articulos>>;
 function Fuente({ children }: { children: React.ReactNode }) {
   return <p className="fuente rotulo mb-3 text-verde">{children}</p>;
 }
-
-const recortar = (t: string, n: number) => (t.length > n ? `${t.slice(0, n).trimEnd()}…` : t);
 
 /* ── El marco de una franja: su fondo y, con él, el color de la letra ── */
 

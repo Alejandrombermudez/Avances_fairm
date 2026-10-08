@@ -10,6 +10,7 @@ import Link from "next/link";
 import { articulos } from "@/lib/sanity";
 import { ruta } from "@/lib/rutas";
 import { fechaLarga } from "@/lib/fecha";
+import { recortar } from "@/lib/texto";
 
 export const revalidate = 3600;
 
@@ -51,7 +52,7 @@ export default async function Noticias() {
                     </h3>
                     {a.excerpt && (
                       <p className="mt-2 max-w-3xl text-[15px] leading-relaxed font-light text-suave">
-                        {a.excerpt.length > 220 ? `${a.excerpt.slice(0, 220).trimEnd()}…` : a.excerpt}
+                        {recortar(a.excerpt, 220)}
                       </p>
                     )}
                   </Link>
