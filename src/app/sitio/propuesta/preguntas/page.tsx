@@ -29,7 +29,7 @@ export default async function Preguntas() {
               {f.question}
             </summary>
             <div className="mt-4 pl-7 text-suave">
-              <Texto valor={f.answer} />
+              <Texto valor={f.answer} enPropuesta />
             </div>
           </details>
         ))}

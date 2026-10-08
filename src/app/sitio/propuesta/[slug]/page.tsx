@@ -49,7 +49,7 @@ async function Acordeones() {
             {f.question}
           </summary>
           <div className="mt-3 pl-7 text-suave">
-            <Texto valor={f.answer} />
+            <Texto valor={f.answer} enPropuesta />
           </div>
         </details>
       ))}
@@ -99,7 +99,7 @@ export default async function PaginaPropuesta({ params }: { params: Promise<{ sl
         <div className="mt-10 space-y-6">
           {tieneCuerpo && (
             <Tarjeta>
-              <Texto valor={p.body} />
+              <Texto valor={p.body} tono="pagina" enPropuesta />
             </Tarjeta>
           )}
 

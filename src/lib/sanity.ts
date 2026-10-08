@@ -113,28 +113,72 @@ const CAMPOS_DOC = `
 `;
 
 /**
- * El cuerpo, con las medidas reales de cada imagen.
+ * El cuerpo, con lo que cada pieza necesita para dibujarse.
  *
- * Sin esto el renderizador no sabe de que tamano es la imagen y la estira al
- * ancho de la columna. En «Que es CRAFT» eso dibujaba un icono de descarga de
- * 49x54 a 688 pixeles de ancho, y lo mismo con las texturas decorativas.
+ * Una pieza del gestor guarda referencias y poco más: la imagen no dice de
+ * qué tamaño es, el botón no dice dónde quedó el archivo que se le subió, la
+ * lista de documentos solo guarda su filtro. Aquí se resuelve todo eso de una
+ * vez, para que el dibujo no tenga que volver a preguntar.
+ *
+ * Las medidas de las imágenes importan: sin ellas el renderizador las
+ * estiraba al ancho de la columna, y en «Qué es CRAFT» un icono de descarga
+ * de 49x54 salía a 688 píxeles.
  */
+const BOTON = `
+  ...,
+  "url": coalesce(enlace, archivo.asset->url),
+  "formato": archivo.asset->extension,
+  "peso": archivo.asset->size
+`;
+
+const MEDIDAS = `
+  "ancho": asset->metadata.dimensions.width,
+  "alto": asset->metadata.dimensions.height
+`;
+
 const CUERPO = `
   body[]{
     ...,
-    _type == "imagen" => {
+    markDefs[]{
       ...,
-      "ancho": asset->metadata.dimensions.width,
-      "alto": asset->metadata.dimensions.height
+      _type == "refDocumento" => {
+        "slug": doc->slug.current,
+        "archivo": coalesce(doc->files[0].externalUrl, doc->files[0].file.asset->url)
+      }
     },
-    _type == "botones" => {
+    _type == "imagen" => { ..., ${MEDIDAS} },
+    _type == "botones" => { ..., items[]{ ${BOTON} } },
+    _type == "tarjetas" => {
       ...,
       items[]{
         ...,
-        "url": coalesce(enlace, archivo.asset->url),
-        "formato": archivo.asset->extension,
-        "peso": archivo.asset->size
+        "ancho": imagen.asset->metadata.dimensions.width,
+        "alto": imagen.asset->metadata.dimensions.height,
+        botones[]{ ${BOTON} }
       }
+    },
+    _type == "galeria" => { ..., imagenes[]{ ..., ${MEDIDAS} } },
+    _type == "cronologia" => {
+      ...,
+      "lista": select(
+        count(hitos) > 0 => hitos[]->{_id, title, date, description},
+        *[_type == "timelineEvent" && "craft" in sites && language == ^.^.language]
+          | order(date asc){_id, title, date, description}
+      )
+    },
+    _type == "listaDocumentos" => {
+      ...,
+      "docs": select(
+        count(manuales) > 0 => manuales[]->{${CAMPOS_DOC}},
+        *[_type == "publication" && "craft" in sites
+          && (!defined(^.filtro.tipo) || documentType == ^.filtro.tipo)
+          && (!defined(^.filtro.norma) || volumeOf._ref == ^.filtro.norma._ref)
+          && (!defined(^.filtro.publicos) || count(^.filtro.publicos) == 0
+              || count(audiences[@ in ^.^.filtro.publicos]) > 0)
+          && (!defined(^.filtro.temas) || count(^.filtro.temas) == 0
+              || count(topics[_ref in ^.^.filtro.temas[]._ref]) > 0)
+        ] | order(year desc)[0...48]{${CAMPOS_DOC}}
+      )
     }
   }
 `;

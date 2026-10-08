@@ -73,7 +73,7 @@ export default async function Noticia({ params }: { params: Promise<{ slug: stri
         )}
 
         <div className="mt-9">
-          <Texto valor={a.body} />
+          <Texto valor={a.body} enPropuesta />
         </div>
 
         {!!(a.rutas ?? []).length && (

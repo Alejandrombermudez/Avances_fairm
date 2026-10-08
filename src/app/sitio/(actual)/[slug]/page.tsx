@@ -80,7 +80,7 @@ export default async function Pagina({ params }: { params: Promise<{ slug: strin
       ) : null}
 
       <div className="mt-9">
-        <Texto valor={p.body} />
+        <Texto valor={p.body} tono="pagina" />
       </div>
 
       {/* Las paginas que ya no guardan su contenido lo arman con las fichas.

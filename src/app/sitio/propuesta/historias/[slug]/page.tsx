@@ -80,7 +80,7 @@ export default async function Historia({ params }: { params: Promise<{ slug: str
         )}
 
         <div className="mt-9">
-          <Texto valor={h.body} />
+          <Texto valor={h.body} enPropuesta />
         </div>
 
         {!!(h.rutas ?? []).length && (
