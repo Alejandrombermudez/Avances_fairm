@@ -2,7 +2,7 @@
  * Dibuja el cuerpo de una página, una noticia o una historia.
  *
  * El gestor ofrece catorce piezas para armar un cuerpo y aquí están las
- * catorce. No siempre fue así: hasta el 9 de octubre de 2026 se dibujaban
+ * catorce. No siempre fue así: hasta el 8 de octubre de 2026 se dibujaban
  * cinco, y una galería, un video o un acordeón se guardaban sin error y no
  * aparecían en ninguna parte. La regla es que una pieza que se ofrece en
  * `sanity/schemas/objetos/cuerpo.ts` tiene aquí su dibujo, o no se ofrece.

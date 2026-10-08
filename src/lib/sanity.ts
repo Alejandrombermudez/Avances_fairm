@@ -331,9 +331,9 @@ export const historias = (idioma: Idioma = "es") =>
   );
 
 export const hitos = (idioma: Idioma = "es") =>
-  traer<{ _id: string; title: string; date: string }[]>(
+  traer<{ _id: string; title: string; date: string; description: string | null }[]>(
     `*[_type == "timelineEvent" && "craft" in sites && language == $idioma] | order(date asc){
-      _id, title, date}`,
+      _id, title, date, description}`,
     { idioma },
   );
 

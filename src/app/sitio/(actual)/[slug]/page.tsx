@@ -50,6 +50,11 @@ async function Cronologia() {
           <span className="absolute top-[9px] -left-[27px] size-[7px] rounded-full bg-cafe" />
           <p className="text-[13px] font-semibold text-suave">{h.date?.slice(0, 7)}</p>
           <p className="mt-1 text-[15px]">{h.title}</p>
+          {h.description && (
+            <p className="mt-1.5 text-[14px] leading-relaxed font-light text-suave">
+              {h.description}
+            </p>
+          )}
         </li>
       ))}
     </ol>
