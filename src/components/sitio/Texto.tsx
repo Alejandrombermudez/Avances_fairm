@@ -94,6 +94,75 @@ const componentes: PortableTextComponents = {
         </figure>
       );
     },
+    /**
+     * Imagen a la izquierda, titulo y texto a la derecha.
+     *
+     * Asi estan listados los volumenes de la norma en su sitio: el icono
+     * numerado al lado del texto, no encima. En movil se apila, que es lo que
+     * hace el suyo tambien.
+     */
+    cajaImagen: ({ value }) => {
+      const v = value as {
+        imagen?: unknown;
+        alt?: string;
+        titulo?: string;
+        texto?: string;
+        enlace?: string;
+      };
+      const fuera = (v.enlace ?? "").startsWith("http");
+      const titulo = v.enlace ? (
+        <a
+          href={v.enlace}
+          target={fuera ? "_blank" : undefined}
+          rel={fuera ? "noopener noreferrer" : undefined}
+          className="transition-opacity hover:opacity-70"
+        >
+          {v.titulo}
+        </a>
+      ) : (
+        v.titulo
+      );
+      return (
+        <div className="my-6 flex flex-col gap-5 sm:flex-row sm:items-start">
+          {!!v.imagen && (
+            <div className="w-[104px] shrink-0">
+              {v.enlace ? (
+                <a
+                  href={v.enlace}
+                  target={fuera ? "_blank" : undefined}
+                  rel={fuera ? "noopener noreferrer" : undefined}
+                >
+                  <Image
+                    src={urlImagen(v.imagen).width(208).fit("max").auto("format").url()}
+                    alt={v.alt ?? ""}
+                    width={104}
+                    height={104}
+                    className="h-auto w-full"
+                  />
+                </a>
+              ) : (
+                <Image
+                  src={urlImagen(v.imagen).width(208).fit("max").auto("format").url()}
+                  alt={v.alt ?? ""}
+                  width={104}
+                  height={104}
+                  className="h-auto w-full"
+                />
+              )}
+            </div>
+          )}
+          <div className="min-w-0 flex-1">
+            {v.titulo && (
+              <h3 className="text-[17px] leading-snug font-semibold text-cafe">{titulo}</h3>
+            )}
+            {v.texto && (
+              <p className="mt-2 text-[15px] leading-relaxed font-light text-suave">{v.texto}</p>
+            )}
+          </div>
+        </div>
+      );
+    },
+
     cita: ({ value }) => {
       const v = value as { texto?: string; autor?: string; cargo?: string };
       return (
