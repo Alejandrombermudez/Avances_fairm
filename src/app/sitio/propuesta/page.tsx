@@ -219,7 +219,7 @@ export default async function PortadaPropuesta() {
             </p>
           </div>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {hist.map((h) => (
+            {hist.filter((h) => h.slug).map((h) => (
               <Link
                 key={h._id}
                 href={rutaPropuesta(`/propuesta/historias/${h.slug}`)}
@@ -285,7 +285,7 @@ export default async function PortadaPropuesta() {
             <h2 className="titular text-[32px] sm:text-[40px]">Noticias y actividades</h2>
           </div>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {art.map((x) => (
+            {art.filter((x) => x.slug).map((x) => (
               <Link
                 key={x._id}
                 href={rutaPropuesta(`/propuesta/noticias/${x.slug}`)}
