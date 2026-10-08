@@ -76,15 +76,20 @@ export default async function PortadaPropuesta() {
               "linear-gradient(rgba(10,10,10,.57) 0%, rgba(10,2,2,0) 24%), rgba(0,0,0,.18)",
           }}
         />
-        <div className="relative mx-auto grid w-full max-w-[1180px] px-6 py-12 sm:grid-cols-2">
-          <div />
+        {/* El corte esta en 980, como en su constructor: encima, la caja
+            ocupa media fila y va alineada a la derecha; debajo pasa a todo
+            el ancho y a la izquierda, y el parrafo baja de 24 a 22. Antes
+            partiamos en 640 y la caja se quedaba a media fila dentro del
+            marco de la comparacion, cuando el suyo ya se habia estirado. */}
+        <div className="relative mx-auto grid w-full max-w-[1180px] px-6 py-12 min-[980px]:grid-cols-2">
+          <div className="hidden min-[980px]:block" />
           {/* Medido sobre el suyo el 8 de octubre de 2026: la caja gris es
               rgba(25,25,25,.5) —esa ya la teniamos—, pero el titular son 26px
               y el parrafo 24px con peso 500, los dos con sombra. El nuestro
               llevaba el titular a 40 y el parrafo a 22 en fina: por eso se
               veia desproporcionado al lado del suyo. */}
           <div
-            className="py-7 pr-[22px] pl-[22px] text-right sm:pr-8"
+            className="py-7 pr-[22px] pl-[22px] text-left min-[980px]:pr-8 min-[980px]:text-right"
             style={{ background: "rgba(25,25,25,.5)" }}
           >
             <h1
@@ -94,7 +99,7 @@ export default async function PortadaPropuesta() {
               {hero?.titulo}
             </h1>
             <p
-              className="mt-4 text-[24px] leading-[1.2] font-medium text-white"
+              className="mt-4 text-[22px] leading-[1.2] font-medium text-white min-[980px]:text-[24px]"
               style={{ textShadow: "0 2.4px 2.4px rgba(0,0,0,.67)" }}
             >
               {hero?.texto}
