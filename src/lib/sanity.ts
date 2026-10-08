@@ -126,6 +126,15 @@ const CUERPO = `
       ...,
       "ancho": asset->metadata.dimensions.width,
       "alto": asset->metadata.dimensions.height
+    },
+    _type == "botones" => {
+      ...,
+      items[]{
+        ...,
+        "url": coalesce(enlace, archivo.asset->url),
+        "formato": archivo.asset->extension,
+        "peso": archivo.asset->size
+      }
     }
   }
 `;

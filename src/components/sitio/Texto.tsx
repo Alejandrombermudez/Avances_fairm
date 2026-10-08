@@ -9,17 +9,24 @@
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
 import { urlImagen } from "@/lib/sanity";
+import { extension, fichaDeArchivo } from "@/lib/archivos";
+import IconoArchivo from "@/components/sitio/IconoArchivo";
 
 const componentes: PortableTextComponents = {
   block: {
     normal: ({ children }) => (
       <p className="text-[15.5px] leading-relaxed font-light">{children}</p>
     ),
+    /* Poppins 600 en cafe, como los suyos. La raya de arriba separa las
+       secciones: en una pagina larga de descargas es lo que deja ver donde
+       acaba un grupo y empieza el siguiente. El primero no la lleva. */
     h2: ({ children }) => (
-      <h2 className="pt-6 text-[1.5rem] leading-snug font-medium">{children}</h2>
+      <h2 className="mt-10 border-t border-linea pt-8 text-[1.45rem] leading-snug font-semibold text-balance text-cafe first:mt-0 first:border-0 first:pt-0">
+        {children}
+      </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="pt-4 text-[1.2rem] leading-snug font-medium">{children}</h3>
+      <h3 className="pt-3 text-[1.15rem] leading-snug font-semibold text-cafe">{children}</h3>
     ),
     blockquote: ({ children }) => (
       <blockquote className="border-l-2 border-cafe/30 pl-5 text-[15.5px] leading-relaxed font-light text-cafe italic">
@@ -45,6 +52,7 @@ const componentes: PortableTextComponents = {
     link: ({ children, value }) => {
       const href = (value as { href?: string })?.href ?? "#";
       const fuera = href.startsWith("http");
+      const formato = extension(href);
       return (
         <a
           href={href}
@@ -53,6 +61,11 @@ const componentes: PortableTextComponents = {
           rel={fuera ? "noopener noreferrer" : undefined}
         >
           {children}
+          {formato && (
+            <span className="ml-1.5 inline-block rounded border border-current px-1 py-px align-[1px] text-[9.5px] leading-none font-bold tracking-wide no-underline">
+              {formato.toUpperCase()}
+            </span>
+          )}
         </a>
       );
     },
@@ -160,6 +173,89 @@ const componentes: PortableTextComponents = {
             )}
           </div>
         </div>
+      );
+    },
+
+    /**
+     * Botones y descargas.
+     *
+     * En su sitio cada uno es una columna del constructor, cuatro por fila.
+     * Aqui es una lista que se reparte sola: una columna en movil y dos desde
+     * tableta, que es lo que cabe sin que la leyenda se parta en cinco
+     * lineas. El que baja un archivo lleva su hoja con el formato; el que
+     * lleva a otra pagina, una flecha.
+     */
+    botones: ({ value }) => {
+      type Boton = {
+        _key: string;
+        etiqueta?: string;
+        descripcion?: string;
+        enlace?: string;
+        url?: string | null;
+        formato?: string | null;
+        peso?: number | null;
+      };
+      const items = ((value as { items?: Boton[] }).items ?? []).filter((i) => i.url ?? i.enlace);
+      if (!items.length) return null;
+      return (
+        <ul
+          className={`my-6 grid gap-3 ${items.length > 1 ? "sm:grid-cols-2" : "sm:max-w-[440px]"}`}
+        >
+          {items.map((i) => {
+            const url = (i.url ?? i.enlace) as string;
+            const formato = i.formato ?? extension(url);
+            const fuera = url.startsWith("http");
+            const ficha = fichaDeArchivo(formato, i.peso);
+            return (
+              <li key={i._key}>
+                <a
+                  href={url}
+                  target={fuera ? "_blank" : undefined}
+                  rel={fuera ? "noopener noreferrer" : undefined}
+                  className="flex h-full items-center gap-4 rounded-xl border border-linea bg-white px-4 py-3.5 transition-colors hover:border-cafe"
+                >
+                  {formato && <IconoArchivo formato={formato} className="text-cafe" />}
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[15px] leading-snug font-semibold text-cafe">
+                      {i.etiqueta}
+                    </span>
+                    {i.descripcion && (
+                      <span className="mt-1 block text-[13.5px] leading-snug font-light text-suave">
+                        {i.descripcion}
+                      </span>
+                    )}
+                    {/* El formato ya lo dice la hoja; la linea solo aparece
+                        cuando ademas se sabe el peso, que es en los subidos. */}
+                    {i.peso ? (
+                      <span className="mt-1.5 block text-[11.5px] font-light text-suave">{ficha}</span>
+                    ) : null}
+                  </span>
+                  <span className="flex size-7 shrink-0 items-center justify-center rounded-full border border-current text-cafe">
+                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                      {formato ? (
+                        <path
+                          d="M6.5 2v7m0 0L4 6.5M6.5 9 9 6.5M2.5 11h8"
+                          stroke="currentColor"
+                          strokeWidth="1.3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      ) : (
+                        <path
+                          d="M2.5 6.5h8M7.5 3.5l3 3-3 3"
+                          stroke="currentColor"
+                          strokeWidth="1.3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      )}
+                    </svg>
+                  </span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
       );
     },
 

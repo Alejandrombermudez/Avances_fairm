@@ -11,6 +11,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { documento, slugsDeDocumento, urlImagen, type Documento } from "@/lib/sanity";
 import { campoDe, NOMBRE_TIPO, nombre } from "@/components/sitio/FichaDocumento";
+import IconoArchivo from "@/components/sitio/IconoArchivo";
+import { fichaDeArchivo } from "@/lib/archivos";
 
 export const revalidate = 3600;
 
@@ -32,14 +34,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const d = await documento(slug);
   return { title: d ? nombre(d) : "Documento" };
-}
-
-/** «2,4 MB». Solo se sabe de los archivos subidos al gestor. */
-function tamano(bytes: number | null) {
-  if (!bytes) return null;
-  const mb = bytes / 1024 / 1024;
-  if (mb >= 1) return `${mb.toFixed(1).replace(".", ",")} MB`;
-  return `${Math.max(1, Math.round(bytes / 1024))} kB`;
 }
 
 function Dato({ etiqueta, children }: { etiqueta: string; children: React.ReactNode }) {
@@ -106,15 +100,18 @@ export default async function FichaCompleta({ params }: { params: Promise<{ slug
                     <li key={f._key}>
                       <a href={f.url as string} target="_blank" rel="noopener noreferrer"
                         className="flex items-center justify-between gap-3 rounded-xl border border-linea bg-white px-5 py-3.5 transition-colors hover:border-cafe">
-                        <span>
-                          <span className="block text-[14.5px] font-bold">
-                            {IDIOMA[f.lang] ?? f.lang}
-                          </span>
-                          {(f.formato || f.peso) && (
-                            <span className="mt-0.5 block text-[12px] font-light text-suave">
-                              {[f.formato?.toUpperCase(), tamano(f.peso)].filter(Boolean).join(" · ")}
+                        <span className="flex min-w-0 items-center gap-3.5">
+                          {f.formato && <IconoArchivo formato={f.formato} className="text-cafe" />}
+                          <span className="min-w-0">
+                            <span className="block text-[14.5px] font-bold">
+                              {IDIOMA[f.lang] ?? f.lang}
                             </span>
-                          )}
+                            {(f.formato || f.peso) && (
+                              <span className="mt-0.5 block text-[12px] font-light text-suave">
+                                {fichaDeArchivo(f.formato, f.peso)}
+                              </span>
+                            )}
+                          </span>
                         </span>
                         <span className="flex size-7 shrink-0 items-center justify-center rounded-full border border-current text-cafe">
                           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
