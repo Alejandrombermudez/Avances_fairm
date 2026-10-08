@@ -64,16 +64,19 @@ export default async function Historia({ params }: { params: Promise<{ slug: str
           )}
         </header>
 
+        {/* Recorte en 16:9 en vez de alto y ancho fijos: asi la foto que se
+            suba no se deforma, sea cual sea su proporcion. */}
         {!!h.portada && (
-          <Image
-            src={urlImagen(h.portada).width(1520).fit("max").auto("format").url()}
-            alt=""
-            width={1520}
-            height={960}
-            className="mt-9 h-auto w-full rounded-lg"
-            sizes="(max-width: 800px) 100vw, 760px"
-            priority
-          />
+          <div className="relative mt-9 aspect-[16/9] w-full overflow-hidden rounded-lg">
+            <Image
+              src={urlImagen(h.portada).width(1520).height(855).fit("crop").auto("format").url()}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="(max-width: 800px) 100vw, 760px"
+              priority
+            />
+          </div>
         )}
 
         <div className="mt-9">
