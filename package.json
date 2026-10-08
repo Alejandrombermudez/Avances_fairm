@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "avisar": "node -e \"const fs=require('fs');const s=(fs.readFileSync('.env.local','utf8').match(/^REVALIDAR_SECRETO=(.*)$/m)||[])[1];if(!s){console.error('Falta REVALIDAR_SECRETO en .env.local');process.exit(1)}fetch('https://openmaps-xi.vercel.app/api/revalidar',{method:'POST',headers:{'x-revalidar-secreto':s.trim()}}).then(r=>r.json()).then(j=>console.log(j.ok?'Sitio al dia: '+j.cuando:j)).catch(e=>{console.error(e.message);process.exit(1)})\""
   },
   "dependencies": {
     "@portabletext/react": "^4.0.3",
