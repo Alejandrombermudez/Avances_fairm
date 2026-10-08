@@ -78,9 +78,25 @@ export default async function PortadaPropuesta() {
         />
         <div className="relative mx-auto grid w-full max-w-[1180px] px-6 py-12 sm:grid-cols-2">
           <div />
-          <div className="px-5 py-8 text-right sm:pr-8" style={{ background: "rgba(25,25,25,.5)" }}>
-            <h1 className="titular text-[34px] text-white sm:text-[40px]">{hero?.titulo}</h1>
-            <p className="mt-4 text-[20px] leading-[1.2] font-light text-white sm:text-[22px]">
+          {/* Medido sobre el suyo el 8 de octubre de 2026: la caja gris es
+              rgba(25,25,25,.5) —esa ya la teniamos—, pero el titular son 26px
+              y el parrafo 24px con peso 500, los dos con sombra. El nuestro
+              llevaba el titular a 40 y el parrafo a 22 en fina: por eso se
+              veia desproporcionado al lado del suyo. */}
+          <div
+            className="py-7 pr-[22px] pl-[22px] text-right sm:pr-8"
+            style={{ background: "rgba(25,25,25,.5)" }}
+          >
+            <h1
+              className="titular text-[26px] leading-none text-white"
+              style={{ textShadow: "0 2.6px 2.6px rgba(0,0,0,.4)" }}
+            >
+              {hero?.titulo}
+            </h1>
+            <p
+              className="mt-4 text-[24px] leading-[1.2] font-medium text-white"
+              style={{ textShadow: "0 2.4px 2.4px rgba(0,0,0,.67)" }}
+            >
               {hero?.texto}
             </p>
           </div>
