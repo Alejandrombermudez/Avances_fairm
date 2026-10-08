@@ -88,7 +88,7 @@ export default async function Historia({ params }: { params: Promise<{ slug: str
             <p className="rotulo text-terracota">Direcciones conservadas</p>
             <ul className="mt-3 space-y-1">
               {(h.rutas ?? []).map((r) => (
-                <li key={r} className="truncate font-mono text-[12px] text-suave">{r}</li>
+                <li key={r} className="font-mono break-all text-[12px] text-suave">{r}</li>
               ))}
             </ul>
           </footer>

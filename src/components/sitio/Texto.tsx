@@ -279,7 +279,10 @@ const componentes: PortableTextComponents = {
 export default function Texto({ valor }: { valor?: unknown[] | null }) {
   if (!valor?.length) return null;
   return (
-    <div className="space-y-4">
+    /* `overflow-wrap: anywhere` parte lo que no tiene por donde partirse: una
+       direccion web escrita tal cual, que en la pagina de Impacto sacaba el
+       texto 25 pixeles fuera de la pantalla en un telefono. */
+    <div className="space-y-4 [overflow-wrap:anywhere]">
       <PortableText value={valor as never} components={componentes} />
     </div>
   );

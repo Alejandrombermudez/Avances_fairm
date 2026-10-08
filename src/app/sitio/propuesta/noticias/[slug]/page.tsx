@@ -85,7 +85,7 @@ export default async function Noticia({ params }: { params: Promise<{ slug: stri
             </p>
             <ul className="mt-3 space-y-1">
               {(a.rutas ?? []).map((r) => (
-                <li key={r} className="truncate font-mono text-[12px] text-suave">{r}</li>
+                <li key={r} className="font-mono break-all text-[12px] text-suave">{r}</li>
               ))}
             </ul>
           </footer>

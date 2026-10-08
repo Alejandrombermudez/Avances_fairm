@@ -64,9 +64,13 @@ export default async function FichaCompleta({ params }: { params: Promise<{ slug
           ← Recursos
         </Link>
 
+        {/* `min-w-0` en las dos columnas: sin eso una rejilla no encoge por
+            debajo de su contenido mas ancho, y las direcciones conservadas
+            —una sola linea, sin partir— la estiraban a 653 pixeles en una
+            pantalla de 375. */}
         <div className="mt-8 grid gap-12 lg:grid-cols-[380px_1fr]">
           {/* El campo, en grande */}
-          <div>
+          <div className="min-w-0">
             {/* El ancho se acota cuando la ficha no cabe en dos columnas: con
                 proporcion 3:4 y el ancho entero, el campo de color se comia
                 la pantalla y empujaba todos los datos fuera de la vista. Se
@@ -128,7 +132,7 @@ export default async function FichaCompleta({ params }: { params: Promise<{ slug
           </div>
 
           {/* Los datos */}
-          <div>
+          <div className="min-w-0">
             <p className="rotulo text-terracota">
               {NOMBRE_TIPO[d.tipo ?? ""] ?? d.tipo}
               {d.deVersion ? ` · CRAFT ${d.deVersion.version}` : ""}
@@ -165,7 +169,7 @@ export default async function FichaCompleta({ params }: { params: Promise<{ slug
                 </p>
                 <ul className="mt-3 space-y-1">
                   {(d.rutas ?? []).slice(0, 4).map((r) => (
-                    <li key={r} className="truncate font-mono text-[12px] text-suave">{r}</li>
+                    <li key={r} className="font-mono break-all text-[12px] text-suave">{r}</li>
                   ))}
                 </ul>
               </div>
