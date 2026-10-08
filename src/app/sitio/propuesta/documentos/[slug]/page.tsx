@@ -73,8 +73,12 @@ export default async function FichaCompleta({ params }: { params: Promise<{ slug
         <div className="mt-8 grid gap-12 lg:grid-cols-[380px_1fr]">
           {/* El campo, en grande */}
           <div>
+            {/* El ancho se acota cuando la ficha no cabe en dos columnas: con
+                proporcion 3:4 y el ancho entero, el campo de color se comia
+                la pantalla y empujaba todos los datos fuera de la vista. Se
+                veia al abrir la ficha dentro del marco de la comparacion. */}
             <div
-              className="relative aspect-[3/4] overflow-hidden"
+              className="relative aspect-[3/4] w-full max-w-[300px] overflow-hidden lg:max-w-none"
               style={{ borderRadius: 16, background: d.portada ? undefined : color }}
             >
               {d.portada ? (
