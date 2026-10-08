@@ -13,6 +13,7 @@
 
 import { createClient } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
+import { draftMode } from "next/headers";
 
 export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!;
 export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
@@ -35,6 +36,66 @@ export const cliente = createClient({
   useCdn: !token,
   perspective: "published",
 });
+
+/* ── La vista previa ─────────────────────────────────────────────── */
+
+/**
+ * Lo que ve quien edita, antes de publicar.
+ *
+ * El sitio tiene dos caras. La de todos lee lo publicado y se sirve ya
+ * hecha. La de quien edita se enciende solo desde la pestaña «Vista previa»
+ * del gestor —el gestor firma la entrada con un secreto que caduca— y lee
+ * los borradores tal como están en ese momento. Nadie de fuera puede
+ * encenderla escribiendo una dirección.
+ *
+ * En esa cara cada texto lleva una marca invisible que dice de qué ficha y
+ * de qué campo salió: es lo que permite hacer clic en un título de la página
+ * y que el gestor abra justo ese campo.
+ */
+const ESTUDIO =
+  process.env.NEXT_PUBLIC_SANITY_STUDIO_URL || "https://arm-contenido-pruebas.sanity.studio";
+
+/**
+ * Campos que no llevan marca, porque el sitio no los muestra: decide con
+ * ellos. Una franja se dibuja según su `tipo`, un archivo dice su idioma con
+ * `lang`, un correo se convierte en un enlace. Con la marca dentro, «hero»
+ * deja de ser igual a «hero» y la portada entera se desarma — solo en la
+ * vista previa, que es donde nadie lo esperaría.
+ */
+const SIN_MARCA = new Set([
+  "tipo", "fondo", "listado", "icono", "columnas",
+  "accent", "lang", "volumeLabel", "extension",
+  "enlace", "footerContacto", "languages", "audiences", "sites",
+]);
+
+const clienteBorrador = createClient({
+  projectId,
+  dataset,
+  apiVersion: "2025-02-19",
+  token,
+  useCdn: false,
+  perspective: "drafts",
+  stega: {
+    enabled: true,
+    studioUrl: ESTUDIO,
+    filter: (campo) =>
+      campo.sourcePath.some((tramo) => SIN_MARCA.has(String(tramo)))
+        ? false
+        : campo.filterDefault(campo),
+  },
+});
+
+/** Pregunta al gestor por lo publicado, o por los borradores si quien mira
+ *  entró desde la vista previa. */
+async function traer<T>(consulta: string, params: Record<string, unknown> = {}): Promise<T> {
+  let enBorrador = false;
+  try {
+    enBorrador = (await draftMode()).isEnabled;
+  } catch {
+    /* Al compilar no hay nadie mirando: no hay modo borrador que consultar. */
+  }
+  return (enBorrador && token ? clienteBorrador : cliente).fetch<T>(consulta, params);
+}
 
 const constructor = imageUrlBuilder({ projectId, dataset });
 export const urlImagen = (fuente: unknown) => constructor.image(fuente as never);
@@ -216,7 +277,7 @@ export type Ajustes = {
 };
 
 export const ajustes = () =>
-  cliente.fetch<Ajustes | null>(
+  traer<Ajustes | null>(
     `*[_type == "siteSettings" && site == "craft"][0]{
       title, tagline, languages,
       "menu": mainNav[]{_key, "t": label, "slug": page->slug.current, url},
@@ -228,7 +289,7 @@ export const ajustes = () =>
   );
 
 export const norma = () =>
-  cliente.fetch<{
+  traer<{
     titulo: string;
     descripcion: string | null;
     vigente: Version | null;
@@ -249,13 +310,13 @@ export const norma = () =>
   );
 
 export const documentosSueltos = () =>
-  cliente.fetch<Documento[]>(
+  traer<Documento[]>(
     `*[_type == "publication" && "craft" in sites && !defined(volumeOf)]
       | order(documentType asc, year desc){${CAMPOS_DOC}}`,
   );
 
 export const historias = (idioma: Idioma = "es") =>
-  cliente.fetch<
+  traer<
     {
       _id: string;
       title: string;
@@ -270,14 +331,14 @@ export const historias = (idioma: Idioma = "es") =>
   );
 
 export const hitos = (idioma: Idioma = "es") =>
-  cliente.fetch<{ _id: string; title: string; date: string }[]>(
+  traer<{ _id: string; title: string; date: string }[]>(
     `*[_type == "timelineEvent" && "craft" in sites && language == $idioma] | order(date asc){
       _id, title, date}`,
     { idioma },
   );
 
 export const articulos = (idioma: Idioma = "es", cuantos?: number) =>
-  cliente.fetch<
+  traer<
     {
       _id: string;
       title: string;
@@ -329,7 +390,7 @@ const CAMPOS_ARTICULO = `
 `;
 
 export const articulo = (slug: string) =>
-  cliente.fetch<Articulo | null>(
+  traer<Articulo | null>(
     `*[_type == "article" && "craft" in sites && slug.current == $slug][0]{${CAMPOS_ARTICULO}}`,
     { slug },
   );
@@ -365,7 +426,7 @@ const CAMPOS_HISTORIA = `
 `;
 
 export const historia = (slug: string) =>
-  cliente.fetch<Historia | null>(
+  traer<Historia | null>(
     `*[_type == "story" && "craft" in sites && slug.current == $slug][0]{${CAMPOS_HISTORIA}}`,
     { slug },
   );
@@ -376,14 +437,14 @@ export const slugsDeHistoria = () =>
   );
 
 export const preguntas = (idioma: Idioma = "es") =>
-  cliente.fetch<{ _id: string; question: string; answer: unknown[] }[]>(
+  traer<{ _id: string; question: string; answer: unknown[] }[]>(
     `*[_type == "faq" && "craft" in sites && language == $idioma] | order(order asc){
       _id, question, answer}`,
     { idioma },
   );
 
 export const paginaPorSlug = (slug: string, idioma: Idioma = "es") =>
-  cliente.fetch<{
+  traer<{
     _id: string;
     title: string;
     lead: string | null;
@@ -410,7 +471,7 @@ export const slugsDePagina = (idioma: Idioma = "es") =>
 
 /** Cuántas fichas hay de cada cosa: alimenta la franja de la portada. */
 export const recuento = () =>
-  cliente.fetch<Record<string, number>>(
+  traer<Record<string, number>>(
     `{
       "documentos": count(*[_type == "publication" && "craft" in sites]),
       "preguntas": count(*[_type == "faq" && "craft" in sites && language == "es"]),
@@ -422,7 +483,7 @@ export const recuento = () =>
 
 /** Un documento por su slug, para su ficha completa. */
 export const documento = (slug: string) =>
-  cliente.fetch<Documento | null>(
+  traer<Documento | null>(
     `*[_type == "publication" && "craft" in sites && slug.current == $slug][0]{${CAMPOS_DOC}}`,
     { slug },
   );
@@ -441,7 +502,7 @@ export const slugsDeDocumento = () =>
  * ellos escribiendo la dirección.
  */
 export const borradores = () =>
-  cliente.fetch<Documento[]>(
+  traer<Documento[]>(
     `*[_type == "publication" && "craft" in sites && defined(volumeOf)
        && !(_id in *[_type == "standardVersion"].volumes[]._ref)]
       | order(volumeOf->version desc, volumeLabel asc){${CAMPOS_DOC}}`,
