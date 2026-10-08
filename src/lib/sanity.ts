@@ -42,7 +42,24 @@ export const urlImagen = (fuente: unknown) => constructor.image(fuente as never)
 /* ── Tipos ─────────────────────────────────────────────────────── */
 export type Idioma = "es" | "en" | "fr" | "de" | "pt";
 
-export type Archivo = { _key: string; lang: Idioma; externalUrl?: string };
+/**
+ * Un archivo del documento, en un idioma.
+ *
+ * `url` sale de dos sitios. Los documentos migrados llevan `externalUrl`: la
+ * direccion que el archivo ya tenia, que los TdR obligan a conservar porque
+ * esta citada desde documentos oficiales. Los que se suban desde el gestor no
+ * la tienen, y entonces vale la del archivo subido.
+ *
+ * Antes solo se pedia `externalUrl`, asi que un documento nuevo con su PDF
+ * cargado mostraba un boton de descarga que apuntaba a «#» y no hacia nada.
+ */
+export type Archivo = {
+  _key: string;
+  lang: Idioma;
+  url: string | null;
+  formato: string | null;
+  peso: number | null;
+};
 
 export type Documento = {
   _id: string;
@@ -81,7 +98,12 @@ const CAMPOS_DOC = `
   "anio": year,
   "volumen": volumeLabel,
   "idiomas": array::unique(files[].lang),
-  "archivos": files[]{_key, lang, externalUrl},
+  "archivos": files[]{
+    _key, lang,
+    "url": coalesce(externalUrl, file.asset->url),
+    "formato": coalesce(file.asset->extension, lower(string::split(externalUrl, ".")[-1])),
+    "peso": file.asset->size
+  },
   "portada": cover,
   "acento": accent,
   "publicos": audiences,

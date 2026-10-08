@@ -60,7 +60,7 @@ const COMPARACIONES: Comparacion[] = [
     vivo:
       "https://www.craftmines.org/wp-content/uploads/2024/10/CRAFT-2.1-Vol.2A-Final-clean.pdf",
     replica: null,
-    propuesta: "/propuesta/documentos/craft-2-1-volumen-2a",
+    propuesta: "/sitio/propuesta/documentos/craft-2-1-volumen-2a",
     nota:
       "A la izquierda, lo que hay hoy: el archivo. Su título, su versión, su volumen y su " +
       "idioma viven dentro del nombre. A la derecha, los mismos datos en su casilla.",

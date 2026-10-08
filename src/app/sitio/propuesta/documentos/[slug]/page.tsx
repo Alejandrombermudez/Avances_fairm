@@ -34,6 +34,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: d ? nombre(d) : "Documento" };
 }
 
+/** «2,4 MB». Solo se sabe de los archivos subidos al gestor. */
+function tamano(bytes: number | null) {
+  if (!bytes) return null;
+  const mb = bytes / 1024 / 1024;
+  if (mb >= 1) return `${mb.toFixed(1).replace(".", ",")} MB`;
+  return `${Math.max(1, Math.round(bytes / 1024))} kB`;
+}
+
 function Dato({ etiqueta, children }: { etiqueta: string; children: React.ReactNode }) {
   if (!children) return null;
   return (
@@ -51,7 +59,9 @@ export default async function FichaCompleta({ params }: { params: Promise<{ slug
 
   const { color, sobreClaro } = campoDe(d);
   const marca = (d.volumen ?? NOMBRE_TIPO[d.tipo ?? ""] ?? "Documento").replace("Vol. ", "Volumen ");
-  const archivos = d.archivos ?? [];
+  /* Solo los que de verdad se pueden descargar: un boton que no baja nada
+     es peor que no tener boton. */
+  const archivos = (d.archivos ?? []).filter((f) => f.url);
 
   return (
     <main className="px-6 py-14">
@@ -90,9 +100,18 @@ export default async function FichaCompleta({ params }: { params: Promise<{ slug
                 <ul className="mt-3 space-y-2">
                   {archivos.map((f) => (
                     <li key={f._key}>
-                      <a href={f.externalUrl ?? "#"} target="_blank" rel="noopener noreferrer"
+                      <a href={f.url as string} target="_blank" rel="noopener noreferrer"
                         className="flex items-center justify-between gap-3 rounded-xl border border-linea bg-white px-5 py-3.5 transition-colors hover:border-cafe">
-                        <span className="text-[14.5px] font-bold">{IDIOMA[f.lang] ?? f.lang}</span>
+                        <span>
+                          <span className="block text-[14.5px] font-bold">
+                            {IDIOMA[f.lang] ?? f.lang}
+                          </span>
+                          {(f.formato || f.peso) && (
+                            <span className="mt-0.5 block text-[12px] font-light text-suave">
+                              {[f.formato?.toUpperCase(), tamano(f.peso)].filter(Boolean).join(" · ")}
+                            </span>
+                          )}
+                        </span>
                         <span className="flex size-7 shrink-0 items-center justify-center rounded-full border border-current text-cafe">
                           <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
                             <path d="M6.5 2v7m0 0L4 6.5M6.5 9 9 6.5M2.5 11h8" stroke="currentColor"

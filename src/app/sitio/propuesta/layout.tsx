@@ -9,9 +9,9 @@
  * mismo orden.
  */
 
-import Image from "next/image";
 import Link from "next/link";
 import Conmutador from "@/components/sitio/Conmutador";
+import Navegacion from "@/components/sitio/Navegacion";
 import { ajustes } from "@/lib/sanity";
 import { ruta } from "@/lib/rutas";
 
@@ -37,26 +37,7 @@ export default async function PropuestaLayout({ children }: { children: React.Re
     <div className="propuesta min-h-screen">
       <Conmutador activa="propuesta" />
 
-      <header className="sticky top-0 z-50 bg-cafe">
-        <div className="mx-auto flex max-w-[1180px] items-center gap-x-8 px-6 py-4">
-          <Link href="/sitio/propuesta" className="shrink-0">
-            <Image src="/logo-craft.png" alt="CRAFT" width={133} height={208}
-              className="h-14 w-auto" priority />
-          </Link>
-          <nav className="flex flex-1 flex-wrap items-center justify-end gap-x-6 gap-y-2">
-            {MENU.map((m) => (
-              <Link
-                key={m.t}
-                href={ruta(m.h)}
-                className="text-[14px] font-semibold text-white transition-opacity hover:opacity-75"
-              >
-                {m.t}
-              </Link>
-            ))}
-            <span className="text-[13px] font-semibold text-white/60">ES | EN</span>
-          </nav>
-        </div>
-      </header>
+      <Navegacion menu={MENU} inicio="/propuesta" />
 
       {children}
 
