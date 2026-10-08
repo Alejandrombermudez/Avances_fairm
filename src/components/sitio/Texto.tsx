@@ -58,18 +58,35 @@ const componentes: PortableTextComponents = {
     },
   },
   types: {
+    /**
+     * La imagen, a su tamano.
+     *
+     * Antes todas salian al ancho de la columna: un icono de descarga de
+     * 49x54 se dibujaba a 688 pixeles. Ahora `maxWidth` la frena en su ancho
+     * real, asi que una foto grande llena la columna y un icono sigue siendo
+     * un icono.
+     */
     imagen: ({ value }) => {
-      const v = value as { asset?: unknown; alt?: string; caption?: string };
+      const v = value as {
+        asset?: unknown;
+        alt?: string;
+        caption?: string;
+        ancho?: number;
+        alto?: number;
+      };
       if (!v?.asset) return null;
+      const ancho = v.ancho && v.ancho > 0 ? v.ancho : 1400;
+      const alto = v.alto && v.alto > 0 ? v.alto : 900;
+      const pedido = Math.min(ancho, 1400);
       return (
-        <figure className="my-6">
+        <figure className="my-6" style={{ maxWidth: ancho }}>
           <Image
-            src={urlImagen(v).width(1400).fit("max").auto("format").url()}
+            src={urlImagen(v).width(pedido).fit("max").auto("format").url()}
             alt={v.alt ?? ""}
-            width={1400}
-            height={900}
+            width={ancho}
+            height={alto}
             className="h-auto w-full rounded-lg"
-            sizes="(max-width: 768px) 100vw, 760px"
+            sizes={`(max-width: 768px) 100vw, ${pedido}px`}
           />
           {v.caption && (
             <figcaption className="mt-2 text-[13px] font-light text-suave">{v.caption}</figcaption>

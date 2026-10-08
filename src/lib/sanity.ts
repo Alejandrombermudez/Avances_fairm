@@ -112,6 +112,24 @@ const CAMPOS_DOC = `
   "rutas": legacyPaths
 `;
 
+/**
+ * El cuerpo, con las medidas reales de cada imagen.
+ *
+ * Sin esto el renderizador no sabe de que tamano es la imagen y la estira al
+ * ancho de la columna. En «Que es CRAFT» eso dibujaba un icono de descarga de
+ * 49x54 a 688 pixeles de ancho, y lo mismo con las texturas decorativas.
+ */
+const CUERPO = `
+  body[]{
+    ...,
+    _type == "imagen" => {
+      ...,
+      "ancho": asset->metadata.dimensions.width,
+      "alto": asset->metadata.dimensions.height
+    }
+  }
+`;
+
 /* ── Consultas ─────────────────────────────────────────────────── */
 export type Boton = { _key: string; etiqueta: string; url: string };
 export type Tarjeta = {
@@ -244,7 +262,8 @@ export type Articulo = {
 };
 
 const CAMPOS_ARTICULO = `
-  _id, title, excerpt, publishedAt, body,
+  _id, title, excerpt, publishedAt,
+  ${CUERPO},
   "slug": slug.current,
   "portada": heroImage,
   "temas": topics[]->title,
@@ -280,7 +299,8 @@ export type Historia = {
 };
 
 const CAMPOS_HISTORIA = `
-  _id, title, place, excerpt, body,
+  _id, title, place, excerpt,
+  ${CUERPO},
   "slug": slug.current,
   "portada": heroImage,
   "pais": country->title,
@@ -318,7 +338,8 @@ export const paginaPorSlug = (slug: string, idioma: Idioma = "es") =>
     arma: string | null;
   } | null>(
     `*[_type == "page" && site == "craft" && slug.current == $slug && language == $idioma][0]{
-      _id, title, lead, body, legacyPaths,
+      _id, title, lead, legacyPaths,
+      ${CUERPO},
       "temas": topics[]->title,
       "arma": _arma
     }`,
