@@ -2,14 +2,15 @@
  * La pantalla comparada, en la página que se pida.
  *
  * Se llega desde el mando de arriba estando en cualquier página, y se abre en
- * esa misma: /sitio/comparar?p=/recursos pone Recursos a los dos lados.
+ * esa misma: /sitio/comparar?p=/recursos pone Recursos a los dos lados, el
+ * del sitio real a la izquierda y el de la propuesta a la derecha.
  */
 
 import { rutasDeHoy } from "@/lib/sanity";
 import { esPagina } from "@/lib/vistas";
 import Comparador from "./Comparador";
 
-export const metadata = { title: "Las dos, lado a lado" };
+export const metadata = { title: "Comparar con el sitio real" };
 
 export default async function Comparar({
   searchParams,

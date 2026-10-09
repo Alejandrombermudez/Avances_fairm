@@ -1,12 +1,15 @@
 /**
- * Las tres maneras de mirar el sitio, y cómo pasar de una a otra sin perder
- * la página.
+ * Las dos maneras de mirar la propuesta, y cómo pasar de una a otra sin
+ * perder la página.
  *
- * El sitio se puede ver como está hoy, como se propone, o las dos a la vez.
- * Cambiar de una a otra llevaba siempre a la portada: quien estaba mirando
- * Recursos tenía que volver a buscarlo. Aquí cada página se nombra una sola
- * vez, como se llama hoy —«/recursos», «/que-es-craft»— y cada vista sabe
- * cuál es su dirección para ella.
+ * La propuesta se puede ver sola, o al lado del sitio real para comparar.
+ * Cada página se nombra una sola vez, como se llama hoy —«/recursos»,
+ * «/que-es-craft»— y de ahí sale su dirección en la propuesta, en la pantalla
+ * comparada y en craftmines.org.
+ *
+ * Hubo una tercera: una réplica del sitio de hoy hecha con el gestor nuevo.
+ * Sirvió para comprobar que la migración era fiel; al lado del sitio real no
+ * enseñaba nada que él no enseñe, y se quitó.
  *
  * No hay nada de React aquí dentro: son cuentas con direcciones, y así se
  * pueden probar solas.
@@ -14,7 +17,7 @@
 
 import { RAIZ } from "@/lib/rutas";
 
-export type Vista = "actual" | "propuesta" | "comparar";
+export type Vista = "propuesta" | "comparar";
 
 const PROPUESTA = `${RAIZ}/propuesta`;
 const COMPARAR = `${RAIZ}/comparar`;
@@ -29,17 +32,15 @@ export const esPagina = (p: string) => /^\/[a-z0-9_\-/]*$/i.test(p) && !p.includ
 /**
  * De la dirección que se está mirando, a la página del sitio.
  *
- * `null` si no es una página del sitio: la pantalla comparada, el informe, un
- * marco que todavía está en blanco.
+ * `null` si no es una página de la propuesta: la pantalla comparada, el
+ * informe, un marco que todavía está en blanco.
  */
 export function paginaDe(camino: string): string | null {
   const c = camino.replace(/\/+$/, "") || "/";
-  if (c === COMPARAR || c.startsWith(`${COMPARAR}/`)) return null;
 
   let pagina: string;
-  if (c === PROPUESTA || c === RAIZ) pagina = "/";
+  if (c === PROPUESTA) pagina = "/";
   else if (c.startsWith(`${PROPUESTA}/`)) pagina = c.slice(PROPUESTA.length);
-  else if (c.startsWith(`${RAIZ}/`)) pagina = c.slice(RAIZ.length);
   else return null;
 
   // En la propuesta las preguntas tienen página diseñada, con otro nombre.
@@ -54,25 +55,6 @@ export function enPropuesta(pagina: string): string {
   return PROPUESTA + pagina;
 }
 
-/** Si la página existe tal cual en el sitio de hoy, o es nueva en la propuesta. */
-export const tieneReplica = (pagina: string) => !SOLO_PROPUESTA.test(pagina);
-
-/**
- * La página, como está hoy.
- *
- * Un documento, una noticia o una historia no tienen página propia en la
- * réplica. En vez de un «no encontrada» se va a donde eso se encuentra hoy:
- * el documento, en Recursos; la historia, en Historias; la noticia, en la
- * portada.
- */
-export function enActual(pagina: string): string {
-  if (pagina === "/") return RAIZ;
-  if (pagina.startsWith("/documentos/")) return `${RAIZ}/recursos`;
-  if (pagina.startsWith("/historias/")) return `${RAIZ}/historias-craft`;
-  if (pagina === "/noticias" || pagina.startsWith("/noticias/")) return RAIZ;
-  return RAIZ + pagina;
-}
-
 /** La página, en la pantalla comparada. */
 export function enComparar(pagina: string): string {
   return pagina === "/" ? COMPARAR : `${COMPARAR}?p=${pagina}`;
@@ -85,6 +67,9 @@ export function enComparar(pagina: string): string {
  * es su nombre: «Cronología» cuelga de /creation-process, y las noticias
  * llevan el año delante. Sin ese dato se prueba con el nombre, que es lo que
  * vale para las páginas principales.
+ *
+ * Un documento no tiene página en el sitio de hoy, ni una noticia sin
+ * dirección vieja: se va a donde eso se encuentra —Recursos, la portada—.
  */
 export function enVivo(pagina: string, viejas: Record<string, string> = {}): string {
   const vieja = viejas[pagina];
@@ -99,4 +84,4 @@ export function enVivo(pagina: string, viejas: Record<string, string> = {}): str
 
 /** Si en craftmines.org hay una página para esto, o solo un sitio donde buscarlo. */
 export const tieneVivo = (pagina: string, viejas: Record<string, string> = {}) =>
-  tieneReplica(pagina) || pagina in viejas;
+  !SOLO_PROPUESTA.test(pagina) || pagina in viejas;

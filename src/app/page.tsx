@@ -87,7 +87,7 @@ export default function Page() {
             {/* El acceso a la vista previa va arriba del todo: es lo único de
                 esta página que se puede abrir y recorrer, no solo leer. */}
             <Link
-              href="/sitio"
+              href="/sitio/propuesta"
               className="group flex items-center gap-2.5 rounded-full border border-ambar/45 px-4 py-2 transition-colors duration-200 hover:border-ambar hover:bg-ambar"
             >
               <span

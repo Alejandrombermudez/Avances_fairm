@@ -1,14 +1,13 @@
 /**
  * La pantalla comparada.
  *
- * A la izquierda lo que hay hoy, a la derecha la propuesta, lado a lado y en
- * la misma página. Se navega en cualquiera de las dos mitades —su menú, sus
- * botones— y la otra la sigue; los atajos de arriba llevan a las cuatro
- * comparaciones que más enseñan.
+ * A la izquierda el sitio real, craftmines.org tal como está en línea; a la
+ * derecha la propuesta. Lado a lado y en la misma página: se navega en la
+ * propuesta —su menú, sus botones— y el sitio real la sigue. Los atajos de
+ * arriba llevan a las cuatro comparaciones que más enseñan.
  *
- * La mitad izquierda puede mostrar craftmines.org en vivo o la réplica. Que se
- * pueda alternar no es un adorno: es la forma de comprobar que la réplica es
- * fiel, sin tener que creérselo.
+ * Al revés no se puede: el sitio real es de otro dominio y el navegador no
+ * deja saber en qué página está.
  */
 
 "use client";
@@ -16,19 +15,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Conmutador from "@/components/sitio/Conmutador";
-import {
-  enActual,
-  enComparar,
-  enPropuesta,
-  enVivo,
-  paginaDe,
-  tieneReplica,
-  tieneVivo,
-} from "@/lib/vistas";
-
-type Fuente = "vivo" | "replica";
-type Lado = "izq" | "der";
-type Marco = { src: string; n: number };
+import { enComparar, enPropuesta, enVivo, paginaDe, tieneVivo } from "@/lib/vistas";
 
 /** Las comparaciones que más enseñan, con lo que hay que mirar en cada una. */
 const ATAJOS: { pagina: string; nombre: string; nota: string }[] = [
@@ -68,13 +55,11 @@ const DOCUMENTO = {
   archivo: "https://www.craftmines.org/wp-content/uploads/2024/10/CRAFT-2.1-Vol.2A-Final-clean.pdf",
 };
 
-/** Cada cuánto se mira si alguna mitad cambió de página. */
+/** Cada cuánto se mira si la propuesta cambió de página. */
 const PULSO = 400;
 
-/** Cuánto se espera a que una mitad llegue a donde se la mandó. */
+/** Cuánto se espera a que la propuesta llegue a donde se la mandó. */
 const PACIENCIA = 10_000;
-
-type Yendo = { a: string; hasta: number } | null;
 
 /**
  * Para la comparación de un documento, la mitad izquierda no enmarca el PDF.
@@ -124,7 +109,6 @@ function ElArchivo({ url }: { url: string }) {
   );
 }
 
-const PILDORA = "rounded-full px-3.5 py-1 text-[12.5px] font-bold whitespace-nowrap transition-colors";
 const SOLA = "ml-auto shrink-0 text-[11.5px] font-bold whitespace-nowrap text-white/70 underline-offset-2 hover:text-white hover:underline";
 
 export default function Comparador({
@@ -135,112 +119,80 @@ export default function Comparador({
   viejas: Record<string, string>;
 }) {
   const [pagina, setPagina] = useState(inicial);
-  const [fuente, setFuente] = useState<Fuente>("vivo");
 
-  const aLaIzquierda = useCallback(
-    (p: string, f: Fuente) => (f === "vivo" ? enVivo(p, viejas) : enActual(p)),
-    [viejas],
-  );
-
-  /* Cada mitad lleva su dirección y un contador. Subir el contador la vuelve
+  /* La propuesta lleva su dirección y un contador. Subir el contador la vuelve
      a cargar; no tocarlo la deja donde esté, aunque dentro se haya navegado. */
-  const [izq, setIzq] = useState<Marco>(() => ({ src: aLaIzquierda(inicial, "vivo"), n: 0 }));
-  const [der, setDer] = useState<Marco>(() => ({ src: enPropuesta(inicial), n: 0 }));
-  const marcoIzq = useRef<HTMLIFrameElement>(null);
-  const marcoDer = useRef<HTMLIFrameElement>(null);
+  const [propuesta, setPropuesta] = useState(() => ({ src: enPropuesta(inicial), n: 0 }));
+  const marco = useRef<HTMLIFrameElement>(null);
 
-  /* Lo último que se sabe de cada mitad, fuera del dibujo: lo lee el pulso.
-     `yendo` dice a dónde se acaba de mandar a una mitad que aún no ha llegado. */
+  /* Lo último que se sabe de la propuesta, fuera del dibujo: lo lee el pulso.
+     `yendo` dice a dónde se la acaba de mandar, si aún no ha llegado. */
   const sabido = useRef({
     pagina: inicial,
-    fuente: "vivo" as Fuente,
-    izq: izq.src,
-    der: der.src,
-    yendo: { izq: null as Yendo, der: null as Yendo },
+    donde: propuesta.src,
+    yendo: null as { a: string; hasta: number } | null,
   });
 
   /**
    * Pone las dos mitades en una página.
    *
-   * `origen` es la mitad donde ya se navegó: esa no se toca. La otra solo se
-   * recarga si de verdad cambia de dirección — un documento y Recursos son la
-   * misma página en el sitio de hoy, y no hay por qué hacerla parpadear.
+   * Si el cambio viene de haber navegado dentro de la propuesta, ella ya está
+   * donde tiene que estar y no se toca: solo la sigue el sitio real.
    */
-  const poner = useCallback(
-    (p: string, f: Fuente, origen?: Lado) => {
-      const s = sabido.current;
-      s.pagina = p;
-      s.fuente = f;
-      setPagina(p);
-      setFuente(f);
+  const poner = useCallback((p: string, desdeDentro = false) => {
+    const s = sabido.current;
+    s.pagina = p;
+    setPagina(p);
 
-      const hasta = Date.now() + PACIENCIA;
-      const nuevaIzq = aLaIzquierda(p, f);
-      const nuevaDer = enPropuesta(p);
-      if (origen !== "izq" && s.izq !== nuevaIzq) {
-        s.izq = nuevaIzq;
-        s.yendo.izq = { a: nuevaIzq, hasta };
-        setIzq((m) => ({ src: nuevaIzq, n: m.n + 1 }));
-      }
-      if (origen !== "der" && s.der !== nuevaDer) {
-        s.der = nuevaDer;
-        s.yendo.der = { a: nuevaDer, hasta };
-        setDer((m) => ({ src: nuevaDer, n: m.n + 1 }));
-      }
-      // La dirección de arriba dice dónde se está: recargar no devuelve a la portada.
-      window.history.replaceState(null, "", enComparar(p));
-    },
-    [aLaIzquierda],
-  );
+    const nueva = enPropuesta(p);
+    if (!desdeDentro && s.donde !== nueva) {
+      s.donde = nueva;
+      s.yendo = { a: nueva, hasta: Date.now() + PACIENCIA };
+      setPropuesta((m) => ({ src: nueva, n: m.n + 1 }));
+    }
+    // La dirección de arriba dice dónde se está: recargar no devuelve a la portada.
+    window.history.replaceState(null, "", enComparar(p));
+  }, []);
 
   /**
-   * El pulso: mira dónde está cada mitad y, si alguien navegó dentro de una,
-   * lleva la otra a la misma página.
+   * El pulso: mira en qué página está la propuesta y, si se navegó dentro de
+   * ella, lleva el sitio real a la misma.
    *
-   * Se pregunta en vez de esperar un aviso de carga porque los menús del
-   * sitio cambian de página sin recargar, y ese aviso no llega. El sitio real
-   * es de otro dominio y el navegador no deja leer su dirección: esa mitad
-   * sigue a la otra, pero no al revés.
+   * Se pregunta en vez de esperar un aviso de carga porque el menú de la
+   * propuesta cambia de página sin recargar, y ese aviso no llega.
    *
-   * A la mitad que se acaba de mandar a otra página no se le hace caso hasta
-   * que llega: mientras carga sigue diciendo la dirección anterior, y tomarla
-   * por una navegación devolvía a la otra mitad a donde estaba.
+   * Recién mandada a otra página no se le hace caso hasta que llega: mientras
+   * carga sigue diciendo la dirección anterior, y tomarla por una navegación
+   * la devolvía a donde estaba.
    */
   useEffect(() => {
     const pulso = window.setInterval(() => {
-      const marcos: [Lado, HTMLIFrameElement | null][] = [
-        ["der", marcoDer.current],
-        ["izq", marcoIzq.current],
-      ];
-      for (const [lado, marco] of marcos) {
-        let camino: string;
-        try {
-          camino = marco?.contentWindow?.location.pathname ?? "";
-        } catch {
-          continue; // otro dominio
-        }
-        const s = sabido.current;
-        if (!camino) continue;
-        const yendo = s.yendo[lado];
-        if (yendo) {
-          if (camino !== yendo.a && Date.now() < yendo.hasta) continue;
-          s.yendo[lado] = null;
-          s[lado] = camino;
-          continue;
-        }
-        if (camino === s[lado]) continue;
-        const p = paginaDe(camino);
-        if (p === null) continue; // todavía en blanco, o fuera del sitio
-        s[lado] = camino;
-        if (p !== s.pagina) poner(p, s.fuente, lado);
+      let camino: string;
+      try {
+        camino = marco.current?.contentWindow?.location.pathname ?? "";
+      } catch {
+        return; // salió del sitio
       }
+      const s = sabido.current;
+      if (!camino) return;
+      if (s.yendo) {
+        if (camino !== s.yendo.a && Date.now() < s.yendo.hasta) return;
+        s.yendo = null;
+        s.donde = camino;
+        return;
+      }
+      if (camino === s.donde) return;
+      const p = paginaDe(camino);
+      if (p === null) return; // todavía en blanco, o fuera de la propuesta
+      s.donde = camino;
+      if (p !== s.pagina) poner(p, true);
     }, PULSO);
     return () => window.clearInterval(pulso);
   }, [poner]);
 
   const atajo = ATAJOS.find((a) => a.pagina === pagina);
   const esArchivo = pagina === DOCUMENTO.pagina;
-  const sinPropia = fuente === "vivo" ? !tieneVivo(pagina, viejas) : !tieneReplica(pagina);
+  const real = enVivo(pagina, viejas);
 
   return (
     <div className="flex h-screen flex-col bg-[#1a0d07] text-white">
@@ -262,9 +214,9 @@ export default function Comparador({
                 <button
                   key={a.pagina}
                   type="button"
-                  onClick={() => poner(a.pagina, fuente)}
+                  onClick={() => poner(a.pagina)}
                   aria-pressed={a.pagina === pagina}
-                  className={`${PILDORA} ${
+                  className={`rounded-full px-3.5 py-1 text-[12.5px] font-bold whitespace-nowrap transition-colors ${
                     a.pagina === pagina
                       ? "bg-white/20 text-white"
                       : "text-white/65 hover:bg-white/10 hover:text-white"
@@ -273,34 +225,6 @@ export default function Comparador({
                   {a.nombre}
                 </button>
               ))}
-            </div>
-
-            <div className="ml-auto flex items-center gap-2">
-              <span className="text-[11.5px] font-bold tracking-wider text-white/40 uppercase">
-                A la izquierda
-              </span>
-              <div className="flex gap-1 rounded-full bg-white/10 p-1">
-                {(
-                  [
-                    ["vivo", "Sitio real"],
-                    ["replica", "Réplica"],
-                  ] as const
-                ).map(([clave, nombre]) => (
-                  <button
-                    key={clave}
-                    type="button"
-                    onClick={() => poner(pagina, clave)}
-                    disabled={esArchivo}
-                    aria-pressed={fuente === clave}
-                    title={esArchivo ? "Hoy esto no es una página: es un archivo" : undefined}
-                    className={`${PILDORA} ${
-                      fuente === clave ? "bg-white text-[#1a0d07]" : "text-white/70 hover:text-white"
-                    } ${esArchivo ? "cursor-not-allowed opacity-30" : ""}`}
-                  >
-                    {nombre}
-                  </button>
-                ))}
-              </div>
             </div>
           </div>
 
@@ -315,36 +239,33 @@ export default function Comparador({
         <section className="flex min-h-0 flex-col bg-white">
           <div className="flex shrink-0 items-center gap-3 bg-[#2b1309] px-4 py-2">
             <span className="shrink-0 text-[11.5px] font-extrabold tracking-wider text-white uppercase">
-              Como está hoy
+              El sitio real
             </span>
             <span className="truncate text-[11.5px] text-white/45">
               {esArchivo
-                ? "hoy no es una página: es un archivo"
-                : (fuente === "vivo" ? "craftmines.org en vivo" : "réplica · lee de Sanity") +
-                  (sinPropia ? " · hoy no tiene página propia: aquí es donde se encuentra" : "")}
+                ? "hoy esto no es una página: es un archivo"
+                : tieneVivo(pagina, viejas)
+                  ? "craftmines.org, como está hoy en línea"
+                  : "craftmines.org · hoy esto no tiene página propia: aquí es donde se encuentra"}
             </span>
-            {fuente === "vivo" ? (
-              !esArchivo && (
-                <a href={enVivo(pagina, viejas)} target="_blank" rel="noopener noreferrer" className={SOLA}>
-                  Abrir aparte ↗
-                </a>
-              )
-            ) : (
-              <Link href={enActual(pagina)} className={SOLA}>
-                Ver solo esta →
-              </Link>
+            {!esArchivo && (
+              <a href={real} target="_blank" rel="noopener noreferrer" className={SOLA}>
+                Abrir aparte ↗
+              </a>
             )}
           </div>
-          {esArchivo && <ElArchivo url={DOCUMENTO.archivo} />}
-          {/* Con el archivo delante el marco se esconde, no se quita: así sigue
-              donde se le dejó y al volver no hay que adivinar dónde estaba. */}
-          <iframe
-            key={`izq-${izq.n}`}
-            ref={marcoIzq}
-            src={izq.src}
-            title="Como está hoy"
-            className={esArchivo ? "hidden" : "min-h-0 flex-1 border-0 bg-white"}
-          />
+          {esArchivo ? (
+            <ElArchivo url={DOCUMENTO.archivo} />
+          ) : (
+            /* La dirección hace de llave: solo se recarga si cambia. Un
+               documento y Recursos son la misma página en el sitio real. */
+            <iframe
+              key={real}
+              src={real}
+              title="El sitio real"
+              className="min-h-0 flex-1 border-0 bg-white"
+            />
+          )}
         </section>
 
         <section className="flex min-h-0 flex-col bg-white">
@@ -353,16 +274,16 @@ export default function Comparador({
               Propuesta
             </span>
             <span className="truncate text-[11.5px] text-white/45">
-              el mismo contenido, del mismo gestor
+              el mismo contenido, desde el gestor nuevo
             </span>
             <Link href={enPropuesta(pagina)} className={SOLA}>
               Ver solo la propuesta →
             </Link>
           </div>
           <iframe
-            key={`der-${der.n}`}
-            ref={marcoDer}
-            src={der.src}
+            key={`propuesta-${propuesta.n}`}
+            ref={marco}
+            src={propuesta.src}
             title="Propuesta"
             className="min-h-0 flex-1 border-0 bg-white"
           />

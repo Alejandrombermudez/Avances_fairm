@@ -1,14 +1,12 @@
 /**
- * La franja que deja pasar de una vista a otra.
+ * La franja que deja pasar de ver la propuesta sola a compararla.
  *
- * Tres posiciones en un solo mando: como está hoy, la propuesta, o las dos a
- * la vez. Está arriba del todo en las tres, en el mismo sitio y con el mismo
- * aspecto, y la que se está mirando queda marcada.
+ * Dos posiciones en un solo mando: solo la propuesta, o la propuesta al lado
+ * del sitio real. Está arriba del todo en las dos, en el mismo sitio y con el
+ * mismo aspecto, y la que se está mirando queda marcada.
  *
  * Cambiar de vista no cambia de página: quien está en Recursos sigue en
- * Recursos. Antes eran un par de botones y un tercero aparte, cada cambio
- * devolvía a la portada, y desde la pantalla comparada no había cómo quedarse
- * solo con la propuesta.
+ * Recursos.
  */
 
 "use client";
@@ -16,27 +14,27 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { enActual, enComparar, enPropuesta, paginaDe, type Vista } from "@/lib/vistas";
+import { enComparar, enPropuesta, paginaDe, type Vista } from "@/lib/vistas";
 
 const FONDO: Record<Vista, string> = {
-  actual: "#2b1309",
   propuesta: "#3a1409",
   comparar: "#1a0d07",
 };
 
 const VISTAS: { clave: Vista; nombre: string; corto: string; a: (pagina: string) => string }[] = [
-  { clave: "actual", nombre: "Como está hoy", corto: "Hoy", a: enActual },
-  { clave: "propuesta", nombre: "Propuesta", corto: "Propuesta", a: enPropuesta },
-  { clave: "comparar", nombre: "Las dos, lado a lado", corto: "Las dos", a: enComparar },
+  { clave: "propuesta", nombre: "Solo la propuesta", corto: "Propuesta", a: enPropuesta },
+  { clave: "comparar", nombre: "Comparar con el sitio real", corto: "Comparar", a: enComparar },
 ];
 
 const FRASE: Record<Vista, [string, string]> = {
-  actual: ["la página como está hoy", ", con su contenido ya en el gestor nuevo."],
   propuesta: ["la propuesta", ". El contenido es exactamente el mismo."],
-  comparar: ["las dos a la vez", ". Navega en cualquiera y la otra la sigue."],
+  comparar: [
+    "el sitio real y la propuesta",
+    ", lado a lado. Navega en la propuesta y el sitio real la sigue.",
+  ],
 };
 
-/** Dos mitades: lo que hace la tercera posición, dibujado. */
+/** Dos mitades: lo que hace la segunda posición, dibujado. */
 function DosMitades() {
   return (
     <svg viewBox="0 0 16 12" aria-hidden="true" className="h-3 w-4 shrink-0">
