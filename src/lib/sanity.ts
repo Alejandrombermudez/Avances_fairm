@@ -483,6 +483,28 @@ export const slugsDePagina = (idioma: Idioma = "es") =>
     { idioma },
   );
 
+/**
+ * La dirección que cada página, noticia e historia tiene hoy en
+ * craftmines.org, por su dirección en este sitio.
+ *
+ * La pantalla comparada la usa para poner el sitio real al lado de la
+ * propuesta en la misma página. No se puede deducir del nombre: «Cronología»
+ * cuelga de /creation-process y las noticias llevan el año delante.
+ */
+export async function rutasDeHoy(): Promise<Record<string, string>> {
+  const filas = await cliente.fetch<{ tipo: string; slug: string; vieja: string }[]>(
+    `*[_type in ["page", "article", "story"] && language == "es"
+       && (site == "craft" || "craft" in sites)
+       && defined(slug.current) && defined(legacyPaths[0])]{
+      "tipo": _type, "slug": slug.current, "vieja": legacyPaths[0]
+    }`,
+    {},
+    { next: { revalidate: 3600 } },
+  );
+  const carpeta: Record<string, string> = { page: "", article: "/noticias", story: "/historias" };
+  return Object.fromEntries(filas.map((f) => [`${carpeta[f.tipo]}/${f.slug}`, f.vieja]));
+}
+
 /** Cuántas fichas hay de cada cosa: alimenta la franja de la portada. */
 export const recuento = () =>
   traer<Record<string, number>>(
