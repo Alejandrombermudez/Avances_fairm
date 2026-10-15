@@ -16,8 +16,9 @@
  */
 
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
-import { paginaPorSlug, slugsDePagina, preguntas, hitos } from "@/lib/sanity";
+import { paginaPorSlug, slugsDePagina, preguntas, hitos, urlImagen } from "@/lib/sanity";
 import { ruta } from "@/lib/rutas";
 import Texto from "@/components/sitio/Texto";
 
@@ -87,8 +88,25 @@ export default async function PaginaPropuesta({ params }: { params: Promise<{ sl
   const tieneCuerpo = !!p.body?.length;
 
   return (
-    <main className="bg-gris px-6 py-14">
-      <div className="mx-auto max-w-[860px]">
+    <main className="bg-gris">
+      {/* La franja de arriba, a todo el ancho, como abre cada página en el
+          sitio de hoy. A su proporción, con un tope para que en una pantalla
+          ancha no empuje el contenido fuera de la vista; lo que se recorta,
+          se recorta por arriba y por abajo. */}
+      {!!p.cabecera && (
+        <div className="relative max-h-[30rem] w-full overflow-hidden bg-cafe">
+          <Image
+            src={urlImagen(p.cabecera).width(2400).fit("max").auto("format").url()}
+            alt=""
+            width={p.cabecera.ancho ?? 2400}
+            height={p.cabecera.alto ?? 1000}
+            priority
+            sizes="100vw"
+            className="h-auto max-h-[30rem] w-full object-cover"
+          />
+        </div>
+      )}
+      <div className="mx-auto max-w-[908px] px-6 py-14">
         <header className="text-center">
           {p.temas?.length ? (
             <p className="rotulo text-terracota">{p.temas.join(" · ")}</p>

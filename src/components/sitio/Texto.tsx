@@ -1,11 +1,15 @@
 /**
  * Dibuja el cuerpo de una página, una noticia o una historia.
  *
- * El gestor ofrece catorce piezas para armar un cuerpo y aquí están las
- * catorce. No siempre fue así: hasta el 8 de octubre de 2026 se dibujaban
+ * El gestor ofrece dieciocho piezas para armar un cuerpo y aquí están las
+ * dieciocho. No siempre fue así: hasta el 8 de octubre de 2026 se dibujaban
  * cinco, y una galería, un video o un acordeón se guardaban sin error y no
  * aparecían en ninguna parte. La regla es que una pieza que se ofrece en
  * `sanity/schemas/objetos/cuerpo.ts` tiene aquí su dibujo, o no se ofrece.
+ *
+ * Las pestañas, el carrusel y el formulario necesitan el navegador para
+ * cambiar de pestaña, desplazar o enviar; viven en sus propios archivos y
+ * reciben de aquí lo que ya está dibujado.
  *
  * Todas se ajustan solas al ancho de la pantalla: lo que en el sitio de hoy
  * eran columnas del constructor aquí son rejillas que pasan de una columna a
@@ -20,6 +24,9 @@ import { mesYAno } from "@/lib/fecha";
 import { RAIZ, esExterna, ruta, rutaPropuesta } from "@/lib/rutas";
 import IconoArchivo from "@/components/sitio/IconoArchivo";
 import { NOMBRE_TIPO, nombre } from "@/components/sitio/FichaDocumento";
+import Pestanas from "@/components/sitio/Pestanas";
+import Carrusel from "@/components/sitio/Carrusel";
+import Formulario from "@/components/sitio/Formulario";
 
 /**
  * `pagina` para las páginas del sitio: los titulares van centrados y con su
@@ -66,6 +73,25 @@ type Tarjeta = {
   ancho?: number | null;
   alto?: number | null;
   botones?: Boton[] | null;
+};
+
+/** Una pestaña, un panel de acordeón: su título y lo que lleva dentro. */
+type Panel = {
+  _key: string;
+  titulo?: string;
+  imagen?: unknown;
+  alt?: string;
+  ancho?: number | null;
+  alto?: number | null;
+  contenido?: unknown[] | null;
+};
+
+type ElementoCarrusel = {
+  _key: string;
+  titulo?: string;
+  texto?: unknown[] | null;
+  imagen?: unknown;
+  alt?: string;
 };
 
 /* ── A dónde lleva un enlace ───────────────────────────────────────── */
@@ -295,7 +321,9 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
               alt={v.alt ?? ""}
               width={ancho}
               height={alto}
-              className="h-auto w-full rounded-lg"
+              /* Un icono —el sobre de Contacto, 82 píxeles— no lleva las
+                 esquinas redondeadas de una foto. */
+              className={`h-auto w-full ${ancho > 160 ? "rounded-lg" : ""}`}
               sizes={`(max-width: 768px) 100vw, ${pedido}px`}
             />
             {v.caption && (
@@ -623,6 +651,146 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
               </details>
             ))}
           </div>
+        );
+      },
+
+      /**
+       * Pestañas. Si la pestaña trae foto, la foto va a la izquierda y el
+       * contenido a la derecha, que es como se ven las historias por país;
+       * en el teléfono la foto queda encima.
+       */
+      pestanas: ({ value }) => {
+        const v = value as { forma?: string; items?: Panel[] };
+        const items = (v.items ?? []).filter((i) => i.titulo);
+        if (!items.length) return null;
+        return (
+          <Pestanas
+            forma={v.forma === "linea" ? "linea" : "pestanas"}
+            titulos={items.map((i) => i.titulo as string)}
+            paneles={items.map((i) => (
+              <div
+                key={i._key}
+                className={
+                  i.imagen ? "grid gap-6 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:items-start" : ""
+                }
+              >
+                {!!i.imagen && (
+                  <Image
+                    src={urlImagen(i.imagen).width(760).fit("max").auto("format").url()}
+                    alt={i.alt ?? ""}
+                    width={i.ancho ?? 760}
+                    height={i.alto ?? 570}
+                    className="h-auto w-full rounded-lg"
+                    sizes="(max-width: 640px) 100vw, 320px"
+                  />
+                )}
+                <div className="min-w-0 [&_li]:marker:text-verde">
+                  <Texto valor={i.contenido} enPropuesta={enPropuesta} />
+                </div>
+              </div>
+            ))}
+          />
+        );
+      },
+
+      /**
+       * Personas o logos en fila. Las personas, con su foto redonda y, debajo,
+       * el nombre y el cargo en el recuadro de borde verde del sitio de hoy;
+       * los logos, con su párrafo.
+       */
+      carrusel: ({ value }) => {
+        const v = value as { forma?: string; items?: ElementoCarrusel[] };
+        const items = (v.items ?? []).filter((i) => i.imagen || i.titulo || i.texto?.length);
+        if (!items.length) return null;
+        const personas = v.forma !== "logos";
+        return (
+          <Carrusel etiqueta={personas ? "Integrantes" : "Organizaciones"}>
+            {items.map((i) =>
+              personas ? (
+                <li
+                  key={i._key}
+                  className="flex w-[13rem] shrink-0 snap-start flex-col items-center text-center"
+                >
+                  {i.imagen ? (
+                    <Image
+                      src={urlImagen(i.imagen).width(224).height(224).fit("crop").auto("format").url()}
+                      alt=""
+                      width={112}
+                      height={112}
+                      className="size-28 rounded-full bg-gris object-cover"
+                    />
+                  ) : (
+                    <span className="block size-28 rounded-full bg-gris" aria-hidden="true" />
+                  )}
+                  <div className="mt-4 w-full flex-1 rounded-2xl border border-[#98c56d] px-4 py-3">
+                    <p className="text-[13.5px] leading-snug font-semibold text-cafe">{i.titulo}</p>
+                    {!!i.texto?.length && (
+                      <div className="mt-1 [&_p]:text-[12.5px] [&_p]:leading-snug [&_p]:text-suave">
+                        <Texto valor={i.texto} enPropuesta={enPropuesta} />
+                      </div>
+                    )}
+                  </div>
+                </li>
+              ) : (
+                <li
+                  key={i._key}
+                  className="flex w-[16.5rem] shrink-0 snap-start flex-col rounded-xl border border-linea bg-white px-5 py-5 sm:w-[18.5rem]"
+                >
+                  {!!i.imagen && (
+                    <Image
+                      src={urlImagen(i.imagen).height(160).fit("max").auto("format").url()}
+                      alt={i.titulo ?? i.alt ?? ""}
+                      width={240}
+                      height={80}
+                      className="h-16 w-auto max-w-full self-start object-contain"
+                    />
+                  )}
+                  {i.titulo && (
+                    <p className="mt-3 text-[14.5px] leading-snug font-semibold text-cafe">{i.titulo}</p>
+                  )}
+                  {!!i.texto?.length && (
+                    <div className="mt-3 [&_p]:text-[13.5px] [&_p]:leading-relaxed">
+                      <Texto valor={i.texto} enPropuesta={enPropuesta} />
+                    </div>
+                  )}
+                </li>
+              ),
+            )}
+          </Carrusel>
+        );
+      },
+
+      /** Un cuadro: lo que es a la izquierda, el dato a la derecha. */
+      ficha: ({ value }) => {
+        const filas = (
+          (value as { filas?: { _key: string; etiqueta?: string; contenido?: unknown[] }[] }).filas ?? []
+        ).filter((f) => f.etiqueta);
+        if (!filas.length) return null;
+        return (
+          <dl className="my-8 divide-y divide-linea border-y border-linea">
+            {filas.map((f) => (
+              <div key={f._key} className="grid gap-2 py-5 sm:grid-cols-[9.5rem_minmax(0,1fr)] sm:gap-6">
+                <dt className="text-[12.5px] font-semibold tracking-[.08em] text-cafe uppercase sm:pt-1">
+                  {f.etiqueta}
+                </dt>
+                <dd className="min-w-0 [&_li]:marker:text-verde">
+                  <Texto valor={f.contenido} enPropuesta={enPropuesta} />
+                </dd>
+              </div>
+            ))}
+          </dl>
+        );
+      },
+
+      formulario: ({ value }) => {
+        const v = value as { destinatario?: string; asunto?: string; boton?: string };
+        if (!v.destinatario) return null;
+        return (
+          <Formulario
+            destinatario={v.destinatario}
+            asunto={v.asunto || "Mensaje desde craftmines.org"}
+            boton={v.boton || "Enviar"}
+          />
         );
       },
 

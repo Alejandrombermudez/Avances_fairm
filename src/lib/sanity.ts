@@ -66,6 +66,7 @@ const SIN_MARCA = new Set([
   "tipo", "fondo", "listado", "icono", "columnas",
   "accent", "lang", "volumeLabel", "extension", "claveArchivo",
   "enlace", "footerContacto", "languages", "audiences", "sites",
+  "forma", "destinatario", "asunto", "category",
 ]);
 
 const clienteBorrador = createClient({
@@ -216,6 +217,19 @@ const MEDIDAS = `
   "alto": asset->metadata.dimensions.height
 `;
 
+/**
+ * Lo de dentro de un panel, una pestaña o una fila de un cuadro. GROQ no
+ * recorre a fondo por su cuenta: sin esto, un enlace a una historia dentro de
+ * la pestaña «Colombia» llegaba sin su dirección y llevaba a «#».
+ */
+const INTERIOR = `
+  ...,
+  markDefs[]{ ..., ${DESTINO} },
+  _type == "cajaImagen" => { ..., ${DESTINO} },
+  _type == "imagen" => { ..., ${MEDIDAS} },
+  _type == "botones" => { ..., items[]{ ${BOTON} } }
+`;
+
 const CUERPO = `
   body[]{
     ...,
@@ -223,6 +237,25 @@ const CUERPO = `
     _type == "cajaImagen" => { ..., ${DESTINO} },
     _type == "imagen" => { ..., ${MEDIDAS} },
     _type == "botones" => { ..., items[]{ ${BOTON} } },
+    _type in ["acordeon", "pestanas"] => {
+      ...,
+      items[]{
+        ...,
+        "ancho": imagen.asset->metadata.dimensions.width,
+        "alto": imagen.asset->metadata.dimensions.height,
+        contenido[]{ ${INTERIOR} }
+      }
+    },
+    _type == "ficha" => { ..., filas[]{ ..., contenido[]{ ${INTERIOR} } } },
+    _type == "carrusel" => {
+      ...,
+      items[]{
+        ...,
+        "ancho": imagen.asset->metadata.dimensions.width,
+        "alto": imagen.asset->metadata.dimensions.height,
+        texto[]{ ..., markDefs[]{ ..., ${DESTINO} } }
+      }
+    },
     _type == "tarjetas" => {
       ...,
       items[]{
@@ -451,9 +484,9 @@ export const slugsDeHistoria = () =>
   );
 
 export const preguntas = (idioma: Idioma = "es") =>
-  traer<{ _id: string; question: string; answer: unknown[] }[]>(
+  traer<{ _id: string; question: string; answer: unknown[]; grupo: string | null }[]>(
     `*[_type == "faq" && "craft" in sites && language == $idioma] | order(order asc){
-      _id, question, answer}`,
+      _id, question, answer, "grupo": category}`,
     { idioma },
   );
 
@@ -466,9 +499,11 @@ export const paginaPorSlug = (slug: string, idioma: Idioma = "es") =>
     legacyPaths: string[] | null;
     temas: string[] | null;
     arma: string | null;
+    cabecera: { ancho: number | null; alto: number | null } | null;
   } | null>(
     `*[_type == "page" && site == "craft" && slug.current == $slug && language == $idioma][0]{
       _id, title, lead, legacyPaths,
+      "cabecera": heroImage{ ..., ${MEDIDAS} },
       ${CUERPO},
       "temas": topics[]->title,
       "arma": _arma
