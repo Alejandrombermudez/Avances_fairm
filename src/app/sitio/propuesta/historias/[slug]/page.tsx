@@ -14,7 +14,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { historia, slugsDeHistoria, urlImagen } from "@/lib/sanity";
+import { hayImagen, historia, slugsDeHistoria, urlImagen } from "@/lib/sanity";
 import { rutaPropuesta } from "@/lib/rutas";
 import Texto from "@/components/sitio/Texto";
 
@@ -71,13 +71,13 @@ export default async function Historia({ params }: { params: Promise<{ slug: str
             está justo al lado. Sirve para las tarjetas que llevan aquí. */}
         <div
           className={`mt-10 grid gap-9 ${
-            h.portada ? "lg:grid-cols-[minmax(0,5fr)_minmax(0,9fr)] lg:gap-12" : "max-w-[760px]"
+            hayImagen(h.portada) ? "lg:grid-cols-[minmax(0,5fr)_minmax(0,9fr)] lg:gap-12" : "max-w-[760px]"
           }`}
         >
           {/* Recorte en 4:3 en vez de alto y ancho fijos: asi la foto que se
               suba no se deforma, sea cual sea su proporcion. En pantalla ancha
               acompaña al texto mientras se lee. */}
-          {!!h.portada && (
+          {hayImagen(h.portada) && (
             <div className="lg:sticky lg:top-8 lg:self-start">
               <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-gris">
                 <Image

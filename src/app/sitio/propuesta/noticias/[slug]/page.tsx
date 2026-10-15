@@ -14,7 +14,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { articulo, slugsDeArticulo, urlImagen } from "@/lib/sanity";
+import { hayImagen, articulo, slugsDeArticulo, urlImagen } from "@/lib/sanity";
 import { ruta } from "@/lib/rutas";
 import { fechaLarga } from "@/lib/fecha";
 import Texto from "@/components/sitio/Texto";
@@ -59,7 +59,7 @@ export default async function Noticia({ params }: { params: Promise<{ slug: stri
 
         {/* Recorte en 16:9 en vez de alto y ancho fijos: asi la foto que se
             suba no se deforma, sea cual sea su proporcion. */}
-        {!!a.portada && (
+        {hayImagen(a.portada) && (
           <div className="relative mt-9 aspect-[16/9] w-full overflow-hidden rounded-lg">
             <Image
               src={urlImagen(a.portada).width(1520).height(855).fit("crop").auto("format").url()}

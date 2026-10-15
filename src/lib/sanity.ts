@@ -101,6 +101,15 @@ async function traer<T>(consulta: string, params: Record<string, unknown> = {}):
 const constructor = imageUrlBuilder({ projectId, dataset });
 export const urlImagen = (fuente: unknown) => constructor.image(fuente as never);
 
+/**
+ * Si una imagen tiene archivo. Un campo de imagen puede quedar guardado sin
+ * él —se quitó la foto, o se está importando y aún no se enlazó— y pedirle
+ * la dirección a `urlImagen` revienta la página entera: el 15 de octubre de
+ * 2026 tumbó un despliegue en «Contacto». Antes de dibujar, se pregunta.
+ */
+export const hayImagen = (fuente: unknown): boolean =>
+  !!(fuente as { asset?: unknown } | null | undefined)?.asset;
+
 /* ── Tipos ─────────────────────────────────────────────────────── */
 export type Idioma = "es" | "en" | "fr" | "de" | "pt";
 

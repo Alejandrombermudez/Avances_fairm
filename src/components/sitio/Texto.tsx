@@ -18,7 +18,7 @@
 
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
-import { urlImagen, type Documento } from "@/lib/sanity";
+import { hayImagen, urlImagen, type Documento } from "@/lib/sanity";
 import { extension, fichaDeArchivo } from "@/lib/archivos";
 import { mesYAno } from "@/lib/fecha";
 import { RAIZ, esExterna, ruta, rutaPropuesta } from "@/lib/rutas";
@@ -357,7 +357,7 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
         const formato = lleva.formato ?? extension(href);
         return (
           <div className="my-6 flex flex-col gap-5 sm:flex-row sm:items-start">
-            {!!v.imagen && (
+            {hayImagen(v.imagen) && (
               <div className="w-[104px] shrink-0">
                 {enlazar(
                   <Image
@@ -481,7 +481,7 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
                     conMarco ? "rounded-xl border border-linea bg-white px-4 py-6" : ""
                   }`}
                 >
-                  {!!i.imagen && (
+                  {hayImagen(i.imagen) && (
                     <Image
                       src={urlImagen(i.imagen).width(ancho * 2).fit("max").auto("format").url()}
                       alt={i.alt ?? ""}
@@ -671,10 +671,10 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
               <div
                 key={i._key}
                 className={
-                  i.imagen ? "grid gap-6 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:items-start" : ""
+                  hayImagen(i.imagen) ? "grid gap-6 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:items-start" : ""
                 }
               >
-                {!!i.imagen && (
+                {hayImagen(i.imagen) && (
                   <Image
                     src={urlImagen(i.imagen).width(760).fit("max").auto("format").url()}
                     alt={i.alt ?? ""}
@@ -711,7 +711,7 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
                   key={i._key}
                   className="flex w-[13rem] shrink-0 snap-start flex-col items-center text-center"
                 >
-                  {i.imagen ? (
+                  {hayImagen(i.imagen) ? (
                     <Image
                       src={urlImagen(i.imagen).width(224).height(224).fit("crop").auto("format").url()}
                       alt=""
@@ -736,7 +736,7 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
                   key={i._key}
                   className="flex w-[14.5rem] shrink-0 snap-start flex-col rounded-xl border border-linea bg-white px-5 py-5 sm:w-[18.5rem]"
                 >
-                  {!!i.imagen && (
+                  {hayImagen(i.imagen) && (
                     <Image
                       src={urlImagen(i.imagen).height(160).fit("max").auto("format").url()}
                       alt={i.titulo ?? i.alt ?? ""}

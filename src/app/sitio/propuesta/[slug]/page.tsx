@@ -18,7 +18,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { paginaPorSlug, slugsDePagina, preguntas, hitos, urlImagen } from "@/lib/sanity";
+import { hayImagen, paginaPorSlug, slugsDePagina, preguntas, hitos, urlImagen } from "@/lib/sanity";
 import { ruta } from "@/lib/rutas";
 import Texto from "@/components/sitio/Texto";
 
@@ -93,7 +93,7 @@ export default async function PaginaPropuesta({ params }: { params: Promise<{ sl
           sitio de hoy. A su proporción, con un tope para que en una pantalla
           ancha no empuje el contenido fuera de la vista; lo que se recorta,
           se recorta por arriba y por abajo. */}
-      {!!p.cabecera && (
+      {hayImagen(p.cabecera) && p.cabecera && (
         <div className="relative max-h-[30rem] w-full overflow-hidden bg-cafe">
           <Image
             src={urlImagen(p.cabecera).width(2400).fit("max").auto("format").url()}
