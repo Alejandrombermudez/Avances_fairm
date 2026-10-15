@@ -734,7 +734,7 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
               ) : (
                 <li
                   key={i._key}
-                  className="flex w-[16.5rem] shrink-0 snap-start flex-col rounded-xl border border-linea bg-white px-5 py-5 sm:w-[18.5rem]"
+                  className="flex w-[14.5rem] shrink-0 snap-start flex-col rounded-xl border border-linea bg-white px-5 py-5 sm:w-[18.5rem]"
                 >
                   {!!i.imagen && (
                     <Image
