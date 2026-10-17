@@ -312,3 +312,39 @@ html:has(.propuesta) { scroll-behavior: smooth; }
   .revelar .propuesta [data-revelar] { opacity: 1; transform: none; transition: none; }
   .propuesta .levanta, .propuesta .levanta:hover { transform: none; transition: none; }
 }
+
+/* ── La portada por secciones ─────────────────────────────────── */
+/*
+ * En la portada, un giro de la rueda pasa a la franja siguiente, entera,
+ * como en una presentación: es el navegador el que encaja cada franja bajo
+ * la barra de arriba (`scroll-snap`), sin JavaScript que secuestre la rueda.
+ * Una franja más alta que la pantalla se recorre normal y, al acabar, encaja
+ * la siguiente. El pie también encaja, para poder llegar a él.
+ *
+ * Solo con pantalla ancha y ratón o panel táctil: en el teléfono el dedo ya
+ * pasa las franjas a su ritmo, y encajar ahí estorba. Y nunca para quien
+ * pidió al sistema menos movimiento.
+ */
+@media (min-width: 980px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html:has(.secciones) {
+    scroll-snap-type: y mandatory;
+    /* La barra compactada mide 76: cada franja encaja justo debajo. */
+    scroll-padding-top: 76px;
+  }
+  /* Lo más alto de la página —la franja de la propuesta— es el primer punto
+     de encaje: así la portada abre arriba del todo y vuelve ahí. */
+  html:has(.secciones) .propuesta > :first-child { scroll-snap-align: start; }
+  html:has(.secciones) .propuesta > footer { scroll-snap-align: end; }
+
+  /* Cada franja ocupa al menos la pantalla, con su contenido al centro. La
+     primera, el cartel, llena lo que queda bajo la barra y la franja de la
+     propuesta (130 + 54). */
+  .secciones > .seccion:first-child { min-height: max(560px, calc(100svh - 184px)); }
+  .secciones > .seccion:not(:first-child) {
+    scroll-snap-align: start;
+    min-height: calc(100svh - 76px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

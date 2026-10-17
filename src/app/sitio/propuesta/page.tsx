@@ -19,6 +19,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { stegaClean } from "next-sanity";
 import {
   ajustes,
   articulos,
@@ -34,6 +35,7 @@ import { recortar } from "@/lib/texto";
 import Icono from "@/components/sitio/Icono";
 import InterruptorFuentes from "@/components/sitio/InterruptorFuentes";
 import Carrusel from "@/components/sitio/Carrusel";
+import Puntos from "@/components/sitio/Puntos";
 
 export const revalidate = 3600;
 
@@ -66,7 +68,10 @@ function Marco({
   const oscuro = !!foto || b.fondo === "cafe";
   const fondo = foto ? "" : b.fondo === "cafe" ? "bg-cafe" : b.fondo === "gris" ? "bg-gris" : "";
   return (
-    <section className={`relative px-6 py-20 ${fondo}`}>
+    <section
+      id={`f-${b._key}`}
+      className={`seccion relative px-6 py-20 ${fondo}`}
+    >
       {foto && (
         <>
           <Image src={foto} alt="" fill sizes="100vw" className="object-cover" />
@@ -76,7 +81,7 @@ function Marco({
           />
         </>
       )}
-      <div className="relative mx-auto max-w-[1180px]" data-revelar>
+      <div className="relative mx-auto w-full max-w-[1180px]" data-revelar>
         {children(oscuro)}
       </div>
     </section>
@@ -138,7 +143,10 @@ function Botones({ b, oscuro }: { b: Banda; oscuro: boolean }) {
 function Hero({ b }: { b: Banda }) {
   const foto = b.imagen ? urlImagen(b.imagen).width(2400).auto("format").url() : null;
   return (
-    <section className={`relative flex min-h-[560px] items-center ${foto ? "" : "bg-cafe"}`}>
+    <section
+      id={`f-${b._key}`}
+      className={`seccion relative flex min-h-[560px] items-center ${foto ? "" : "bg-cafe"}`}
+    >
       {foto && <Image src={foto} alt="" fill priority sizes="100vw" className="object-cover" />}
       <div
         className="absolute inset-0"
@@ -456,7 +464,7 @@ export default async function PortadaPropuesta() {
   ]);
 
   return (
-    <main>
+    <main className="secciones">
       {(a?.bandas ?? []).map((b) => {
         if (b.tipo === "hero") return <Hero key={b._key} b={b} />;
         if (b.tipo === "tarjetas") return <Tarjetas key={b._key} b={b} />;
@@ -466,6 +474,13 @@ export default async function PortadaPropuesta() {
         if (b.listado === "articulos") return <Noticias key={b._key} b={b} art={art} />;
         return <SoloTexto key={b._key} b={b} />;
       })}
+
+      <Puntos
+        secciones={(a?.bandas ?? []).map((b, i) => ({
+          id: `f-${b._key}`,
+          titulo: i === 0 ? "Inicio" : stegaClean(b.titulo ?? "") || "Sección",
+        }))}
+      />
 
       {/* El interruptor va al final, discreto: es una ayuda para explicar,
           no parte del sitio. */}
