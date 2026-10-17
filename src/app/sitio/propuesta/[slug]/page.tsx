@@ -17,6 +17,7 @@
 
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import { stegaClean } from "next-sanity";
 import Link from "next/link";
 import { hayImagen, paginaPorSlug, slugsDePagina, preguntas, hitos, urlImagen } from "@/lib/sanity";
 import { ruta } from "@/lib/rutas";
@@ -33,6 +34,80 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const p = await paginaPorSlug(slug);
   return { title: p?.title ?? "Página" };
+}
+
+type Seccion = { id: string; texto: string };
+
+/** Los titulares de primer nivel del cuerpo, con el ancla que les pone
+ *  `Texto`: «s-» y la llave del bloque, que no cambia aunque cambie el texto. */
+function secciones(cuerpo: unknown[] | null): Seccion[] {
+  return (cuerpo ?? []).flatMap((b) => {
+    const x = b as {
+      _type?: string;
+      _key?: string;
+      style?: string;
+      listItem?: string;
+      children?: { text?: string }[];
+    };
+    if (x._type !== "block" || x.style !== "h2" || x.listItem || !x._key) return [];
+    const texto = stegaClean((x.children ?? []).map((c) => c.text ?? "").join("")).trim();
+    return texto ? [{ id: `s-${x._key}`, texto }] : [];
+  });
+}
+
+/**
+ * «En esta página»: un salto a cada sección. Gobernanza mide más de 14.000
+ * píxeles y no había manera de llegar a los integrantes del comité sin
+ * recorrerla entera. Con pocas secciones son botones a la vista; con muchas,
+ * una lista que se despliega, para no tapar el comienzo de la página.
+ */
+function Indice({ lista }: { lista: Seccion[] }) {
+  if (lista.length < 3) return null;
+  if (lista.length <= 8) {
+    return (
+      <nav aria-label="En esta página" className="mt-8">
+        <p className="rotulo text-suave">En esta página</p>
+        <ul className="mt-3 flex flex-wrap justify-center gap-2">
+          {lista.map((s) => (
+            <li key={s.id}>
+              <a
+                href={`#${s.id}`}
+                className="inline-block rounded-full border border-linea bg-white px-4 py-1.5 text-[13px] font-medium text-cafe transition-colors hover:border-cafe hover:bg-cafe hover:text-white"
+              >
+                {s.texto}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    );
+  }
+  return (
+    <details className="tarjeta group mx-auto mt-8 max-w-[640px] px-6 py-3.5 text-left">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[14px] font-semibold text-cafe [&::-webkit-details-marker]:hidden">
+        <span>
+          En esta página <span className="font-light text-suave">· {lista.length} secciones</span>
+        </span>
+        <span aria-hidden="true" className="text-[18px] font-light transition-transform group-open:rotate-45">
+          +
+        </span>
+      </summary>
+      <nav aria-label="En esta página">
+        <ol className="mt-3 gap-8 border-t border-linea pt-3 sm:columns-2">
+          {lista.map((s) => (
+            <li key={s.id} className="break-inside-avoid">
+              <a
+                href={`#${s.id}`}
+                className="block py-1.5 text-[13.5px] leading-snug text-tinta transition-colors hover:text-cafe hover:underline"
+              >
+                {s.texto}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </details>
+  );
 }
 
 function Tarjeta({ children }: { children: React.ReactNode }) {
@@ -86,24 +161,33 @@ export default async function PaginaPropuesta({ params }: { params: Promise<{ sl
   if (!p) notFound();
 
   const tieneCuerpo = !!p.body?.length;
+  const ancho = p.cabecera?.ancho ?? 2400;
+  const alto = p.cabecera?.alto ?? 1000;
 
   return (
     <main className="bg-gris">
-      {/* La franja de arriba, a todo el ancho, como abre cada página en el
-          sitio de hoy. A su proporción, con un tope para que en una pantalla
-          ancha no empuje el contenido fuera de la vista; lo que se recorta,
-          se recorta por arriba y por abajo. */}
+      {/* La franja de arriba, entera. Las de CRAFT llevan texto escrito
+          dentro —la de «Qué es CRAFT», un párrafo pegado al borde
+          izquierdo— y cualquier recorte se lo come. Se ve a su proporción,
+          sin cortar ni estirar; para que una alta no ocupe toda la pantalla,
+          lo que se limita es el ancho: nunca más de 460 píxeles de alto. En
+          el teléfono va de borde a borde. */}
       {hayImagen(p.cabecera) && p.cabecera && (
-        <div className="relative max-h-[30rem] w-full overflow-hidden bg-cafe">
-          <Image
-            src={urlImagen(p.cabecera).width(2400).fit("max").auto("format").url()}
-            alt=""
-            width={p.cabecera.ancho ?? 2400}
-            height={p.cabecera.alto ?? 1000}
-            priority
-            sizes="100vw"
-            className="h-auto max-h-[30rem] w-full object-cover"
-          />
+        <div className="sm:px-6 sm:pt-8">
+          <div
+            className="mx-auto overflow-hidden bg-cafe sm:rounded-xl sm:shadow-[0_10px_30px_-12px_rgba(81,33,17,.35)]"
+            style={{ maxWidth: `min(1180px, ${Math.round((460 * ancho) / alto)}px)` }}
+          >
+            <Image
+              src={urlImagen(p.cabecera).width(2400).fit("max").auto("format").url()}
+              alt=""
+              width={ancho}
+              height={alto}
+              priority
+              sizes="(max-width: 640px) 100vw, 1180px"
+              className="block h-auto w-full"
+            />
+          </div>
         </div>
       )}
       <div className="mx-auto max-w-[908px] px-6 py-14">
@@ -117,9 +201,10 @@ export default async function PaginaPropuesta({ params }: { params: Promise<{ sl
               {p.lead}
             </p>
           )}
+          <Indice lista={secciones(p.body)} />
         </header>
 
-        <div className="mt-10 space-y-6">
+        <div className="mt-10 space-y-6" data-revelar>
           {tieneCuerpo && (
             <Tarjeta>
               <Texto valor={p.body} tono="pagina" enPropuesta />

@@ -18,11 +18,18 @@
  * El logo va alineado arriba a proposito: con la cabecera de 80 y el logo de
  * 100, cuelga 20 por debajo de la franja cafe. Asi es el suyo. Desde 980 los
  * dos miden 130 y encaja justo.
+ *
+ * Lo nuevo: al bajar, la barra se compacta —de 130 a 76 en pantalla ancha—
+ * y lleva una sombra. Fija y a 130 se comia la séptima parte de la pantalla
+ * en cada página. Para que el contenido no salte cuando encoge, gana abajo
+ * el mismo margen que pierde de alto, y solo se compacta cuando su sitio de
+ * siempre ya salió de la vista.
  */
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { ruta, rutaPropuesta } from "@/lib/rutas";
 import type { Entrada } from "@/lib/menu";
 
@@ -48,18 +55,46 @@ export default function Navegacion({
   enPropuesta?: boolean;
 }) {
   const [abierto, setAbierto] = useState(false);
+  const [compacta, setCompacta] = useState(false);
   const resolver = enPropuesta ? rutaPropuesta : ruta;
+  /* La sección en la que se está va en arena, como en su sitio. Inicio solo
+     cuenta en la portada; las demás, también en sus páginas de dentro. */
+  const ahora = usePathname();
+  const aqui = (h: string) => {
+    const destino = resolver(h);
+    return h === inicio || destino === resolver(inicio)
+      ? ahora === destino
+      : ahora === destino || ahora.startsWith(destino + "/");
+  };
+
+  useEffect(() => {
+    /* Dos umbrales, para que no parpadee si alguien se queda justo en uno. */
+    const medir = () => setCompacta((c) => (c ? window.scrollY > 100 : window.scrollY > 140));
+    medir();
+    window.addEventListener("scroll", medir, { passive: true });
+    return () => window.removeEventListener("scroll", medir);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-cafe">
-      <div className="mx-auto flex h-20 max-w-[1180px] items-center gap-x-8 px-6 min-[980px]:h-[130px]">
+    <header
+      className={`sticky top-0 z-50 bg-cafe transition-[margin,box-shadow] duration-300 ${
+        compacta ? "mb-4 shadow-[0_6px_20px_-8px_rgba(0,0,0,.4)] min-[980px]:mb-[54px]" : ""
+      }`}
+    >
+      <div
+        className={`mx-auto flex max-w-[1180px] items-center gap-x-8 px-6 transition-[height] duration-300 ${
+          compacta ? "h-16 min-[980px]:h-[76px]" : "h-20 min-[980px]:h-[130px]"
+        }`}
+      >
         <Link href={resolver(inicio)} className="shrink-0 self-start" onClick={() => setAbierto(false)}>
           <Image
             src="/logo-craft.png"
             alt="CRAFT"
             width={133}
             height={208}
-            className="h-[100px] w-auto min-[980px]:h-[130px]"
+            className={`w-auto transition-[height] duration-300 ${
+              compacta ? "h-[80px] min-[980px]:h-[96px]" : "h-[100px] min-[980px]:h-[130px]"
+            }`}
             priority
           />
         </Link>
@@ -70,7 +105,10 @@ export default function Navegacion({
             <Link
               key={m.t}
               href={resolver(m.h)}
-              className="text-[14px] font-semibold text-white transition-opacity hover:opacity-75"
+              aria-current={aqui(m.h) ? "page" : undefined}
+              className={`text-[14px] font-semibold transition-opacity hover:opacity-75 ${
+                aqui(m.h) ? "text-arena" : "text-white"
+              }`}
             >
               {m.t}
             </Link>
@@ -108,7 +146,10 @@ export default function Navegacion({
                 <Link
                   href={resolver(m.h)}
                   onClick={() => setAbierto(false)}
-                  className="block py-3 text-[15px] font-semibold text-white transition-opacity hover:opacity-75"
+                  aria-current={aqui(m.h) ? "page" : undefined}
+                  className={`block py-3 text-[15px] font-semibold transition-opacity hover:opacity-75 ${
+                    aqui(m.h) ? "text-arena" : "text-white"
+                  }`}
                 >
                   {m.t}
                 </Link>

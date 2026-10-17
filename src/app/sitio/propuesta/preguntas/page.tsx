@@ -42,7 +42,7 @@ export default async function Preguntas() {
         const lista = de(g.valor);
         if (!lista.length) return null;
         return (
-          <section key={g.valor} className="mt-10">
+          <section key={g.valor} className="mt-10" data-revelar>
             {g.titulo && (
               <h2 className="mb-5 border-b border-linea pb-3 text-[1.25rem] leading-snug font-semibold text-cafe">
                 {g.titulo}

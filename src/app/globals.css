@@ -276,3 +276,39 @@ body {
 /* Los rotulos de procedencia solo se ven cuando se piden. */
 .propuesta .fuente { display: none; }
 .ver-fuentes .propuesta .fuente { display: block; }
+
+/* ── Lo que se mueve en la propuesta ──────────────────────────── */
+/*
+ * Detalles que no estan en el sitio de hoy y se notan sin cambiarlo: los
+ * saltos del indice se deslizan, el contenido aparece suave al llegar a el,
+ * y las tarjetas que llevan a otra parte se levantan un poco al pasar.
+ *
+ * Todo se apaga para quien pidio al sistema menos movimiento.
+ */
+html:has(.propuesta) { scroll-behavior: smooth; }
+
+/* La clase `revelar` la pone Revelar.tsx solo si el navegador puede
+   observar; sin JavaScript nada queda escondido. */
+.revelar .propuesta [data-revelar] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1);
+}
+.revelar .propuesta [data-revelar].visto {
+  opacity: 1;
+  transform: none;
+}
+
+.propuesta .levanta {
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.propuesta .levanta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px -14px rgba(81, 33, 17, .45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.propuesta) { scroll-behavior: auto; }
+  .revelar .propuesta [data-revelar] { opacity: 1; transform: none; transition: none; }
+  .propuesta .levanta, .propuesta .levanta:hover { transform: none; transition: none; }
+}

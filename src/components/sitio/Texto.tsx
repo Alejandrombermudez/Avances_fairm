@@ -239,13 +239,22 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
       /* Poppins 600 en café, como los suyos. En las páginas va centrado y
          con su raya debajo, que es como titulan ellos cada sección; en la
          prosa va a la izquierda y sin raya. */
-      h2: ({ children }) =>
+      /* Cada titular lleva un ancla con la llave de su bloque: es a donde
+         salta el índice «En esta página». `scroll-mt` lo deja por debajo de
+         la barra de arriba, que se queda fija. */
+      h2: ({ children, value }) =>
         tono === "pagina" ? (
-          <h2 className="mt-12 border-b border-linea pb-3 text-center text-[1.45rem] leading-snug font-semibold text-balance text-cafe first:mt-0">
+          <h2
+            id={value?._key ? `s-${value._key}` : undefined}
+            className="mt-12 scroll-mt-28 border-b border-linea pb-3 text-center text-[1.45rem] leading-snug font-semibold text-balance text-cafe first:mt-0"
+          >
             {children}
           </h2>
         ) : (
-          <h2 className="pt-6 text-[1.45rem] leading-snug font-semibold text-balance text-cafe">
+          <h2
+            id={value?._key ? `s-${value._key}` : undefined}
+            className="scroll-mt-28 pt-6 text-[1.45rem] leading-snug font-semibold text-balance text-cafe"
+          >
             {children}
           </h2>
         ),

@@ -33,6 +33,7 @@ import { fechaLarga, mesYAno } from "@/lib/fecha";
 import { recortar } from "@/lib/texto";
 import Icono from "@/components/sitio/Icono";
 import InterruptorFuentes from "@/components/sitio/InterruptorFuentes";
+import Carrusel from "@/components/sitio/Carrusel";
 
 export const revalidate = 3600;
 
@@ -75,7 +76,9 @@ function Marco({
           />
         </>
       )}
-      <div className="relative mx-auto max-w-[1180px]">{children(oscuro)}</div>
+      <div className="relative mx-auto max-w-[1180px]" data-revelar>
+        {children(oscuro)}
+      </div>
     </section>
   );
 }
@@ -319,7 +322,7 @@ function Historias({ b, hist }: { b: Banda; hist: Historias }) {
                 <Link
                   key={h._id}
                   href={rutaPropuesta(`/propuesta/historias/${h.slug}`)}
-                  className="tarjeta block p-6 transition-colors hover:border-cafe"
+                  className="tarjeta levanta block p-6 hover:border-cafe"
                 >
                   {h.place && <p className="rotulo text-cafe">{h.place}</p>}
                   <h3 className="mt-2.5 text-[17px] leading-snug font-normal text-pretty">
@@ -375,6 +378,11 @@ function Cronologia({ b, hit }: { b: Banda; hit: Hitos }) {
   );
 }
 
+/**
+ * Las noticias pasan solas, una tras otra, como en la portada de hoy (medido:
+ * cada 5 segundos, en bucle). Aquí se ven tres a la vez en pantalla ancha en
+ * lugar de una, y se pueden detener.
+ */
 function Noticias({ b, art }: { b: Banda; art: Articulos }) {
   const lista = art.filter((x) => x.slug).slice(0, b.cuantos ?? 6);
   return (
@@ -386,19 +394,28 @@ function Noticias({ b, art }: { b: Banda; art: Articulos }) {
             <Encabezado b={b} oscuro={oscuro} />
           </div>
           {lista.length > 0 && (
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {lista.map((x) => (
-                <Link
-                  key={x._id}
-                  href={rutaPropuesta(`/propuesta/noticias/${x.slug}`)}
-                  className="tarjeta block p-6 transition-colors hover:border-cafe"
-                >
-                  <p className="text-[13px] font-light text-suave">{fechaLarga(x.publishedAt)}</p>
-                  <h3 className="mt-2 text-[17px] leading-snug font-normal text-pretty">
-                    {recortar(x.title, 140)}
-                  </h3>
-                </Link>
-              ))}
+            <div className="mt-6">
+              <Carrusel etiqueta="Noticias recientes">
+                {lista.map((x) => (
+                  <li key={x._id} className="flex w-[17rem] shrink-0 snap-start sm:w-[22rem]">
+                    <Link
+                      href={rutaPropuesta(`/propuesta/noticias/${x.slug}`)}
+                      className="tarjeta levanta flex w-full flex-col p-6 hover:border-cafe"
+                    >
+                      <p className="text-[13px] font-light text-suave">{fechaLarga(x.publishedAt)}</p>
+                      <h3 className="mt-2 text-[17px] leading-snug font-normal text-pretty">
+                        {recortar(x.title, 140)}
+                      </h3>
+                      {x.excerpt && (
+                        <p className="mt-3 text-[14px] leading-relaxed font-light text-suave">
+                          {recortar(x.excerpt, 130)}
+                        </p>
+                      )}
+                      <span className="mt-auto pt-5 text-[13px] font-semibold text-cafe">Leer →</span>
+                    </Link>
+                  </li>
+                ))}
+              </Carrusel>
             </div>
           )}
           <div className="mt-12 text-center">

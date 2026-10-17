@@ -35,7 +35,7 @@ export default async function Noticias() {
         <h1 className="titular mt-4 text-[clamp(1.9rem,4vw,2.6rem)]">Noticias y actividades</h1>
 
         {anos.map((ano) => (
-          <section key={ano} className="mt-14">
+          <section key={ano} className="mt-14" data-revelar>
             <h2 className="rotulo border-b border-linea pb-3 text-suave">{ano}</h2>
             <ul>
               {porAno[ano].map((a) => (

@@ -44,7 +44,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${josefin.variable} ${poppins.variable} ${mulish.variable}`}>
+    /* `data-scroll-behavior` le dice a Next que el desplazamiento suave es
+       para los saltos dentro de la página: al cambiar de página lo apaga y
+       la nueva abre arriba de golpe, no deslizándose. */
+    <html
+      lang="es"
+      data-scroll-behavior="smooth"
+      className={`${josefin.variable} ${poppins.variable} ${mulish.variable}`}
+    >
       <body>{children}</body>
     </html>
   );

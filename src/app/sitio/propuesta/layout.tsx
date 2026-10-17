@@ -12,6 +12,8 @@
 import Link from "next/link";
 import Conmutador from "@/components/sitio/Conmutador";
 import Navegacion from "@/components/sitio/Navegacion";
+import Revelar from "@/components/sitio/Revelar";
+import Arriba from "@/components/sitio/Arriba";
 import { ajustes } from "@/lib/sanity";
 import { menuDe } from "@/lib/menu";
 import { rutaPropuesta } from "@/lib/rutas";
@@ -31,6 +33,9 @@ export default async function PropuestaLayout({ children }: { children: React.Re
       <Navegacion menu={menuDe(a)} inicio="/" enPropuesta />
 
       {children}
+
+      <Revelar />
+      <Arriba />
 
       <footer className="bg-cafe px-6 py-14">
         <div className="mx-auto grid max-w-[1180px] gap-10 sm:grid-cols-3">
