@@ -399,6 +399,12 @@ html:has(.propuesta) { scroll-behavior: smooth; }
 }
 .sitio-fairmined .texto-fm > div > * + * { margin-top: 10px; }
 
+/* El texto suelto, en la columna de 780 px del original; las columnas, a
+   todo el ancho del cuerpo, 1140 px. */
+.sitio-fairmined .texto-fm > div > * { max-width: 780px; margin-inline: auto; }
+.sitio-fairmined .texto-fm > div > .fm-columnas { max-width: none; }
+.sitio-fairmined .fm-columnas > div > div > * + * { margin-top: 10px; }
+
 /* Los titulos del texto. En el original el grande es dorado, 32/40, y el
    siguiente negro, 20/30; los dos en mayusculas. */
 .sitio-fairmined .texto-fm h2 {

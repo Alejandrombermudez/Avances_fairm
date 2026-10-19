@@ -275,6 +275,7 @@ export const CUERPO = `
       }
     },
     _type == "galeria" => { ..., imagenes[]{ ..., ${MEDIDAS} } },
+    _type == "columnas" => { ..., columnas[]{ ..., contenido[]{ ${INTERIOR} } } },
     _type == "cronologia" => {
       ...,
       "lista": select(

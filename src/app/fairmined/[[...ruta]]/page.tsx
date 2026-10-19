@@ -18,7 +18,7 @@
 
 import type { Metadata } from "next";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Texto from "@/components/sitio/Texto";
 import Cabecera from "@/components/fairmined/Cabecera";
 import Encabezado from "@/components/fairmined/Encabezado";
@@ -37,6 +37,7 @@ import {
   proveedoresFm,
   rutaDeProveedor,
   rutaFm,
+  rutaPorNombre,
   type IdiomaFm,
   type ProveedorFm,
 } from "@/lib/fairmined";
@@ -138,7 +139,16 @@ export default async function PaginaFairmined({ params }: Props) {
      vive en /suppliers-portfolio/<nombre> y en /es/suppliers-portfolio/… */
   if (!ficha) {
     const proveedor = await proveedorPorRuta(camino);
-    if (!proveedor) notFound();
+    if (!proveedor) {
+      /* Como WordPress: /en/… es lo mismo sin /en, y una página pedida por
+         otra ruta lleva a la suya. Lo que tampoco encuentra WordPress —hay
+         enlaces rotos desde antes, como /fr/info-material— da 404 igual. */
+      if (camino === "/en" || camino.startsWith("/en/")) permanentRedirect(rutaFm(camino.slice(3) || "/"));
+      const nombre = camino.split("/").filter(Boolean).pop();
+      const buena = nombre ? await rutaPorNombre(nombre, idioma) : null;
+      if (buena && buena !== camino) permanentRedirect(rutaFm(buena));
+      notFound();
+    }
     const traducciones = (proveedor.rutas ?? []).map((r) => ({ idioma: idiomaDe(r), ruta: r }));
     return (
       <div className="min-h-screen bg-white">
@@ -194,9 +204,10 @@ export default async function PaginaFairmined({ params }: Props) {
         )}
 
         {(ficha.body?.length ?? 0) > 0 && (
-          /* La columna de texto del original mide 780 px en casi todas las
-             paginas: el texto va a esa medida, centrado. */
-          <div className="texto-fm mx-auto max-w-[810px] px-[15px] py-[40px]">
+          /* El cuerpo ocupa los 1140 px del original, para que quepan sus
+             columnas; el texto suelto va en la columna de 780 px, centrada,
+             que es como lo ponen casi todas sus paginas (globals.css). */
+          <div className="texto-fm mx-auto max-w-[1170px] px-[15px] py-[40px]">
             <Texto valor={ficha.body} sitio="fairmined" />
           </div>
         )}

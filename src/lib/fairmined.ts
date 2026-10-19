@@ -272,3 +272,22 @@ export function rutaDeProveedor(rutas: string[] | null | undefined, idioma: Idio
     "/"
   );
 }
+
+/**
+ * La dirección buena de algo que se pidió por otra.
+ *
+ * WordPress encuentra una página aunque se la pida por una ruta que no es la
+ * suya: /community-profiles/macdesa lleva a /community-profiles-4/macdesa, y
+ * /es/que-es-fairmined a /que-es-fairmined. Busca por el último tramo —el
+ * nombre de la página— y redirige. El menú y el pie del sitio de hoy cuentan
+ * con eso: «Contact us» apunta a /en/contact. Aquí se hace lo mismo, primero
+ * en el idioma de la dirección y si no en cualquiera.
+ */
+export const rutaPorNombre = (nombre: string, idioma: IdiomaFm) =>
+  cliente.fetch<string | null>(
+    `*[((_type == "page" && site == "fairmined") || (_type == "article" && "fairmined" in sites)
+        || (_type == "supplier" && "fairmined" in sites))
+       && slug.current == $nombre]
+      | order(select(language == $idioma => 0, 1) asc)[0].legacyPaths[0]`,
+    { nombre, idioma },
+  );

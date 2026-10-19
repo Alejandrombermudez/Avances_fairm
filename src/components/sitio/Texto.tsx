@@ -1,8 +1,8 @@
 /**
  * Dibuja el cuerpo de una página, una noticia o una historia.
  *
- * El gestor ofrece dieciocho piezas para armar un cuerpo y aquí están las
- * dieciocho. No siempre fue así: hasta el 8 de octubre de 2026 se dibujaban
+ * El gestor ofrece diecinueve piezas para armar un cuerpo y aquí están las
+ * diecinueve. No siempre fue así: hasta el 8 de octubre de 2026 se dibujaban
  * cinco, y una galería, un video o un acordeón se guardaban sin error y no
  * aparecían en ninguna parte. La regla es que una pieza que se ofrece en
  * `sanity/schemas/objetos/cuerpo.ts` tiene aquí su dibujo, o no se ofrece.
@@ -562,13 +562,21 @@ function piezas(tono: Tono, enPropuesta: boolean, sitio: Sitio): PortableTextCom
 
       galeria: ({ value }) => {
         const fotos = (
-          (value as { imagenes?: { _key: string; asset?: unknown; alt?: string; caption?: string }[] })
-            .imagenes ?? []
+          (
+            value as {
+              imagenes?: { _key: string; asset?: unknown; alt?: string; caption?: string; enlace?: string }[];
+            }
+          ).imagenes ?? []
         ).filter((f) => f.asset);
         if (!fotos.length) return null;
-        /* En Fairmined las galerías son los carruseles del sitio de hoy: un
-           pase de fotos que avanza solo, no una cuadrícula. */
-        if (sitio === "fairmined") {
+        /* Una galería donde todas las fotos llevan a alguna parte es un
+           listado —el de las minas certificadas: una foto por mina, con su
+           nombre, que lleva a su perfil—. Se ven todas a la vez, como
+           tarjetas. */
+        const todasEnlazan = fotos.every((f) => f.enlace);
+        /* En Fairmined las demás son los carruseles del sitio de hoy: un pase
+           de fotos que avanza solo, no una cuadrícula. */
+        if (sitio === "fairmined" && !todasEnlazan) {
           return (
             <GaleriaFm
               fotos={fotos.map((f) => ({
@@ -584,27 +592,71 @@ function piezas(tono: Tono, enPropuesta: boolean, sitio: Sitio): PortableTextCom
         }
         return (
           <ul className={`my-8 grid grid-cols-2 gap-3 ${fotos.length > 2 ? "sm:grid-cols-3" : ""}`}>
-            {fotos.map((f) => (
-              <li key={f._key}>
+            {fotos.map((f) => {
+              const lleva = f.enlace ? resolver(f.enlace) : null;
+              const figura = (
                 <figure>
                   <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-gris">
                     <Image
                       src={urlImagen(f).width(720).height(540).fit("crop").auto("format").url()}
                       alt={f.alt ?? ""}
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                       sizes="(max-width: 640px) 50vw, 280px"
                     />
                   </div>
                   {f.caption && (
-                    <figcaption className="mt-1.5 text-[12.5px] font-light text-suave">
+                    <figcaption
+                      className={
+                        lleva
+                          ? "mt-2 text-[14px] leading-snug font-medium text-cafe group-hover:underline"
+                          : "mt-1.5 text-[12.5px] font-light text-suave"
+                      }
+                    >
                       {f.caption}
                     </figcaption>
                   )}
                 </figure>
-              </li>
-            ))}
+              );
+              return (
+                <li key={f._key}>
+                  {lleva ? (
+                    <a href={lleva.href} {...atributos(lleva.fuera)} className="group block">
+                      {figura}
+                    </a>
+                  ) : (
+                    figura
+                  )}
+                </li>
+              );
+            })}
           </ul>
+        );
+      },
+
+      /**
+       * Contenido lado a lado. En pantallas medianas en adelante cada columna
+       * ocupa su parte de la fila —50, 33, 67…—; en el teléfono van una
+       * debajo de otra, que es como se leen ahí.
+       */
+      columnas: ({ value }) => {
+        const cols = (
+          (value as { columnas?: { _key: string; ancho?: number; contenido?: unknown[] | null }[] })
+            .columnas ?? []
+        ).filter((c) => c.contenido?.length);
+        if (!cols.length) return null;
+        const plantilla = cols.map((c) => `${Math.max(10, c.ancho ?? 50)}fr`).join(" ");
+        return (
+          <div
+            className="fm-columnas my-8 grid gap-x-8 gap-y-6 md:[grid-template-columns:var(--columnas)]"
+            style={{ "--columnas": plantilla } as React.CSSProperties}
+          >
+            {cols.map((c) => (
+              <div key={c._key} className="min-w-0">
+                <Texto valor={c.contenido} enPropuesta={enPropuesta} sitio={sitio} tono={tono} />
+              </div>
+            ))}
+          </div>
         );
       },
 
