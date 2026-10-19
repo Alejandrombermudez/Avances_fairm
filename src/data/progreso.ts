@@ -18,7 +18,7 @@ export const meta = {
   cliente: "Alianza por la Minería Responsable",
   proyecto: "Migración del ecosistema web",
   sitios: ["responsiblemines.org", "fairmined.org", "craftmines.org"],
-  actualizado: "2026-10-02",
+  actualizado: "2026-10-19",
   responsable: "Alejandro Bermúdez",
   titulo: "Desarrollo web y plataformas",
   contacto: "alejucha@gmail.com",
@@ -27,9 +27,9 @@ export const meta = {
 
 export const metricas: { valor: string; etiqueta: string; nota?: string }[] = [
   { valor: "19.228", etiqueta: "registros de contenido rescatados", nota: "de los tres sitios" },
-  { valor: "9.658", etiqueta: "archivos descargados", nota: "10,4 GB" },
+  { valor: "1.110", etiqueta: "fichas ya en el gestor nuevo", nota: "CRAFT y Fairmined" },
+  { valor: "2 de 3", etiqueta: "sitios navegables sobre el gestor nuevo", nota: "CRAFT y Fairmined" },
   { valor: "1.599", etiqueta: "documentos a salvo", nota: "informes, estándares, publicaciones" },
-  { valor: "153", etiqueta: "enlaces ya rotos", nota: "encontrados de paso" },
 ];
 
 /**
@@ -85,10 +85,10 @@ export const fases: {
       { t: "Modelo de contenido", estado: "curso", doc: "modelo-de-contenido" },
       { t: "Modelo aplicado a CRAFT", estado: "hecho", doc: "craft-organizado" },
       { t: "Cuentas a nombre de ARM", estado: "espera" },
-      { t: "Gestor de contenidos, uno por sitio", estado: "pendiente" },
+      { t: "Gestor de contenidos para los tres sitios", estado: "curso" },
       { t: "Sistema de diseño", estado: "espera" },
-      { t: "Prototipos de los tres sitios", estado: "espera" },
-      { t: "Direcciones de archivos conservadas", estado: "pendiente" },
+      { t: "Prototipos de los tres sitios", estado: "curso" },
+      { t: "Direcciones de archivos conservadas", estado: "curso" },
     ],
   },
   {
@@ -98,15 +98,15 @@ export const fases: {
     inicio: "2026-10-14",
     fin: "2026-10-24",
     color: "#cf9a3f",
-    estado: "pendiente",
+    estado: "curso",
     resumen: "La herramienta que pasa el contenido. Repetible y verificable.",
     entregable:
       "La herramienta de traslado y su reporte de verificación, registro por registro",
     tareas: [
-      { t: "Traslado al gestor nuevo", estado: "pendiente" },
-      { t: "Traducciones entre idiomas", estado: "pendiente" },
-      { t: "Las 44 páginas con maquetación especial", estado: "pendiente" },
-      { t: "Reporte de verificación", estado: "pendiente" },
+      { t: "Traslado al gestor nuevo", estado: "hecho" },
+      { t: "Traducciones entre idiomas", estado: "hecho" },
+      { t: "Las 44 páginas con maquetación especial", estado: "curso" },
+      { t: "Reporte de verificación", estado: "curso" },
     ],
   },
   {
@@ -116,15 +116,15 @@ export const fases: {
     inicio: "2026-10-26",
     fin: "2026-10-31",
     color: "#e1a644",
-    estado: "pendiente",
+    estado: "curso",
     resumen: "El sitio más pequeño va primero. Si algo falla, falla donde menos duele.",
     entregable:
       "craftmines.org en línea, con sus direcciones conservadas",
     tareas: [
-      { t: "Desarrollo del sitio", estado: "pendiente" },
-      { t: "Paso del contenido", estado: "pendiente" },
+      { t: "Desarrollo del sitio", estado: "curso" },
+      { t: "Paso del contenido", estado: "hecho" },
       { t: "Redirecciones", estado: "pendiente" },
-      { t: "Revisión en pruebas", estado: "pendiente" },
+      { t: "Revisión en pruebas", estado: "curso" },
       { t: "Salida a producción", estado: "pendiente" },
     ],
   },
@@ -153,14 +153,16 @@ export const fases: {
     inicio: "2026-11-19",
     fin: "2026-12-07",
     color: "#ad7257",
-    estado: "pendiente",
+    estado: "curso",
     resumen: "Cuatro idiomas y el catálogo de proveedores, que se rehace entero.",
     entregable:
       "fairmined.org en línea, con el catálogo y el mapa de proveedores",
     tareas: [
-      { t: "Desarrollo en cuatro idiomas", estado: "pendiente" },
-      { t: "Catálogo y mapa de proveedores", estado: "pendiente" },
-      { t: "Buscador por criterios", estado: "pendiente" },
+      { t: "Réplica del sitio de hoy", estado: "hecho", doc: "fairmined" },
+      { t: "Agrupaciones de contenido, para decidir", estado: "hecho", doc: "fairmined-agrupaciones" },
+      { t: "Desarrollo en cuatro idiomas", estado: "curso" },
+      { t: "Catálogo y mapa de proveedores", estado: "curso" },
+      { t: "Buscador por criterios", estado: "hecho" },
       { t: "Revisión y salida", estado: "pendiente" },
     ],
   },
@@ -201,6 +203,11 @@ export const esperando: { que: string; para: string; desde: string }[] = [
     desde: "2026-09-22",
   },
   {
+    que: "A dónde envían los formularios de Fairmined",
+    para: "Conectar el contacto y el buzón de sugerencias sin crear registros de prueba en sus sistemas.",
+    desde: "2026-10-19",
+  },
+  {
     que: "Definición de los servicios mensuales",
     para: "Abrir las cuentas a nombre de ARM.",
     desde: "2026-09-22",
@@ -231,7 +238,7 @@ export const hallazgos: { titulo: string; texto: string }[] = [
 ];
 
 export const proximoHito = {
-  titulo: "Acordar qué contenido pasa al sitio nuevo y cerrar la lista de temas",
+  titulo: "Decidir las agrupaciones de contenido de Fairmined",
   detalle:
-    "El respaldo ya está entregado. Con esas dos decisiones arranca la construcción de craftmines.org.",
+    "Fairmined ya está montado sobre el gestor nuevo. Con esas decisiones se diseña el sitio y se arma el mapa de actores nuevo.",
 };

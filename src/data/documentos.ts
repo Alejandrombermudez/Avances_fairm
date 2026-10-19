@@ -511,6 +511,54 @@ export const documentos: Record<string, Documento> = {
   },
 
   /* ───────────────────────────────────────────────────────────── */
+  fairmined: {
+    titulo: "Fairmined, sobre el gestor nuevo",
+    resumen:
+      "fairmined.org montado sobre el gestor nuevo, con su aspecto de hoy. Es la referencia para lo que viene: las agrupaciones, el diseño y el mapa de actores nuevo.",
+    fecha: "2026-10-19",
+    hojas: [
+      {
+        titulo: "Verlo",
+        bloques: [
+          {
+            k: "vista",
+            etiqueta: "Ver Fairmined",
+            ruta: "/fairmined",
+            nota: "Es el sitio de hoy, en sus mismas direcciones. El mapa de actores no está: se rehace aparte.",
+            cifras: [
+              { n: "207", t: "páginas, en inglés, español, francés y alemán" },
+              { n: "387", t: "noticias, de 2013 a 2026" },
+              { n: "40", t: "proveedores en el catálogo, con sus filtros" },
+              { n: "1.185", t: "imágenes. Solo una no pasó: ya está rota en el sitio de hoy" },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ───────────────────────────────────────────────────────────── */
+  "fairmined-agrupaciones": {
+    titulo: "Fairmined: agrupaciones de contenido",
+    resumen:
+      "Cómo está agrupado hoy el contenido de fairmined.org, y lo que queda por decidir antes de diseñar el sitio nuevo.",
+    fecha: "2026-10-19",
+    hojas: [
+      {
+        titulo: "Descargar",
+        bloques: [
+          {
+            k: "descarga",
+            etiqueta: "Descargar el resumen",
+            url: "/documentos/fairmined-agrupaciones-de-contenido.pdf",
+            nota: "PDF de dos páginas: idiomas, menú, agrupaciones, una propuesta para las noticias y lo que queda por decidir.",
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ───────────────────────────────────────────────────────────── */
   "entrega-respaldo": {
     titulo: "El respaldo, para descargar",
     resumen:

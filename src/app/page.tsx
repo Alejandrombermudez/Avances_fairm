@@ -84,36 +84,44 @@ export default function Page() {
               {meta.cliente}
             </p>
 
-            {/* El acceso a la vista previa va arriba del todo: es lo único de
+            {/* Los accesos a los sitios van arriba del todo: es lo único de
                 esta página que se puede abrir y recorrer, no solo leer. */}
-            <Link
-              href="/sitio/propuesta"
-              className="group flex items-center gap-2.5 rounded-full border border-ambar/45 px-4 py-2 transition-colors duration-200 hover:border-ambar hover:bg-ambar"
-            >
-              <span
-                className="size-[6px] shrink-0 rounded-full bg-ambar transition-colors duration-200 group-hover:bg-carbon"
-                aria-hidden="true"
-              />
-              <span className="rotulo text-arena transition-colors duration-200 group-hover:text-carbon">
-                Ver el sitio de CRAFT
-              </span>
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                aria-hidden="true"
-                className="shrink-0 text-arena/70 transition-[transform,color] duration-200 group-hover:translate-x-0.5 group-hover:text-carbon"
-              >
-                <path
-                  d="M2 7h10M8 3l4 4-4 4"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </Link>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { href: "/sitio/propuesta", texto: "Ver el sitio de CRAFT" },
+                { href: "/fairmined", texto: "Ver Fairmined" },
+              ].map((a) => (
+                <Link
+                  key={a.href}
+                  href={a.href}
+                  className="group flex items-center gap-2.5 rounded-full border border-ambar/45 px-4 py-2 transition-colors duration-200 hover:border-ambar hover:bg-ambar"
+                >
+                  <span
+                    className="size-[6px] shrink-0 rounded-full bg-ambar transition-colors duration-200 group-hover:bg-carbon"
+                    aria-hidden="true"
+                  />
+                  <span className="rotulo text-arena transition-colors duration-200 group-hover:text-carbon">
+                    {a.texto}
+                  </span>
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    aria-hidden="true"
+                    className="shrink-0 text-arena/70 transition-[transform,color] duration-200 group-hover:translate-x-0.5 group-hover:text-carbon"
+                  >
+                    <path
+                      d="M2 7h10M8 3l4 4-4 4"
+                      stroke="currentColor"
+                      strokeWidth="1.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </Link>
+              ))}
+            </div>
           </div>
 
           <div className="mt-10 grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:items-end">
@@ -175,9 +183,9 @@ export default function Page() {
       <div className="mx-auto max-w-5xl px-6 sm:px-10 lg:px-16">
         {/* ───────────── Cifras ───────────── */}
         <section className="border-b border-linea py-14">
-          <Rotulo>Lo que ya está a salvo</Rotulo>
+          <Rotulo>Lo que ya está hecho</Rotulo>
           <p className="mt-4 max-w-xl text-[15px] leading-relaxed font-light text-tinta-2">
-            Descargado y verificado, archivo por archivo.
+            Descargado, verificado archivo por archivo, y ya en el gestor nuevo.
           </p>
           <dl className="mt-9 grid grid-cols-2 gap-x-8 gap-y-9 lg:grid-cols-4">
             {metricas.map((m) => (
