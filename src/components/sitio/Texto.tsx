@@ -231,6 +231,23 @@ const ANCHO_TARJETA: Record<number, string> = {
 function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
   const resolver = resolvedor(enPropuesta);
 
+  const titular = (children: React.ReactNode, llave?: string) =>
+    tono === "pagina" ? (
+      <h2
+        id={llave ? `s-${llave}` : undefined}
+        className="mt-12 scroll-mt-28 border-b border-linea pb-3 text-center text-[1.45rem] leading-snug font-semibold text-balance text-cafe first:mt-0"
+      >
+        {children}
+      </h2>
+    ) : (
+      <h2
+        id={llave ? `s-${llave}` : undefined}
+        className="scroll-mt-28 pt-6 text-[1.45rem] leading-snug font-semibold text-balance text-cafe"
+      >
+        {children}
+      </h2>
+    );
+
   return {
     block: {
       normal: ({ children }) => (
@@ -241,23 +258,10 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
          prosa va a la izquierda y sin raya. */
       /* Cada titular lleva un ancla con la llave de su bloque: es a donde
          salta el índice «En esta página». `scroll-mt` lo deja por debajo de
-         la barra de arriba, que se queda fija. */
-      h2: ({ children, value }) =>
-        tono === "pagina" ? (
-          <h2
-            id={value?._key ? `s-${value._key}` : undefined}
-            className="mt-12 scroll-mt-28 border-b border-linea pb-3 text-center text-[1.45rem] leading-snug font-semibold text-balance text-cafe first:mt-0"
-          >
-            {children}
-          </h2>
-        ) : (
-          <h2
-            id={value?._key ? `s-${value._key}` : undefined}
-            className="scroll-mt-28 pt-6 text-[1.45rem] leading-snug font-semibold text-balance text-cafe"
-          >
-            {children}
-          </h2>
-        ),
+         la barra de arriba, que se queda fija. El título de sección se ve
+         igual que un título: lo único que cambia es que el índice lo lista. */
+      h2: ({ children, value }) => titular(children, value?._key),
+      seccion: ({ children, value }) => titular(children, value?._key),
       h3: ({ children }) => (
         <h3 className="pt-3 text-[1.15rem] leading-snug font-semibold text-cafe">{children}</h3>
       ),

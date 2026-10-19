@@ -38,31 +38,46 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 type Seccion = { id: string; texto: string };
 
-/** Los titulares de primer nivel del cuerpo, con el ancla que les pone
- *  `Texto`: «s-» y la llave del bloque, que no cambia aunque cambie el texto. */
+/**
+ * Lo que lista el índice, con el ancla que les pone `Texto`: «s-» y la llave
+ * del bloque, que no cambia aunque cambie el texto.
+ *
+ * Si la página tiene títulos de sección —el estilo que el equipo elige en el
+ * gestor—, esos y nada más. Si no, los títulos, pero solo si son entre tres y
+ * ocho: con más, armado solo sale una lista de subtítulos y repetidos que no
+ * ayuda a nadie (en Gobernanza eran 24), y es mejor no poner índice.
+ */
 function secciones(cuerpo: unknown[] | null): Seccion[] {
-  return (cuerpo ?? []).flatMap((b) => {
-    const x = b as {
-      _type?: string;
-      _key?: string;
-      style?: string;
-      listItem?: string;
-      children?: { text?: string }[];
-    };
-    if (x._type !== "block" || x.style !== "h2" || x.listItem || !x._key) return [];
-    const texto = stegaClean((x.children ?? []).map((c) => c.text ?? "").join("")).trim();
-    return texto ? [{ id: `s-${x._key}`, texto }] : [];
-  });
+  const de = (estilo: string) =>
+    (cuerpo ?? []).flatMap((b) => {
+      const x = b as {
+        _type?: string;
+        _key?: string;
+        style?: string;
+        listItem?: string;
+        children?: { text?: string }[];
+      };
+      if (x._type !== "block" || x.style !== estilo || x.listItem || !x._key) return [];
+      const texto = stegaClean((x.children ?? []).map((c) => c.text ?? "").join(""))
+        .replace(/\s+/g, " ")
+        .trim();
+      return texto ? [{ id: `s-${x._key}`, texto }] : [];
+    });
+  const elegidas = de("seccion");
+  if (elegidas.length) return elegidas;
+  const titulos = de("h2");
+  return titulos.length >= 3 && titulos.length <= 8 ? titulos : [];
 }
 
 /**
  * «En esta página»: un salto a cada sección. Gobernanza mide más de 14.000
  * píxeles y no había manera de llegar a los integrantes del comité sin
- * recorrerla entera. Con pocas secciones son botones a la vista; con muchas,
- * una lista que se despliega, para no tapar el comienzo de la página.
+ * recorrerla entera. Hasta ocho secciones son botones a la vista; si el
+ * equipo marca más, una lista que se despliega, para no tapar el comienzo de
+ * la página.
  */
 function Indice({ lista }: { lista: Seccion[] }) {
-  if (lista.length < 3) return null;
+  if (lista.length < 2) return null;
   if (lista.length <= 8) {
     return (
       <nav aria-label="En esta página" className="mt-8">
