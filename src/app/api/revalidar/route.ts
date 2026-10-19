@@ -53,8 +53,14 @@ export async function POST(peticion: Request) {
   }
 
   revalidatePath("/sitio", "layout");
+  // La réplica de Fairmined, desde el 19 de octubre de 2026.
+  revalidatePath("/fairmined", "layout");
 
-  return Response.json({ ok: true, revalidado: "/sitio", cuando: new Date().toISOString() });
+  return Response.json({
+    ok: true,
+    revalidado: ["/sitio", "/fairmined"],
+    cuando: new Date().toISOString(),
+  });
 }
 
 /** Para comprobar de un navegador que la ruta existe, sin revelar nada. */

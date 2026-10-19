@@ -88,7 +88,7 @@ const clienteBorrador = createClient({
 
 /** Pregunta al gestor por lo publicado, o por los borradores si quien mira
  *  entró desde la vista previa. */
-async function traer<T>(consulta: string, params: Record<string, unknown> = {}): Promise<T> {
+export async function traer<T>(consulta: string, params: Record<string, unknown> = {}): Promise<T> {
   let enBorrador = false;
   try {
     enBorrador = (await draftMode()).isEnabled;
@@ -221,7 +221,7 @@ const BOTON = `
   "peso": archivo.asset->size
 `;
 
-const MEDIDAS = `
+export const MEDIDAS = `
   "ancho": asset->metadata.dimensions.width,
   "alto": asset->metadata.dimensions.height
 `;
@@ -239,7 +239,7 @@ const INTERIOR = `
   _type == "botones" => { ..., items[]{ ${BOTON} } }
 `;
 
-const CUERPO = `
+export const CUERPO = `
   body[]{
     ...,
     markDefs[]{ ..., ${DESTINO} },

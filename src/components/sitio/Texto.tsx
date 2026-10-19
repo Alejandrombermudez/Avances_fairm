@@ -22,11 +22,13 @@ import { hayImagen, urlImagen, type Documento } from "@/lib/sanity";
 import { extension, fichaDeArchivo } from "@/lib/archivos";
 import { mesYAno } from "@/lib/fecha";
 import { RAIZ, esExterna, ruta, rutaPropuesta } from "@/lib/rutas";
+import { resolverFm } from "@/lib/fairmined";
 import IconoArchivo from "@/components/sitio/IconoArchivo";
 import { NOMBRE_TIPO, nombre } from "@/components/sitio/FichaDocumento";
 import Pestanas from "@/components/sitio/Pestanas";
 import Carrusel from "@/components/sitio/Carrusel";
 import Formulario from "@/components/sitio/Formulario";
+import GaleriaFm from "@/components/fairmined/Galeria";
 
 /**
  * `pagina` para las páginas del sitio: los titulares van centrados y con su
@@ -34,6 +36,13 @@ import Formulario from "@/components/sitio/Formulario";
  * de corrido y llevan los titulares a la izquierda.
  */
 type Tono = "pagina" | "prosa";
+
+/**
+ * De qué sitio es el texto. Decide a dónde llevan sus enlaces: en CRAFT un
+ * «/contacto» va a su página de la propuesta; en Fairmined, una dirección de
+ * fairmined.org va a su réplica, en la misma ruta.
+ */
+type Sitio = "craft" | "fairmined";
 
 /** Un archivo de un documento de la biblioteca. */
 type ArchivoDe = {
@@ -102,7 +111,8 @@ type ElementoCarrusel = {
  * en la que se esté: sin esto, un «/contacto» escrito por el equipo saldría
  * de /sitio y daría 404.
  */
-function resolvedor(enPropuesta: boolean) {
+function resolvedor(enPropuesta: boolean, sitio: Sitio) {
+  if (sitio === "fairmined") return resolverFm;
   return (destino: string | null | undefined) => {
     const d = (destino ?? "").trim();
     if (!d) return { href: "#", fuera: false };
@@ -228,8 +238,8 @@ const ANCHO_TARJETA: Record<number, string> = {
   4: "sm:basis-[calc(50%-0.75rem)] lg:basis-[calc(25%-1.125rem)]",
 };
 
-function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
-  const resolver = resolvedor(enPropuesta);
+function piezas(tono: Tono, enPropuesta: boolean, sitio: Sitio): PortableTextComponents {
+  const resolver = resolvedor(enPropuesta, sitio);
 
   const titular = (children: React.ReactNode, llave?: string) =>
     tono === "pagina" ? (
@@ -556,6 +566,22 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
             .imagenes ?? []
         ).filter((f) => f.asset);
         if (!fotos.length) return null;
+        /* En Fairmined las galerías son los carruseles del sitio de hoy: un
+           pase de fotos que avanza solo, no una cuadrícula. */
+        if (sitio === "fairmined") {
+          return (
+            <GaleriaFm
+              fotos={fotos.map((f) => ({
+                key: f._key,
+                src: urlImagen(f).width(1200).auto("format").url(),
+                ancho: 1200,
+                alto: 800,
+                alt: f.alt ?? "",
+                pie: f.caption,
+              }))}
+            />
+          );
+        }
         return (
           <ul className={`my-8 grid grid-cols-2 gap-3 ${fotos.length > 2 ? "sm:grid-cols-3" : ""}`}>
             {fotos.map((f) => (
@@ -659,7 +685,7 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
                   </span>
                 </summary>
                 <div className="mt-3 text-suave">
-                  <Texto valor={p.contenido} enPropuesta={enPropuesta} />
+                  <Texto valor={p.contenido} enPropuesta={enPropuesta} sitio={sitio} />
                 </div>
               </details>
             ))}
@@ -698,7 +724,7 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
                   />
                 )}
                 <div className="min-w-0 [&_li]:marker:text-verde">
-                  <Texto valor={i.contenido} enPropuesta={enPropuesta} />
+                  <Texto valor={i.contenido} enPropuesta={enPropuesta} sitio={sitio} />
                 </div>
               </div>
             ))}
@@ -739,7 +765,7 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
                     <p className="text-[13.5px] leading-snug font-semibold text-cafe">{i.titulo}</p>
                     {!!i.texto?.length && (
                       <div className="mt-1 [&_p]:text-[12.5px] [&_p]:leading-snug [&_p]:text-suave">
-                        <Texto valor={i.texto} enPropuesta={enPropuesta} />
+                        <Texto valor={i.texto} enPropuesta={enPropuesta} sitio={sitio} />
                       </div>
                     )}
                   </div>
@@ -763,7 +789,7 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
                   )}
                   {!!i.texto?.length && (
                     <div className="mt-3 [&_p]:text-[13.5px] [&_p]:leading-relaxed">
-                      <Texto valor={i.texto} enPropuesta={enPropuesta} />
+                      <Texto valor={i.texto} enPropuesta={enPropuesta} sitio={sitio} />
                     </div>
                   )}
                 </li>
@@ -787,7 +813,7 @@ function piezas(tono: Tono, enPropuesta: boolean): PortableTextComponents {
                   {f.etiqueta}
                 </dt>
                 <dd className="min-w-0 [&_li]:marker:text-verde">
-                  <Texto valor={f.contenido} enPropuesta={enPropuesta} />
+                  <Texto valor={f.contenido} enPropuesta={enPropuesta} sitio={sitio} />
                 </dd>
               </div>
             ))}
@@ -962,10 +988,12 @@ export default function Texto({
   valor,
   tono = "prosa",
   enPropuesta = false,
+  sitio = "craft",
 }: {
   valor?: unknown[] | null;
   tono?: Tono;
   enPropuesta?: boolean;
+  sitio?: Sitio;
 }) {
   if (!valor?.length) return null;
   return (
@@ -973,7 +1001,7 @@ export default function Texto({
        dirección web escrita tal cual, que en la página de Impacto sacaba el
        texto 25 píxeles fuera de la pantalla en un teléfono. */
     <div className="space-y-4 [overflow-wrap:anywhere]">
-      <PortableText value={valor as never} components={piezas(tono, enPropuesta)} />
+      <PortableText value={valor as never} components={piezas(tono, enPropuesta, sitio)} />
     </div>
   );
 }

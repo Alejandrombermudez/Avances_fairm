@@ -32,6 +32,11 @@
   --color-terracota: #774340;
   --color-blanco: #ffffff;
 
+  /* De Fairmined, medidos en fairmined.org: el dorado de la marca y la tinta
+     del menu. */
+  --color-oro: #8e7e33;
+  --color-tinta-fm: #252525;
+
   --font-display: var(--font-josefin), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
 }
@@ -354,3 +359,74 @@ html:has(.propuesta) { scroll-behavior: smooth; }
     justify-content: center;
   }
 }
+
+/* ── Fairmined ─────────────────────────────────────────────────
+ *
+ * La replica de fairmined.org, con lo medido en el original a 1440 px.
+ * Todo cuelga de .sitio-fairmined para no tocar el informe ni CRAFT.
+ *
+ * El texto migrado se dibuja con las piezas de CRAFT (Texto.tsx); aqui se le
+ * pone la letra y los tamanos de Fairmined. Estas reglas no estan en ninguna
+ * capa, asi que mandan sobre las utilidades de Tailwind, que si lo estan.
+ */
+.sitio-fairmined {
+  font-family: var(--fm-roboto), Roboto, ui-sans-serif, sans-serif;
+  font-weight: 300;
+  color: #444;
+  background: #fff;
+  /* Las piezas del texto son las de CRAFT y se pintan con sus nombres de
+     color: aqui toman los de Fairmined. El cafe de CRAFT pasa al dorado. */
+  --color-cafe: #8e7e33;
+  --color-gris: #f7f7f7;
+  --color-suave: #666666;
+  --color-linea: #e4e4e4;
+  --color-tinta: #444444;
+}
+
+/* Century Gothic: la del equipo si esta instalada; si no, Questrial. */
+.sitio-fairmined .fm-titulos,
+.sitio-fairmined .texto-fm :where(h1, h2, h3, h4, h5, h6) {
+  font-family: "Century Gothic", CenturyGothic, var(--fm-gotica), ui-sans-serif, sans-serif;
+}
+
+/* Parrafos y listas: Roboto 16/25 fina, #444, con 10 px debajo. */
+.sitio-fairmined .texto-fm p,
+.sitio-fairmined .texto-fm li {
+  font-size: 16px;
+  line-height: 25px;
+  font-weight: 300;
+  color: #444;
+}
+.sitio-fairmined .texto-fm > div > * + * { margin-top: 10px; }
+
+/* Los titulos del texto. En el original el grande es dorado, 32/40, y el
+   siguiente negro, 20/30; los dos en mayusculas. */
+.sitio-fairmined .texto-fm h2 {
+  font-size: 26px;
+  line-height: 34px;
+  font-weight: 500;
+  color: #8b7e33;
+  text-transform: uppercase;
+  text-align: left;
+  border: 0;
+  padding: 0;
+  margin-top: 30px;
+}
+.sitio-fairmined .texto-fm h3 {
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 500;
+  color: #000;
+  text-transform: uppercase;
+  margin-top: 20px;
+}
+@media (min-width: 1024px) {
+  .sitio-fairmined .texto-fm h2 { font-size: 32px; line-height: 40px; }
+}
+.sitio-fairmined .texto-fm a { color: #8c7f33; }
+.sitio-fairmined .texto-fm a:hover { opacity: 0.8; }
+
+/* El pie: texto en 14 px, enlaces en negrita como en el original. */
+.sitio-fairmined .fm-pie p { font-size: 14px; line-height: 22px; color: #444; font-weight: 400; }
+.sitio-fairmined .fm-pie a { color: #252525; }
+.sitio-fairmined .fm-pie a:hover { color: var(--color-oro); }
