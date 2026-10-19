@@ -316,10 +316,12 @@ html:has(.propuesta) { scroll-behavior: smooth; }
 /* ── La portada por secciones ─────────────────────────────────── */
 /*
  * En la portada, un giro de la rueda pasa a la franja siguiente, entera,
- * como en una presentación: es el navegador el que encaja cada franja bajo
- * la barra de arriba (`scroll-snap`), sin JavaScript que secuestre la rueda.
- * Una franja más alta que la pantalla se recorre normal y, al acabar, encaja
- * la siguiente. El pie también encaja, para poder llegar a él.
+ * como en una presentación. Aquí está la base: el navegador encaja cada
+ * franja bajo la barra de arriba (`scroll-snap`). Pero su paso es rápido y
+ * no se puede frenar, así que con JavaScript lo toma Puntos.tsx —un segundo
+ * por paso, sin encadenar franjas— y este encaje se apaga (clase `pasos`).
+ * Una franja más alta que la pantalla se recorre normal y, al acabar, pasa
+ * la siguiente. El pie también es un punto de parada, para poder llegar a él.
  *
  * Solo con pantalla ancha y ratón o panel táctil: en el teléfono el dedo ya
  * pasa las franjas a su ritmo, y encajar ahí estorba. Y nunca para quien
@@ -335,6 +337,10 @@ html:has(.propuesta) { scroll-behavior: smooth; }
      de encaje: así la portada abre arriba del todo y vuelve ahí. */
   html:has(.secciones) .propuesta > :first-child { scroll-snap-align: start; }
   html:has(.secciones) .propuesta > footer { scroll-snap-align: end; }
+  /* Con JavaScript, el paso lo lleva Puntos.tsx, más lento y sin encadenar
+     franjas: el del navegador era rápido y mareaba. Este encaje queda para
+     cuando no hay JavaScript. Los dos a la vez se pelean. */
+  html.pasos:has(.secciones) { scroll-snap-type: none; }
 
   /* Cada franja ocupa al menos la pantalla, con su contenido al centro. La
      primera, el cartel, llena lo que queda bajo la barra y la franja de la
