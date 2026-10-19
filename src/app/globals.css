@@ -413,7 +413,9 @@ html:has(.propuesta) { scroll-behavior: smooth; }
   font-weight: 500;
   color: #8b7e33;
   text-transform: uppercase;
-  text-align: left;
+  /* Centrados, como los del original: medido en «Fairmined is gold to be
+     proud of» y en «Miners», los dos text-align: center. */
+  text-align: center;
   border: 0;
   padding: 0;
   margin-top: 30px;

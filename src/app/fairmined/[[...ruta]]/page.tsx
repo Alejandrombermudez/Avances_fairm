@@ -26,6 +26,7 @@ import ListaNoticias, { POR_PAGINA, fechaLarga } from "@/components/fairmined/Li
 import Pie from "@/components/fairmined/Pie";
 import Catalogo, { type Faceta, type TarjetaProveedor } from "@/components/fairmined/Catalogo";
 import FichaProveedor from "@/components/fairmined/FichaProveedor";
+import Galeria from "@/components/fairmined/Galeria";
 import { hayImagen, urlImagen } from "@/lib/sanity";
 import {
   ajustesFm,
@@ -170,6 +171,15 @@ export default async function PaginaFairmined({ params }: Props) {
   if (pagina > 1 && !esNoticias) notFound();
   const datosCatalogo = ficha.arma === "catalogo" ? await catalogo(ficha.idioma) : null;
 
+  /* La portada abre con su carrusel a todo el ancho, como la de hoy. */
+  type FotoGaleria = { _key: string; asset?: unknown; alt?: string; caption?: string };
+  const primera = (ficha.body ?? [])[0] as { _type?: string; imagenes?: FotoGaleria[] } | undefined;
+  const cabecera =
+    esPortada && primera?._type === "galeria"
+      ? (primera.imagenes ?? []).filter((f) => hayImagen(f))
+      : null;
+  const cuerpo = cabecera ? (ficha.body ?? []).slice(1) : (ficha.body ?? []);
+
   return (
     <div className="min-h-screen bg-white">
       <Cabecera ajustes={ajustes} idioma={ficha.idioma} traducciones={ficha.traducciones ?? []} />
@@ -203,12 +213,26 @@ export default async function PaginaFairmined({ params }: Props) {
           </div>
         )}
 
-        {(ficha.body?.length ?? 0) > 0 && (
+        {cabecera && cabecera.length > 0 && (
+          <Galeria
+            forma="cabecera"
+            fotos={cabecera.map((f) => ({
+              key: f._key,
+              src: urlImagen(f).width(2000).auto("format").url(),
+              ancho: 2000,
+              alto: 900,
+              alt: f.alt ?? "",
+              pie: f.caption,
+            }))}
+          />
+        )}
+
+        {cuerpo.length > 0 && (
           /* El cuerpo ocupa los 1140 px del original, para que quepan sus
              columnas; el texto suelto va en la columna de 780 px, centrada,
              que es como lo ponen casi todas sus paginas (globals.css). */
           <div className="texto-fm mx-auto max-w-[1170px] px-[15px] py-[40px]">
-            <Texto valor={ficha.body} sitio="fairmined" />
+            <Texto valor={cuerpo} sitio="fairmined" />
           </div>
         )}
 

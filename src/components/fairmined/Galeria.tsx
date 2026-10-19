@@ -17,7 +17,12 @@ import { useCallback, useEffect, useState } from "react";
 
 export type Foto = { key: string; src: string; ancho: number; alto: number; alt: string; pie?: string };
 
-export default function Galeria({ fotos }: { fotos: Foto[] }) {
+/**
+ * `cabecera` es el carrusel que abre la portada: de borde a borde, 450 px de
+ * alto en escritorio, con el crédito de la foto encima, como el de
+ * Revolution Slider en fairmined.org.
+ */
+export default function Galeria({ fotos, forma = "pase" }: { fotos: Foto[]; forma?: "pase" | "cabecera" }) {
   const [i, setI] = useState(0);
   const [quieto, setQuieto] = useState(false);
   const n = fotos.length;
@@ -32,21 +37,28 @@ export default function Galeria({ fotos }: { fotos: Foto[] }) {
 
   if (!n) return null;
   const actual = fotos[i];
+  const cabecera = forma === "cabecera";
   return (
     <figure
-      className="my-8"
+      className={cabecera ? "relative" : "my-8"}
       onMouseEnter={() => setQuieto(true)}
       onMouseLeave={() => setQuieto(false)}
       aria-roledescription="carrusel"
     >
-      <div className="relative aspect-[3/2] overflow-hidden bg-[#f7f7f7]">
+      <div
+        className={
+          cabecera
+            ? "relative h-[260px] overflow-hidden bg-[#222] sm:h-[360px] lg:h-[450px]"
+            : "relative aspect-[3/2] overflow-hidden bg-[#f7f7f7]"
+        }
+      >
         {fotos.map((f, j) => (
           <Image
             key={f.key}
             src={f.src}
             alt={f.alt}
             fill
-            sizes="(max-width: 810px) 100vw, 780px"
+            sizes={cabecera ? "100vw" : "(max-width: 810px) 100vw, 780px"}
             className={`object-cover transition-opacity duration-700 ${j === i ? "opacity-100" : "opacity-0"}`}
             aria-hidden={j !== i}
             priority={j === 0}
@@ -80,7 +92,13 @@ export default function Galeria({ fotos }: { fotos: Foto[] }) {
         )}
       </div>
       {(actual.pie || n > 1) && (
-        <figcaption className="mt-2 flex items-center justify-between gap-4 text-[12px] text-[#8e8d89]">
+        <figcaption
+          className={
+            cabecera
+              ? "absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 px-4 pb-3 text-[11px] text-white/85 [text-shadow:0_1px_2px_rgba(0,0,0,.6)]"
+              : "mt-2 flex items-center justify-between gap-4 text-[12px] text-[#8e8d89]"
+          }
+        >
           <span>{actual.pie}</span>
           {n > 1 && (
             <span className="flex shrink-0 gap-1.5" role="tablist">
