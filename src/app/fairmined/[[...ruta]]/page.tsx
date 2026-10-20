@@ -133,6 +133,17 @@ async function catalogo(idioma: IdiomaFm) {
   return { tarjetas, facetas, textos: TEXTOS_CATALOGO[lengua] };
 }
 
+/* ── El mapa de actores ──────────────────────────────────────────── */
+
+/** El comienzo del perfil de una mina, para la barra del mapa: unas 320
+ *  letras, cortadas donde termina una palabra. */
+function recorte(texto: string | null | undefined, largo = 320) {
+  const t = (texto ?? "").replace(/\s+/g, " ").trim();
+  if (!t) return null;
+  if (t.length <= largo) return t;
+  return t.slice(0, t.lastIndexOf(" ", largo)).replace(/[\s,.;:—-]+$/, "") + "…";
+}
+
 export default async function PaginaFairmined({ params }: Props) {
   const { camino, pagina } = await leer(params);
   const idioma = idiomaDe(camino);
@@ -182,12 +193,26 @@ export default async function PaginaFairmined({ params }: Props) {
           web: a.web,
           fairminedId: a.fairminedId,
           anio: a.alta ? a.alta.slice(0, 4) : null,
+          alta: a.alta,
           ubicacion: a.ubicacion,
           ficha: a.rutas?.length
             ? rutaFm(rutaDeProveedor(a.rutas, ficha.idioma))
-            : a.perfil
-              ? rutaFm(a.perfil)
+            : a.perfil?.ruta
+              ? rutaFm(a.perfil.ruta)
               : null,
+          logo: hayImagen(a.logo) ? urlImagen(a.logo).width(320).auto("format").url() : null,
+          texto: recorte(a.perfil?.texto),
+          catalogo: a.rutas?.length
+            ? {
+                materiales: (a.materiales ?? []).map((x) => enIdioma(x, ficha.idioma)).filter(Boolean),
+                productos: (a.productos ?? []).map((x) => enIdioma(x, ficha.idioma)).filter(Boolean),
+                servicios: (a.servicios ?? []).map((x) => enIdioma(x, ficha.idioma)).filter(Boolean),
+                envios: (a.paises ?? []).map((x) => enIdioma(x, ficha.idioma)).filter(Boolean),
+                minimo: enIdioma(a.pedidoMinimo, ficha.idioma),
+                entrega: enIdioma(a.entrega, ficha.idioma),
+              }
+            : null,
+          contacto: a.contacto && Object.values(a.contacto).some(Boolean) ? a.contacto : null,
         }))
       : null;
 

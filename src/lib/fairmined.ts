@@ -308,7 +308,16 @@ export type Actor = {
   ubicacion: { lat: number; lng: number } | null;
   /** Su ficha en el catálogo o el perfil de la mina, en la réplica. */
   rutas: string[] | null;
-  perfil: string | null;
+  perfil: { ruta: string | null; texto: string | null } | null;
+  /* Lo que solo tienen los 40 del catálogo, para la ficha de la barra. */
+  logo: unknown | null;
+  materiales: I18n[] | null;
+  productos: I18n[] | null;
+  servicios: I18n[] | null;
+  paises: I18n[] | null;
+  pedidoMinimo: I18n | null;
+  entrega: I18n | null;
+  contacto: ProveedorDetalle["contacto"];
 };
 
 /** Toda la familia Fairmined: marcas, proveedores y minas, por nombre. */
@@ -319,6 +328,7 @@ export const actoresFm = () =>
         _id, "nombre": name, roles, "pais": sede, "web": website, fairminedId, alta,
         "ubicacion": location{lat, lng},
         "rutas": select(catalogo == true => legacyPaths, null),
-        "perfil": perfil->legacyPaths[0]
+        "perfil": perfil->{ "ruta": legacyPaths[0], "texto": pt::text(body) },
+        logo, materiales, productos, servicios, paises, pedidoMinimo, entrega, contacto
       }`,
   );
