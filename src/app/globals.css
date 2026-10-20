@@ -438,3 +438,20 @@ html:has(.propuesta) { scroll-behavior: smooth; }
 .sitio-fairmined .fm-pie p { font-size: 14px; line-height: 22px; color: #444; font-weight: 400; }
 .sitio-fairmined .fm-pie a { color: #252525; }
 .sitio-fairmined .fm-pie a:hover { color: var(--color-oro); }
+
+/* El mapa de actores: un circulo dorado por pais, con cuantos hay. */
+.fm-burbuja {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgba(142, 126, 51, 0.88);
+  color: #fff;
+  font: 600 12px/1 var(--fm-roboto), Roboto, sans-serif;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.fm-burbuja:hover { transform: scale(1.08); }
+.fm-burbuja-elegida { background: #252525; }

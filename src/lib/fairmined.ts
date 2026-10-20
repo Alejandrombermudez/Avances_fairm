@@ -250,7 +250,10 @@ const CAMPOS_PROVEEDOR = `
  *  en el navegador, al instante, como en el original. */
 export const proveedoresFm = () =>
   traer<ProveedorFm[]>(
-    `*[_type == "supplier" && "fairmined" in sites] | order(lower(name) asc){${CAMPOS_PROVEEDOR}}`,
+    /* Los del catálogo. Los que no tienen papel son los de antes del mapa
+       de actores, que eran todos del catálogo. */
+    `*[_type == "supplier" && "fairmined" in sites && (catalogo == true || !defined(roles))]
+      | order(lower(name) asc){${CAMPOS_PROVEEDOR}}`,
   );
 
 /** La ficha de un proveedor, por su dirección de hoy (/suppliers-portfolio/…). */
@@ -290,4 +293,32 @@ export const rutaPorNombre = (nombre: string, idioma: IdiomaFm) =>
        && slug.current == $nombre]
       | order(select(language == $idioma => 0, 1) asc)[0].legacyPaths[0]`,
     { nombre, idioma },
+  );
+
+/* ── El mapa de actores ─────────────────────────────────────────── */
+
+export type Actor = {
+  _id: string;
+  nombre: string;
+  roles: string[] | null;
+  pais: string | null;
+  web: string | null;
+  fairminedId: string | null;
+  alta: string | null;
+  ubicacion: { lat: number; lng: number } | null;
+  /** Su ficha en el catálogo o el perfil de la mina, en la réplica. */
+  rutas: string[] | null;
+  perfil: string | null;
+};
+
+/** Toda la familia Fairmined: marcas, proveedores y minas, por nombre. */
+export const actoresFm = () =>
+  traer<Actor[]>(
+    `*[_type == "supplier" && "fairmined" in sites && count(roles) > 0]
+      | order(lower(name) asc){
+        _id, "nombre": name, roles, "pais": sede, "web": website, fairminedId, alta,
+        "ubicacion": location{lat, lng},
+        "rutas": select(catalogo == true => legacyPaths, null),
+        "perfil": perfil->legacyPaths[0]
+      }`,
   );

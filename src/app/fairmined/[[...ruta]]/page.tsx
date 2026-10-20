@@ -27,8 +27,10 @@ import Pie from "@/components/fairmined/Pie";
 import Catalogo, { type Faceta, type TarjetaProveedor } from "@/components/fairmined/Catalogo";
 import FichaProveedor from "@/components/fairmined/FichaProveedor";
 import Galeria from "@/components/fairmined/Galeria";
+import MapaActores, { type ActorMapa } from "@/components/fairmined/MapaActores";
 import { hayImagen, urlImagen } from "@/lib/sanity";
 import {
+  actoresFm,
   ajustesFm,
   enIdioma,
   fichaPorRuta,
@@ -170,6 +172,24 @@ export default async function PaginaFairmined({ params }: Props) {
     : null;
   if (pagina > 1 && !esNoticias) notFound();
   const datosCatalogo = ficha.arma === "catalogo" ? await catalogo(ficha.idioma) : null;
+  const actores: ActorMapa[] | null =
+    ficha.arma === "mapa"
+      ? (await actoresFm()).map((a) => ({
+          id: a._id,
+          nombre: a.nombre,
+          roles: a.roles ?? [],
+          pais: a.pais,
+          web: a.web,
+          fairminedId: a.fairminedId,
+          anio: a.alta ? a.alta.slice(0, 4) : null,
+          ubicacion: a.ubicacion,
+          ficha: a.rutas?.length
+            ? rutaFm(rutaDeProveedor(a.rutas, ficha.idioma))
+            : a.perfil
+              ? rutaFm(a.perfil)
+              : null,
+        }))
+      : null;
 
   /* La portada abre con su carrusel a todo el ancho, como la de hoy. */
   type FotoGaleria = { _key: string; asset?: unknown; alt?: string; caption?: string };
@@ -236,17 +256,7 @@ export default async function PaginaFairmined({ params }: Props) {
           </div>
         )}
 
-        {ficha.arma === "mapa" && (
-          <div className="mx-auto max-w-[1170px] px-[15px] pb-[60px]">
-            <div className="border border-dashed border-oro/50 bg-[#faf8f2] px-6 py-10 text-center">
-              <p className="fm-titulos text-[18px] text-oro uppercase">Fairmined Family Map</p>
-              <p className="mx-auto mt-3 max-w-[560px] text-[15px] font-light text-[#666]">
-                El mapa de actores se está rehaciendo desde cero: más rápido, con los aliados y las
-                marcas bien ubicados. No forma parte de la réplica.
-              </p>
-            </div>
-          </div>
-        )}
+        {actores && <MapaActores actores={actores} idioma={ficha.idioma} />}
 
         {datosCatalogo && (
           <Catalogo
