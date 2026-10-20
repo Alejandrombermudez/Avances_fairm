@@ -455,3 +455,4 @@ html:has(.propuesta) { scroll-behavior: smooth; }
 }
 .fm-burbuja:hover { transform: scale(1.08); }
 .fm-burbuja-elegida { background: #252525; }
+.sitio-fairmined .fm-mapa .leaflet-tile-pane { filter: grayscale(1) contrast(0.85) brightness(1.08); }

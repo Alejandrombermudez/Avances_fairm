@@ -16,7 +16,7 @@
  *     filtra la lista por ese país.
  *
  * El mapa es Leaflet con la cartografía libre de OpenStreetMap: no pide
- * clave ni cookies. Carga solo en el navegador y solo cuando hace falta.
+ * clave ni cookies. (CARTO, la primera que se probó, ya exige clave.) Carga solo en el navegador y solo cuando hace falta.
  *
  * Los datos salen de la lista de actores 2026 y de los perfiles de las
  * minas, en el gestor. La precisión es la del país —es lo que dice la
@@ -112,9 +112,10 @@ export default function MapaActores({ actores, idioma }: { actores: ActorMapa[];
       const L = (await import("leaflet")).default;
       if (!vivo || !caja.current || mapa.current) return;
       const m = L.map(caja.current, { worldCopyJump: true, scrollWheelZoom: false, minZoom: 1 }).setView([20, 0], 2);
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
-        subdomains: "abcd",
+      /* OpenStreetMap: libre, sin clave. Se ve en grises (globals.css) para
+         que lo que destaque sean los círculos dorados. */
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 12,
       }).addTo(m);
       mapa.current = m;
@@ -236,7 +237,7 @@ export default function MapaActores({ actores, idioma }: { actores: ActorMapa[];
       <div className="mt-5 grid gap-5 lg:grid-cols-[380px_1fr]">
         {/* El mapa va primero en el teléfono */}
         <div className="lg:order-2">
-          <div ref={caja} className="h-[340px] w-full border border-[#e4e4e4] bg-[#f2efed] lg:h-[640px]" />
+          <div ref={caja} className="fm-mapa h-[340px] w-full border border-[#e4e4e4] bg-[#f2efed] lg:h-[640px]" />
           <p className="mt-2 text-[12.5px] font-light text-[#8e8d89]">{t.nota}</p>
         </div>
 
