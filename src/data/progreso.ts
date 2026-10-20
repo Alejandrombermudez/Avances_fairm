@@ -27,7 +27,7 @@ export const meta = {
 
 export const metricas: { valor: string; etiqueta: string; nota?: string }[] = [
   { valor: "19.228", etiqueta: "registros de contenido rescatados", nota: "de los tres sitios" },
-  { valor: "1.110", etiqueta: "fichas ya en el gestor nuevo", nota: "CRAFT y Fairmined" },
+  { valor: "1.349", etiqueta: "fichas ya en el gestor nuevo", nota: "CRAFT y Fairmined" },
   { valor: "2 de 3", etiqueta: "sitios navegables sobre el gestor nuevo", nota: "CRAFT y Fairmined" },
   { valor: "1.599", etiqueta: "documentos a salvo", nota: "informes, estándares, publicaciones" },
 ];
@@ -161,7 +161,7 @@ export const fases: {
       { t: "Réplica del sitio de hoy", estado: "hecho", doc: "fairmined" },
       { t: "Agrupaciones de contenido, para decidir", estado: "hecho", doc: "fairmined-agrupaciones" },
       { t: "Desarrollo en cuatro idiomas", estado: "curso" },
-      { t: "Catálogo y mapa de proveedores", estado: "curso" },
+      { t: "Catálogo y mapa de proveedores", estado: "hecho", doc: "fairmined" },
       { t: "Buscador por criterios", estado: "hecho" },
       { t: "Revisión y salida", estado: "pendiente" },
     ],
@@ -240,5 +240,5 @@ export const hallazgos: { titulo: string; texto: string }[] = [
 export const proximoHito = {
   titulo: "Decidir las agrupaciones de contenido de Fairmined",
   detalle:
-    "Fairmined ya está montado sobre el gestor nuevo. Con esas decisiones se diseña el sitio y se arma el mapa de actores nuevo.",
+    "Fairmined ya está montado sobre el gestor nuevo, con el mapa de actores nuevo. Con esas decisiones se diseña el sitio.",
 };
